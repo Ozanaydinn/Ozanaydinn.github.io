@@ -26,7 +26,7 @@ def find_faces(frame, model):
         # prediction
         confidence = detections[0, 0, i, 2]
         
-        if confidence < 0.5 :
+        if confidence < 0.7 :
             continue
         # compute the (x, y)-coordinates of the bounding box for the
         # object
