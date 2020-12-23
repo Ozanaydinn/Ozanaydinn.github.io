@@ -12,14 +12,23 @@ export class MainComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
+  }
+
+  startVideo(): void {
     this.video = document.querySelector('video');
     navigator.mediaDevices.getUserMedia(this.constraints).then(
       stream => {
         this.video.srcObject = stream
+        console.log("Streaming video")
       },
       error => {
         console.log('Error: ' + error);
       });
+  }
+
+  stopVideo(): void {
+    this.video.srcObject = undefined;
   }
 
 }
