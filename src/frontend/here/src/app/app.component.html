@@ -1,1 +1,26 @@
-<router-outlet></router-outlet>
+<router-outlet>
+    <p>
+        <mat-toolbar>
+            <mat-toolbar-row>
+                <button mat-icon-button>
+                    <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+                  </button>
+                  <span>Here!</span>
+            </mat-toolbar-row>
+        </mat-toolbar>
+      </p>
+      
+    <mat-sidenav-container>
+        <mat-sidenav #sidenav>
+          <mat-nav-list>
+            <a mat-list-item [routerLink]="'/main'"> Main </a>
+          </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+          <div style="height: 88vh;">
+      
+            <router-outlet></router-outlet>
+          </div>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+</router-outlet>
