@@ -28,7 +28,8 @@ export class MainComponent implements OnInit {
   }
 
   stopVideo(): void {
-    this.video.srcObject = undefined;
+    (<MediaStream>this.video.srcObject).getTracks().forEach( (track) => {
+      track.stop();
+    })
   }
-
 }
