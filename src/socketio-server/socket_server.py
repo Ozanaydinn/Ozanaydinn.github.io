@@ -1,5 +1,6 @@
 import socketio
 from aiohttp import web
+import time
 
 ## creates a new Async Socket IO Server
 sio = socketio.AsyncServer(cors_allowed_origins='*')
@@ -16,6 +17,8 @@ async def print_message(sid, message):
     ## we print the socket ID and the message
     print("Socket ID: " , sid)
     print(message)
+    await sio.emit('message', message[::-1])
+
 
 ## We kick off our server
 if __name__ == '__main__':

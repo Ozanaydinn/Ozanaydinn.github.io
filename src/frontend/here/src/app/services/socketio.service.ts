@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,5 +16,13 @@ export class SocketioService {
 
   emitMessage(message: string): void{
     this.socket.emit('message', message);
+  }
+
+  getMessages() {
+    return new Observable((observer) => {
+        this.socket.on('message', (message) => {
+          observer.next(message);
+        });
+    });
   }
 }
