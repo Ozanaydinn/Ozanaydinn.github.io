@@ -4,3 +4,6 @@
   <button [disabled]="videoOn" (click)="startVideo()">Start</button>
   <button [disabled]="!videoOn" (click)="stopVideo()">Stop</button>
 </div>
+<mat-label>Your message</mat-label>
+<input matInput placeholder="Enter message" [(ngModel)]="message" (onchange)="printField()">
+<button (click)="emitMessage()" mat-raised-button color="primary">Send to socket.io server</button>

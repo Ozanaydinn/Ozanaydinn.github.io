@@ -1,16 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainComponent } from './pages/main/main.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule } from  '@angular/material/toolbar';
-import { MatSidenavModule } from  '@angular/material/sidenav';
-import { MatIconModule } from  '@angular/material/icon';
-import { MatListModule } from  '@angular/material/list';
-import { MatButtonModule } from  '@angular/material/button';
+import { SocketIoModule } from 'ngx-socket-io';
+import { SocketioService } from './services/socketio.service';
+import { MaterialModule } from './material/material.module'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,13 +20,11 @@ import { MatButtonModule } from  '@angular/material/button';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule
+    SocketIoModule,
+    MaterialModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [SocketioService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
