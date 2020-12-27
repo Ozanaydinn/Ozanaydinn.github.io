@@ -21,7 +21,7 @@ async def print_message(sid, message):
     ## we print the socket ID and the message
     print("Socket ID: " , sid)
     print(message)
-    await sio.emit('message', message[::-1])
+    # await sio.emit('message', message[::-1])
 
 
 @sio.on('image')
