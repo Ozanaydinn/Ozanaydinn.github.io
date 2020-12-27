@@ -1,9 +1,12 @@
 <p>Main Page</p>
 <video autoplay></video>
-<div>
+<div id="container">
   <button [disabled]="videoOn" (click)="startVideo()">Start</button>
   <button [disabled]="!videoOn" (click)="stopVideo()">Stop</button>
 </div>
+<div class="image-upload">
+  <input name="imageUrl" type="file" accept="image/*" (change)="handleInputChange($event)" />
+</div> 
 <mat-label>Your message</mat-label>
 <input matInput placeholder="Enter message" [(ngModel)]="message">
 <button (click)="emitMessage()" mat-raised-button color="primary">Send to socket.io server</button>
