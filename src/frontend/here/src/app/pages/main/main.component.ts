@@ -11,6 +11,7 @@ export class MainComponent implements OnInit {
   constraints = { audio: true, video: true };
   videoOn: boolean;
   message: string;
+  imageSrc: string = '';
 
   constructor(private socketService: SocketioService) {}
 
@@ -20,7 +21,7 @@ export class MainComponent implements OnInit {
     this.message = 'Start';
     this.socketService.getMessages().subscribe(
       (message: string) => {
-        console.log("Received", message);
+        console.log('Received', message);
       },
       (err) => {
         console.log(err);
@@ -53,5 +54,23 @@ export class MainComponent implements OnInit {
   emitMessage(): void {
     console.log('Sending', this.message);
     this.socketService.emitMessage(this.message);
+  }
+
+  handleInputChange(e) {
+    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    var pattern = /image-*/;
+    var reader = new FileReader();
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
+    }
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsDataURL(file);
+  }
+  
+  _handleReaderLoaded(e) {
+    let reader = e.target;
+    this.imageSrc = reader.result;
+    this.socketService.emitImage(reader.result);
   }
 }
