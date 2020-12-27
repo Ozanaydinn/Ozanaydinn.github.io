@@ -1,12 +1,11 @@
 Set virtual env: 
-$python3 -m venv env 
+$python3 -m venv venv 
 
     Then, if Linux:
     $source env/bin/activate 
 
     if Windows:
-    $cd env
-    $.\Scripts\activate 
+    $.\venv\Scripts\activate 
 
 Set env variables for flask:
     if Linux:
