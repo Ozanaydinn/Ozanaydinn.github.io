@@ -22,6 +22,7 @@ export class SocketioService {
     this.socket.emit('image', image);
   }
 
+
   getMessages() {
     return new Observable((observer) => {
         this.socket.on('message', (message) => {
