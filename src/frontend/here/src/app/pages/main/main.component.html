@@ -5,7 +5,7 @@
   <button [disabled]="!videoOn" (click)="stopVideo()">Stop</button>
 </div>
 <div class="image-upload">
-  <input name="imageUrl" type="file" accept="image/*" (change)="handleInputChange($event)" />
+  <button (click)="captureVideo()" mat-raised-button color="primary">Capture snaphot</button>
 </div> 
 <mat-label>Your message</mat-label>
 <input matInput placeholder="Enter message" [(ngModel)]="message">

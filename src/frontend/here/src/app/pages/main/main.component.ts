@@ -11,7 +11,6 @@ export class MainComponent implements OnInit {
   constraints = { audio: true, video: true };
   videoOn: boolean;
   message: string;
-  imageSrc: string = '';
 
   constructor(private socketService: SocketioService) {}
 
@@ -45,10 +44,12 @@ export class MainComponent implements OnInit {
   }
 
   stopVideo(): void {
-    (<MediaStream>this.video.srcObject).getTracks().forEach((track) => {
-      track.stop();
-    });
-    this.videoOn = false;
+    if(this.videoOn){
+      (<MediaStream>this.video.srcObject).getTracks().forEach((track) => {
+        track.stop();
+      });
+      this.videoOn = false;
+    }
   }
 
   emitMessage(): void {
@@ -56,21 +57,21 @@ export class MainComponent implements OnInit {
     this.socketService.emitMessage(this.message);
   }
 
-  handleInputChange(e) {
-    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-    var pattern = /image-*/;
-    var reader = new FileReader();
-    if (!file.type.match(pattern)) {
-      alert('invalid format');
-      return;
+  captureVideo(){
+    if( this.videoOn){
+      const canvas = document.createElement("canvas");
+      // scale the canvas accordingly
+      canvas.width = this.video.videoWidth;
+      canvas.height = this.video.videoHeight;
+      // draw the video at that frame
+      canvas.getContext('2d')
+        .drawImage(this.video, 0, 0, canvas.width, canvas.height);
+      // convert it to a usable data URL
+      this.socketService.emitImage(canvas.toDataURL());
     }
-    reader.onload = this._handleReaderLoaded.bind(this);
-    reader.readAsDataURL(file);
-  }
-  
-  _handleReaderLoaded(e) {
-    let reader = e.target;
-    this.imageSrc = reader.result;
-    this.socketService.emitImage(reader.result);
+    else{
+      console.error("Video stream is not on!");
+    }
+
   }
 }
