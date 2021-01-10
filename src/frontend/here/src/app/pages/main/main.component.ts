@@ -8,14 +8,17 @@ import { SocketioService } from 'src/app/services/socketio.service';
 })
 export class MainComponent implements OnInit {
   video: HTMLVideoElement;
-  constraints = { audio: true, video: true };
+  share: HTMLVideoElement;
+  constraints = { audio: false, video: true };
   videoOn: boolean;
+  shareOn: boolean;
   message: string;
 
   constructor(private socketService: SocketioService) {}
 
   ngOnInit(): void {
     this.socketService.setupSocketConnection();
+    this.videoOn = false;
     this.videoOn = false;
     this.message = 'Start';
     this.socketService.getMessages().subscribe(
@@ -29,7 +32,7 @@ export class MainComponent implements OnInit {
   }
 
   startVideo(): void {
-    this.video = document.querySelector('video');
+    this.video = document.getElementById('video') as HTMLVideoElement;
     this.videoOn = true;
     navigator.mediaDevices.getUserMedia(this.constraints).then(
       (stream) => {
@@ -43,12 +46,33 @@ export class MainComponent implements OnInit {
     );
   }
 
+  startShare(): void {
+    this.share = document.getElementById('share') as HTMLVideoElement;
+    this.shareOn = true;
+    // @ts-ignore
+    navigator.mediaDevices.getDisplayMedia().then(
+      (stream) => {
+        this.share.srcObject = stream;
+        console.log('Sharing screen');
+        (<MediaStream>this.share.srcObject).getVideoTracks()[0].addEventListener('ended', () => {
+          console.log('screensharing has ended')
+          this.share.srcObject = undefined;
+        });
+      },
+      (error) => {
+        console.log('Error: ' + error);
+        this.shareOn = false;
+      }
+    );
+  }
+
   stopVideo(): void {
     if(this.videoOn){
       (<MediaStream>this.video.srcObject).getTracks().forEach((track) => {
         track.stop();
       });
       this.videoOn = false;
+      this.video.srcObject = undefined;
     }
   }
 

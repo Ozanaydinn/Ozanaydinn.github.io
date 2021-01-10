@@ -1,7 +1,9 @@
 <p>Main Page</p>
-<video autoplay></video>
+<video id="video" autoplay></video>
+<video id="share" autoplay></video>
 <div id="container">
   <button [disabled]="videoOn" (click)="startVideo()">Start</button>
+  <button [disabled]="shareOn" (click)="startShare()">Share</button>
   <button [disabled]="!videoOn" (click)="stopVideo()">Stop</button>
 </div>
 <div class="image-upload">
