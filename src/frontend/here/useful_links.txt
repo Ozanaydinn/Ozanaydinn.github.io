@@ -1,0 +1,2 @@
+https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints -- mikrofon, kamera filtreleri için
+https://webrtc.github.io/samples/ -- genel, her şey

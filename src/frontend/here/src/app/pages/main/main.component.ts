@@ -55,8 +55,7 @@ export class MainComponent implements OnInit {
         this.share.srcObject = stream;
         console.log('Sharing screen');
         (<MediaStream>this.share.srcObject).getVideoTracks()[0].addEventListener('ended', () => {
-          console.log('screensharing has ended')
-          this.share.srcObject = undefined;
+          this.stopSharing();
         });
       },
       (error) => {
@@ -64,6 +63,12 @@ export class MainComponent implements OnInit {
         this.shareOn = false;
       }
     );
+  }
+
+  stopSharing(): void {
+    console.log('screensharing has ended')
+    this.share.srcObject = undefined;
+    this.shareOn = false;
   }
 
   stopVideo(): void {
