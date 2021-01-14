@@ -72,6 +72,7 @@ export class MainComponent implements OnInit {
   }
 
   stopVideo(): void {
+    console.log('video sharing has ended')
     if(this.videoOn){
       (<MediaStream>this.video.srcObject).getTracks().forEach((track) => {
         track.stop();
