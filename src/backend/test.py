@@ -1,6 +1,7 @@
 import base64
 from PIL import Image
 import re
+import io
 
 def print_message(sid, message):
     ## When we receive a new event of type
