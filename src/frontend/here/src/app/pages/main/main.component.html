@@ -1,13 +1,1 @@
 <p>Main Page</p>
-<div>
-  <video class="video" id="video" autoplay></video>
-  <video class="share" id="share" autoplay></video>
-</div>
-<div id="container">
-  <button [disabled]="videoOn" (click)="startVideo()">Start</button>
-  <button [disabled]="shareOn" (click)="startShare()">Share</button>
-  <button [disabled]="!videoOn" (click)="stopVideo()">Stop</button>
-</div>
-<div class="image-upload">
-  <button (click)="captureVideo()" mat-raised-button color="primary">Capture snaphot</button>
-</div> 
