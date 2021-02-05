@@ -6,6 +6,7 @@ import { MainComponent } from './pages/main/main.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { AuthComponent } from './pages/auth/auth.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'conference', component: ConferenceComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'auth', component: AuthComponent},
   {path: '**', component: PageNotFoundComponent},
 ];
 
