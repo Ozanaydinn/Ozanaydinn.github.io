@@ -8,13 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class ProfileComponent implements OnInit {
   user_type: string;
   username: string;
+  user_id: number;
   saved_notes: any[];
+  courses: any[];
   constructor() { }
 
   ngOnInit(): void {
     // Fetch them from database
     this.username = "John Doe";
-    this.user_type = "Student";
+    this.user_type = "instructor";
     this.saved_notes = [
       {
         date: "10/11/2020",
@@ -27,6 +29,23 @@ export class ProfileComponent implements OnInit {
         link:""
       }
     ];
+    this.courses = [
+      {
+        name: "Machine Learning",
+        code: "CS464",
+      },
+      {
+        name: "Seminar",
+       code: "CS491",
+      }
+    ];
+  }
+
+  addCourse(): void{
+    if(this.user_type === "instructor"){
+      alert("Not yet implemented");
+      // TODO
+    }
   }
 
 }
