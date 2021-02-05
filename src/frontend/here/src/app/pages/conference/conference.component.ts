@@ -33,7 +33,7 @@ export class ConferenceComponent implements OnInit {
 
   
   startVideo(): void {
-    this.video = document.getElementById('video') as HTMLVideoElement;
+    this.video = document.getElementById('host-video') as HTMLVideoElement;
     this.videoOn = true;
     navigator.mediaDevices.getUserMedia(this.constraints).then(
       (stream) => {
@@ -48,7 +48,7 @@ export class ConferenceComponent implements OnInit {
   }
 
   startShare(): void {
-    this.share = document.getElementById('share') as HTMLVideoElement;
+    this.share = document.getElementById('shared-screen') as HTMLVideoElement;
     this.shareOn = true;
     // @ts-ignore
     navigator.mediaDevices.getDisplayMedia().then(
