@@ -11,8 +11,8 @@ import { MaterialModule } from './material/material.module';
 import { FormsModule } from '@angular/forms';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ConferenceComponent } from './pages/conference/conference.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 import { AuthComponent } from './pages/auth/auth.component';
 
 @NgModule({

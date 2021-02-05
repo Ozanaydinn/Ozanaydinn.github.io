@@ -5,8 +5,8 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 
-import {RegisterComponent} from '../../pages/register/register.component';
-import {LoginComponent} from '../../pages/login/login.component';
+import {RegisterComponent} from '../../components/register/register.component';
+import {LoginComponent} from '../../components/login/login.component';
 
 
 // https://codepen.io/andrewarchi/pen/beqjoL
