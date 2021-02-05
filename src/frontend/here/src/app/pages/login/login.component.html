@@ -8,18 +8,21 @@
       <mat-card-content>
         <mat-form-field class="full-width">
           <input
+            matInput
+            required
             [(ngModel)]="username"
             [ngModelOptions]="{ standalone: true }"
-            matInput
             placeholder="Username"
           />
         </mat-form-field>
 
         <mat-form-field class="full-width">
           <input
+            matInput
+            required
+            type="password"
             [(ngModel)]="password"
             [ngModelOptions]="{ standalone: true }"
-            matInput
             placeholder="Password"
           />
         </mat-form-field>
