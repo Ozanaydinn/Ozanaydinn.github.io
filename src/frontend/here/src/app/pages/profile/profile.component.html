@@ -1,1 +1,24 @@
-<p>profile works!</p>
+<div class="header">
+    <mat-card-header>
+      <div mat-card-avatar class="avatar"></div>
+      <mat-card-title class="username">{{username}}</mat-card-title>
+      <mat-card-subtitle class="user-type">{{user_type}}</mat-card-subtitle>
+    </mat-card-header>
+</div>
+<mat-card class="notes">
+    <mat-card-header>
+        <mat-card-title>Saved Notes</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-card class="note-card" *ngFor="let note of saved_notes">
+            <mat-card-header>
+                <mat-card-title class="note-title">Saved Notes On {{note.date}}</mat-card-title>
+                <mat-card-title class="note-title">In {{note.class}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions align="center">
+                <button mat-raised-button color="primary">PREVIEW</button>
+                <button mat-raised-button color="primary">DOWNLOAD</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-card-content>
+</mat-card>
