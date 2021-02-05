@@ -13,6 +13,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ConferenceComponent } from './pages/conference/conference.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { AuthComponent } from './pages/auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RegisterComponent } from './pages/register/register.component';
     ProfileComponent,
     ConferenceComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,9 +32,9 @@ import { RegisterComponent } from './pages/register/register.component';
     BrowserAnimationsModule,
     SocketIoModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [SocketioService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
