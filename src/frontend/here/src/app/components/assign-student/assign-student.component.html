@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Assign Students to {{data.courseCode}}</h2>
+<mat-dialog-content>
+    <mat-form-field class="example-full-width">
+        <mat-label>Enter student id</mat-label>
+        <input required matInput [(ngModel)]="studentId">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="assignStudent()">Assign</button>
+  </mat-dialog-actions>

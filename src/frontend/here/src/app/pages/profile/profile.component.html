@@ -31,7 +31,9 @@
         <mat-list>
             <mat-divider *ngIf="courses.length > 0"></mat-divider>
             <div *ngFor="let course of courses">
-                <mat-list-item >{{course.code}} {{course.name}}</mat-list-item>
+                <mat-list-item >
+                    <button (click)="assignStudent(course.code)" class="course-btn" mat-raised-button>{{course.code}} {{course.name}}</button>
+                </mat-list-item>
                 <mat-divider ></mat-divider>
             </div>
         </mat-list>
