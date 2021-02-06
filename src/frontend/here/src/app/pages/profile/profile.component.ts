@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AssignStudentComponent } from 'src/app/components/assign-student/assign-student.component';
 
 @Component({
   selector: 'app-profile',
@@ -8,13 +10,15 @@ import { Component, OnInit } from '@angular/core';
 export class ProfileComponent implements OnInit {
   user_type: string;
   username: string;
+  user_id: number;
   saved_notes: any[];
-  constructor() { }
+  courses: any[];
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
     // Fetch them from database
     this.username = "John Doe";
-    this.user_type = "Student";
+    this.user_type = "instructor";
     this.saved_notes = [
       {
         date: "10/11/2020",
@@ -27,6 +31,29 @@ export class ProfileComponent implements OnInit {
         link:""
       }
     ];
+    this.courses = [
+      {
+        name: "Machine Learning",
+        code: "CS464",
+      },
+      {
+        name: "Seminar",
+       code: "CS491",
+      }
+    ];
+  }
+
+  addCourse(): void{
+    if(this.user_type === "instructor"){
+      alert("Not yet implemented");
+      // TODO
+    }
+  }
+
+  assignStudent(courseCode: string): void{
+    this.dialog.open(AssignStudentComponent, {
+      data: {courseCode: courseCode}
+    });
   }
 
 }

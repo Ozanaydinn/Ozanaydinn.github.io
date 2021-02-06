@@ -14,6 +14,7 @@ import { ConferenceComponent } from './pages/conference/conference.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthComponent } from './pages/auth/auth.component';
+import { AssignStudentComponent } from './components/assign-student/assign-student.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AuthComponent } from './pages/auth/auth.component';
     LoginComponent,
     RegisterComponent,
     AuthComponent,
+    AssignStudentComponent,
   ],
   imports: [
     BrowserModule,
