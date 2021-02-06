@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SocketioService } from './services/socketio.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,18 @@ import { SocketioService } from './services/socketio.service';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent{
-  constructor() {}
+  username: string;
+  constructor(private router: Router) {
+    this.username = "John Doe";}
+  goMain(){
+    this.router.navigate(['/main']);
+  }
+
+  goProfile(){
+    this.router.navigate(['/profile']);
+  }
+
+  logout(){
+    this.router.navigate(['/auth']);
+  }
 }
