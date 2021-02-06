@@ -9,19 +9,19 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 
 #Merhaba aaa
-app = Flask(__name__)
-app.secret_key = 'admin'
-socketio = SocketIO(app)
+application = Flask(__name__)
+application .secret_key = 'admin'
+socketio = SocketIO(application)
 
 # Config MySQL
-app.config['MYSQL_HOST']='heredb.citwg2mji1tb.us-east-2.rds.amazonaws.com'
-app.config['MYSQL_USER']='admin'
-app.config['MYSQL_PASSWORD']='hereadmin'
-app.config['MYSQL_DB']='here'
-app.config['MYSQL_CURSORCLASS']='DictCursor'
+application.config['MYSQL_HOST']='heredb.citwg2mji1tb.us-east-2.rds.amazonaws.com'
+application.config['MYSQL_USER']='admin'
+application.config['MYSQL_PASSWORD']='hereadmin'
+application.config['MYSQL_DB']='here'
+application.config['MYSQL_CURSORCLASS']='DictCursor'
 
 # Init MYSQL
-mysql = MySQL(app)
+mysql = MySQL(application)
 
 """
 try:
@@ -31,11 +31,11 @@ except ValueError:
     print("Error mysql connection")
 """
 """
-@app.route('/', methods=['POST', 'GET'])
+@application.route('/', methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
 """
-@app.route('/')
+@application.route('/')
 def users():
     cur = mysql.connection.cursor()
     print(cur)
@@ -59,4 +59,4 @@ def image(data):
     # Processing here
 """
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
