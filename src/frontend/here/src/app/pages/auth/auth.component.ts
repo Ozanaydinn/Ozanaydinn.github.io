@@ -27,7 +27,7 @@ export class AuthComponent implements OnInit {
   openLoginDialog(): void {
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '500px',
-      data: {name: this.username, animal: this.password}
+      data: {name: this.username, password: this.password}
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -38,7 +38,7 @@ export class AuthComponent implements OnInit {
   openRegisterDialog(): void {
     const dialogRef = this.dialog.open(RegisterComponent, {
       width: '500px',
-      data: {name: this.username, animal: this.password}
+      data: {name: this.username, password: this.password}
     });
 
     dialogRef.afterClosed().subscribe(() => {
