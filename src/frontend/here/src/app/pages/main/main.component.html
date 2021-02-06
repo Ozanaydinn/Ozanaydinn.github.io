@@ -1,11 +1,31 @@
-<mat-grid-list cols="5" rowHeight="25vh" [gutterSize]="'10px'">
-    <mat-grid-tile colspan=3 rowspan=3>
+<mat-grid-list cols="7" rowHeight="25vh" [gutterSize]="'10px'">
+    <!-- Weekly Schedule -->
+    <mat-grid-tile class="not-implemented" colspan=5 rowspan=3>
         <mat-grid-tile-header>Weekly Schedule</mat-grid-tile-header>
     </mat-grid-tile>
-    <mat-grid-tile colspan=2 rowspan=1>
+
+    <!-- Profile -->
+    <mat-grid-tile class="not-implemented" colspan=2 rowspan=1>
         <mat-grid-tile-header>Profile</mat-grid-tile-header>
     </mat-grid-tile>
+
+    <!-- Upcoming Classes -->
     <mat-grid-tile colspan=2 rowspan=2>
-        <mat-grid-tile-header>Upcoming Classes</mat-grid-tile-header>
+        <mat-card class="upcoming">
+            <mat-card-header>
+                <mat-card-title>Upcoming Classes</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-list>
+                    <mat-divider *ngIf="upcomingClasses.length > 0"></mat-divider>
+                    <div *ngFor="let class of upcomingClasses">
+                        <mat-list-item>
+                            <button mat-raised-button class="upcoming-btn">{{class.courseCode}} {{class.courseName}}</button>
+                        </mat-list-item>
+                        <mat-divider ></mat-divider>
+                    </div>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
     </mat-grid-tile>
 </mat-grid-list>
