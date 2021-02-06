@@ -1,1 +1,21 @@
-<p>Main Page</p>
+<mat-card> </mat-card>
+
+<mat-grid-list cols="8" [gutterSize]="'20px'" rowHeight="6rem">
+  <mat-grid-tile colspan="6" rowspan="4">
+    <mat-grid-tile-header> Calendar </mat-grid-tile-header>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="2" rowspan="4">
+    <mat-grid-tile-header> Upcoming Classes </mat-grid-tile-header>
+      <mat-list>
+        <div *ngFor="let c of upcomingClasses" class="upcoming-classes">
+          <mat-list-item>
+            <button mat-raised-button class="upcoming-btn">
+              {{ c.code }} {{ c.name }}
+            </button>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-list>
+  </mat-grid-tile>
+</mat-grid-list>
