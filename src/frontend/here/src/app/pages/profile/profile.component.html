@@ -12,13 +12,15 @@
         <mat-card-title>Saved Notes</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <mat-divider *ngIf="saved_notes.length > 0"></mat-divider>
-        <div *ngFor="let note of saved_notes">
-            <mat-list-item>
-                <h3 class="note-info">Saved Notes On {{note.date}} <br />In {{note.class}}</h3>
-            </mat-list-item>
-            <mat-divider ></mat-divider>
-        </div>
+        <mat-list>
+            <mat-divider *ngIf="saved_notes.length > 0"></mat-divider>
+            <div *ngFor="let note of saved_notes">
+                <mat-list-item>
+                    <button class="course-btn" mat-raised-button>Saved Notes On {{note.date}} In {{note.class}}</button>
+                </mat-list-item>
+                <mat-divider ></mat-divider>
+            </div>
+        </mat-list>
     </mat-card-content>
 </mat-card>
 
