@@ -15,6 +15,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { AssignStudentComponent } from './components/assign-student/assign-student.component';
+import { ScheduleTableComponent } from './components/schedule-table/schedule-table.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AssignStudentComponent } from './components/assign-student/assign-stude
     RegisterComponent,
     AuthComponent,
     AssignStudentComponent,
+    ScheduleTableComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,10 +8,6 @@ import {
 import {RegisterComponent} from '../../components/register/register.component';
 import {LoginComponent} from '../../components/login/login.component';
 
-
-// https://codepen.io/andrewarchi/pen/beqjoL
-
-
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
