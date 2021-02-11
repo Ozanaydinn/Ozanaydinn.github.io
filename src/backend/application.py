@@ -7,42 +7,27 @@ from PIL import Image
 import numpy as np
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
+import DatabaseConnector
 
-#Merhaba aaa
 application = Flask(__name__)
 application .secret_key = 'admin'
 socketio = SocketIO(application)
 
-# Config MySQL
-application.config['MYSQL_HOST']='heredb.citwg2mji1tb.us-east-2.rds.amazonaws.com'
-application.config['MYSQL_USER']='admin'
-application.config['MYSQL_PASSWORD']='hereadmin'
-application.config['MYSQL_DB']='here'
-application.config['MYSQL_CURSORCLASS']='DictCursor'
+# Config DB
+db = DatabaseConnector.DatabaseConnector(application, 'heredb.citwg2mji1tb.us-east-2.rds.amazonaws.com',
+                        'admin', 'hereadmin', 'here')
 
-# Init MYSQL
-mysql = MySQL(application)
+db_connection = db.connect()
 
 """
-try:
-    cursor=mysql.connection.cursor()
-    print("Mysql connection succesfull")
-except ValueError:
-    print("Error mysql connection")
-"""
-
 @application.route('/', methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
 """
 @application.route('/')
 def users():
-    cur = mysql.connection.cursor()
-    print(cur)
-    cur.execute('''SELECT * FROM example''')
-    rv = cur.fetchall()
-    return str(rv)
-"""
+    output = db.read_query(db_connection, 'SELECT * FROM example')
+    return str(output)
 """
 @socketio.on('image')
 def image(data):

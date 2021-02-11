@@ -35,8 +35,9 @@ class DatabaseConnector:
       print("Problem reading query")
     
   def execute_query(self, connection, query):
+    cursor = connection.cursor()
     try:
       cursor.execute(query)
       connection.commit()
-     except Exception as e:
-       print("Problem executing query") 
+    except Exception as e:
+      print("Problem reading query")
