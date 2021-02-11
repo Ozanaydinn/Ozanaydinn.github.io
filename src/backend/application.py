@@ -24,7 +24,7 @@ def index():
 def users():
     print("hello")
     output = db.read_query('SELECT * FROM example')
-    return str(output)
+    return str(output + "hello")
 """
 @socketio.on('image')
 def image(data):
