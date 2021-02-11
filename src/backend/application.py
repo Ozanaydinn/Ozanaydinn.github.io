@@ -30,7 +30,7 @@ try:
 except ValueError:
     print("Error mysql connection")
 """
-"""
+
 @application.route('/', methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
@@ -42,7 +42,7 @@ def users():
     cur.execute('''SELECT * FROM example''')
     rv = cur.fetchall()
     return str(rv)
-
+"""
 """
 @socketio.on('image')
 def image(data):
@@ -57,6 +57,7 @@ def image(data):
     frame = cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
 
     # Processing here
+    
 """
 if __name__ == '__main__':
     application.run(debug=True)
