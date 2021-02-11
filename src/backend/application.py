@@ -13,37 +13,23 @@ application = Flask(__name__)
 application .secret_key = 'admin'
 socketio = SocketIO(application)
 
-# Config DB
-db = DatabaseConnector.DatabaseConnector(application, 'heredb.citwg2mji1tb.us-east-2.rds.amazonaws.com',
-                        'admin', 'hereadmin', 'here')
+application.config['MYSQL_HOST']='heredb.citwg2mji1tb.us-east-2.rds.amazonaws.com'
+application.config['MYSQL_USER']='admin'
+application.config['MYSQL_PASSWORD']='hereadmin'
+application.config['MYSQL_DB']='here'
+application.config['MYSQL_CURSORCLASS']='DictCursor'
 
-db_connection = db.connect()
+mysql = MySQL(application)
 
-"""
-@application.route('/', methods=['POST', 'GET'])
-def index():
-    return render_template('index.html')
-"""
+cursor = mysql.connection.cursor()
+
 @application.route('/')
 def users():
-    print("hello")
-    output = db.read_query(db_connection, 'SELECT * FROM example')
-    return str(output)
-"""
-@socketio.on('image')
-def image(data):
-    sbuf = io.StringIO()
-    sbuf.write(data)
+    try:
+      cursor.execute('SELECT * FROM example')
+      return str(cursor.fetchall())
+    except Exception as e:
+      print("Problem reading query")
 
-    # decode and convert into image
-    b = io.BytesIO(base64.b64decode(data))
-    pimg = Image.open(b)
-
-    # converting RGB to BGR, as opencv standards
-    frame = cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
-
-    # Processing here
-    
-"""
 if __name__ == '__main__':
     application.run(debug=True)

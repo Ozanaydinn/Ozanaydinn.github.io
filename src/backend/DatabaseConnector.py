@@ -10,6 +10,7 @@ class DatabaseConnector:
     self.config_db(application)
 
     self.mysql = MySQL(application)
+    self.cursor = self.mysql.connection.cursor()
 
   def config_db(self, application):
     application.config['MYSQL_HOST']=self.host
@@ -18,26 +19,16 @@ class DatabaseConnector:
     application.config['MYSQL_DB']=self.db_name
     application.config['MYSQL_CURSORCLASS']='DictCursor'
 
-  def connect(self):
+  def read_query(self, query):
     try:
-      connection=self.mysql.connect()
-      print("Mysql connection succesfull")
-    except ValueError:
-      print("Error mysql connection")
-    return connection
-
-  def read_query(self, connection, query):
-    cursor = connection.cursor()
-    try:
-      cursor.execute(query)
-      return cursor.fetchall()
+      self.cursor.execute(query)
+      return self.cursor.fetchall()
     except Exception as e:
       print("Problem reading query")
     
-  def execute_query(self, connection, query):
-    cursor = connection.cursor()
+  def execute_query(self, query):
     try:
-      cursor.execute(query)
-      connection.commit()
+      self.cursor.execute(query)
+      self.mysql.connection.commit()
     except Exception as e:
       print("Problem reading query")
