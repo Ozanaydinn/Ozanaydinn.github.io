@@ -21,10 +21,9 @@ application.config['MYSQL_CURSORCLASS']='DictCursor'
 
 mysql = MySQL(application)
 
-cursor = mysql.connection.cursor()
-
 @application.route('/')
 def users():
+    cursor = mysql.connection.cursor()
     try:
       cursor.execute('SELECT * FROM example')
       return str(cursor.fetchall())
