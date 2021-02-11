@@ -26,6 +26,7 @@ def index():
 """
 @application.route('/')
 def users():
+    print("hello")
     output = db.read_query(db_connection, 'SELECT * FROM example')
     return str(output)
 """
