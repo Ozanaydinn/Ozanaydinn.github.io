@@ -26,10 +26,10 @@ class DatabaseConnector:
     except Exception as e:
       print("Problem reading query")
     
-  def execute_query(self, query):
+  def execute_query(self, query, values):
     cursor = self.mysql.connection.cursor()
     try:
-      cursor.execute(query)
+      cursor.execute(query, values)
       self.mysql.connection.commit()
     except Exception as e:
       print("Problem reading query")
