@@ -10,12 +10,12 @@ CREATE TABLE student(
     student_id INT,
     PRIMARY KEY(student_id),
     FOREIGN KEY(student_id) REFERENCES user(user_id) ON
-    DELETE CASCADE,
+    DELETE CASCADE
 );
 
-CREATE TABLE isntructor(
+CREATE TABLE instructor(
     instructor_id INT,
     PRIMARY KEY(instructor_id),
     FOREIGN KEY(instructor_id) REFERENCES user(user_id) ON
-    DELETE CASCADE,
+    DELETE CASCADE
 );
