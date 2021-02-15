@@ -63,102 +63,90 @@ def head_pose_points(img, rotation_vector, translation_vector, camera_matrix):
     x = point_2d[2]
     
     return (x, y)
+
+def estimate_head_pose(frame):
     
+
+    face_model = face_detect.init_model()
+    landmark_model = face_landmark_detection.init_model()
+    frame = cv2.imread(frame)
+    size = frame.shape
+    font = cv2.FONT_HERSHEY_SIMPLEX 
+    # 3D model points.
+    model_points = np.array([
+                                (0.0, 0.0, 0.0),             # Nose tip
+                                (0.0, -330.0, -65.0),        # Chin
+                                (-225.0, 170.0, -135.0),     # Left eye left corner
+                                (225.0, 170.0, -135.0),      # Right eye right corne
+                                (-150.0, -150.0, -125.0),    # Left Mouth corner
+                                (150.0, -150.0, -125.0)      # Right mouth corner
+                            ])
+
+    # Camera internals
+    focal_length = size[1]
+    center = (size[1]/2, size[0]/2)
+    camera_matrix = np.array(
+                            [[focal_length, 0, center[0]],
+                            [0, focal_length, center[1]],
+                            [0, 0, 1]], dtype = "double"
+                            )
+
+    faces = face_detect.find_faces(frame, face_model)
+    for face in faces:
+        marks = face_landmark_detection.detect_landmarks(frame, landmark_model, face)
+        # mark_detector.draw_marks(img, marks, color=(0, 255, 0))
+        image_points = np.array([
+                                marks[30],     # Nose tip
+                                marks[8],     # Chin
+                                marks[36],     # Left eye left corner
+                                marks[45],     # Right eye right corne
+                                marks[48],     # Left Mouth corner
+                                marks[54]      # Right mouth corner
+                            ], dtype="double")
+        dist_coeffs = np.zeros((4,1)) # Assuming no lens distortion
+        (success, rotation_vector, translation_vector) = cv2.solvePnP(model_points, image_points, camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_UPNP)
+        
+        
+        # Project a 3D point (0, 0, 1000.0) onto the image plane.
+        # We use this to draw a line sticking out of the nose
+        
+        (nose_end_point2D, jacobian) = cv2.projectPoints(np.array([(0.0, 0.0, 1000.0)]), rotation_vector, translation_vector, camera_matrix, dist_coeffs)
+        
+        
+        p1 = ( int(image_points[0][0]), int(image_points[0][1]))
+        p2 = ( int(nose_end_point2D[0][0][0]), int(nose_end_point2D[0][0][1]))
+        x1, x2 = head_pose_points(frame, rotation_vector, translation_vector, camera_matrix)
+
+
+        try:
+            m = (p2[1] - p1[1])/(p2[0] - p1[0])
+            ang1 = int(math.degrees(math.atan(m)))
+        except:
+            ang1 = 90
+        try:
+            m = (x2[1] - x1[1])/(x2[0] - x1[0])
+            ang2 = int(math.degrees(math.atan(-1/m)))
+        except:
+            ang2 = 90
+            
+            # print('div by zero error')
+        if ang1 >= 30: #Can be the other way around, need to test more
+            print('Head down')
+        elif ang1 <= -30:
+            print('Head up')
+        else:
+            print("Not up or down")
+        print(ang2)
+            
+        if ang2 >= 30:
+            print('Head right')
+        elif ang2 <= -35:
+            print('Head left')
+        else:
+            print("Not left or right")
+
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required=True,
 	help="path to input image")
 args = vars(ap.parse_args())
-
-face_model = face_detect.init_model()
-landmark_model = face_landmark_detection.init_model()
-frame = cv2.imread(args["image"])
-size = frame.shape
-font = cv2.FONT_HERSHEY_SIMPLEX 
-# 3D model points.
-model_points = np.array([
-                            (0.0, 0.0, 0.0),             # Nose tip
-                            (0.0, -330.0, -65.0),        # Chin
-                            (-225.0, 170.0, -135.0),     # Left eye left corner
-                            (225.0, 170.0, -135.0),      # Right eye right corne
-                            (-150.0, -150.0, -125.0),    # Left Mouth corner
-                            (150.0, -150.0, -125.0)      # Right mouth corner
-                        ])
-
-# Camera internals
-focal_length = size[1]
-center = (size[1]/2, size[0]/2)
-camera_matrix = np.array(
-                         [[focal_length, 0, center[0]],
-                         [0, focal_length, center[1]],
-                         [0, 0, 1]], dtype = "double"
-                         )
-
-faces = face_detect.find_faces(frame, face_model)
-for face in faces:
-    marks = face_landmark_detection.detect_landmarks(frame, landmark_model, face)
-    # mark_detector.draw_marks(img, marks, color=(0, 255, 0))
-    image_points = np.array([
-                            marks[30],     # Nose tip
-                            marks[8],     # Chin
-                            marks[36],     # Left eye left corner
-                            marks[45],     # Right eye right corne
-                            marks[48],     # Left Mouth corner
-                            marks[54]      # Right mouth corner
-                        ], dtype="double")
-    dist_coeffs = np.zeros((4,1)) # Assuming no lens distortion
-    (success, rotation_vector, translation_vector) = cv2.solvePnP(model_points, image_points, camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_UPNP)
-    
-    
-    # Project a 3D point (0, 0, 1000.0) onto the image plane.
-    # We use this to draw a line sticking out of the nose
-    
-    (nose_end_point2D, jacobian) = cv2.projectPoints(np.array([(0.0, 0.0, 1000.0)]), rotation_vector, translation_vector, camera_matrix, dist_coeffs)
-    
-    for p in image_points:
-        cv2.circle(frame, (int(p[0]), int(p[1])), 3, (0,0,255), -1)
-    
-    
-    p1 = ( int(image_points[0][0]), int(image_points[0][1]))
-    p2 = ( int(nose_end_point2D[0][0][0]), int(nose_end_point2D[0][0][1]))
-    x1, x2 = head_pose_points(frame, rotation_vector, translation_vector, camera_matrix)
-
-    cv2.line(frame, p1, p2, (0, 255, 255), 2)
-    cv2.line(frame, tuple(x1), tuple(x2), (255, 255, 0), 2)
-    # for (x, y) in marks:
-    #     cv2.circle(img, (x, y), 4, (255, 255, 0), -1)
-    # cv2.putText(img, str(p1), p1, font, 1, (0, 255, 255), 1)
-    try:
-        m = (p2[1] - p1[1])/(p2[0] - p1[0])
-        ang1 = int(math.degrees(math.atan(m)))
-    except:
-        ang1 = 90
-    try:
-        m = (x2[1] - x1[1])/(x2[0] - x1[0])
-        ang2 = int(math.degrees(math.atan(-1/m)))
-    except:
-        ang2 = 90
-        
-        # print('div by zero error')
-    if ang1 >= 30: #Can be the other way around, need to test more
-        print('Head down')
-        cv2.putText(frame, 'Head down', (30, 30), font, 2, (255, 255, 128), 3)
-    elif ang1 <= -30:
-        print('Head up')
-        cv2.putText(frame, 'Head up', (30, 30), font, 2, (255, 255, 128), 3)
-    else:
-        print("Not up or down")
-        print(ang1)
-        
-    if ang2 >= 30:
-        print('Head right')
-        cv2.putText(frame, 'Head right', (90, 30), font, 2, (255, 255, 128), 3)
-    elif ang2 <= -30:
-        print('Head left')
-        cv2.putText(frame, 'Head left', (90, 30), font, 2, (255, 255, 128), 3)
-    else:
-        print("Not left or right")
-    
-    cv2.putText(frame, str(ang1), tuple(p1), font, 2, (128, 255, 255), 3)
-    cv2.putText(frame, str(ang2), tuple(x1), font, 2, (255, 255, 128), 3)
-cv2.imshow('img', frame)
-cv2.waitKey(0)
+estimate_head_pose(args["image"])

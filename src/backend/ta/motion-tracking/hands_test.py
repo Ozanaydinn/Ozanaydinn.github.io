@@ -54,11 +54,14 @@ def recognizeHandGesture(landmarks):
   return recognizedHandGesture
 
 def recognizeHand(image):
-  # For static images:
+  mp_drawing = mp.solutions.drawing_utils
+  mp_hands = mp.solutions.hands
+
   hands = mp_hands.Hands(
       static_image_mode=True,
       max_num_hands=2,
       min_detection_confidence=0.5)
+      
   # Read an image, flip it around y-axis for correct handedness output (see
   # above).
   image = cv2.imread(image)
@@ -83,18 +86,9 @@ def recognizeHand(image):
       for data_point in hand_landmarks.landmark:
         keypoints.append({'x': data_point.x, 'y': data_point.y, 'z': data_point.z})
 
-      print(recognizeHandGesture(keypoints))
+      print("Recognized gesture: " + recognizeHandGesture(keypoints))
 
     cv2.imwrite(
         'result' + str(1) + '.png', annotated_image)
   hands.close()
 
-mp_drawing = mp.solutions.drawing_utils
-mp_hands = mp.solutions.hands
-
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", required=True,
-	help="path to input image")
-args = vars(ap.parse_args())
-
-recognizeHand(args["image"])
