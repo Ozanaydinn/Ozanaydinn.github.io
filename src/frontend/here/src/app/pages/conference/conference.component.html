@@ -1,9 +1,28 @@
 <mat-card class="example-card">
-  <mat-card-content>
-    <button mat-raised-button [disabled]="videoOn" (click)="startVideo()">Start</button>
-    <button mat-raised-button [disabled]="shareOn" (click)="startShare()">Share</button>
-    <button mat-raised-button [disabled]="!videoOn" (click)="stopVideo()">Stop</button>
-    <button (click)="captureVideo()" mat-raised-button color="primary"> Capture snaphot</button>
+  <mat-card-content id="buttons">
+    <div id="toolsSection">
+        <button mat-raised-button [disabled]="videoOn" (click)="startVideo()">Start</button>
+        <button mat-raised-button [disabled]="shareOn" (click)="startShare()">Share</button>
+        <button mat-raised-button [disabled]="!videoOn" (click)="stopVideo()">Stop</button>
+        <button mat-raised-button (click)="openTA()">TRY</button>
+    </div>
+    <!-- <button (click)="captureVideo()" mat-raised-button color="primary">Capture snaphot</button> -->
+    <div id="taSection" align="end">
+        <button 
+        #taTrigger="matMenuTrigger" 
+        [matMenuTriggerFor]="menu" 
+        mat-icon-button 
+        id="taButton"
+        [matBadge]="taOn ? '!' : null" matBadgeSize="large" matBadgePosition="before" >
+            <mat-icon id="taIcon">face</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="ta-content">
+            <mat-card>
+                <mat-card-title>Selam</mat-card-title>
+                <mat-card-content>Alekyümselam</mat-card-content>
+            </mat-card>
+          </mat-menu>
+    </div>
   </mat-card-content>
 </mat-card>
 
@@ -18,11 +37,11 @@
     </mat-grid-tile>
     <mat-grid-tile colspan=6>
         <mat-grid-tile-header>Participants</mat-grid-tile-header>
-        <video autoplay></video>
+        <video id="remote-video" autoplay></video>
     </mat-grid-tile>
     <mat-grid-tile colspan=2>
         <mat-grid-tile-header>Video of Host</mat-grid-tile-header>
-        <video id="host-video" autoplay></video>
+        <video id="host-video" muted autoplay></video>
     </mat-grid-tile>
 </mat-grid-list>
 
