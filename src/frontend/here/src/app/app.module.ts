@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocketIoModule } from 'ngx-socket-io';
 import { SocketioService } from './services/socketio.service';
 import { MaterialModule } from './material/material.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ConferenceComponent } from './pages/conference/conference.component';
 import { LoginComponent } from './components/login/login.component';
@@ -16,6 +16,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { AssignStudentComponent } from './components/assign-student/assign-student.component';
 import { ScheduleTableComponent } from './components/schedule-table/schedule-table.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,8 @@ import { ScheduleTableComponent } from './components/schedule-table/schedule-tab
     SocketIoModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [SocketioService],
   bootstrap: [AppComponent],
