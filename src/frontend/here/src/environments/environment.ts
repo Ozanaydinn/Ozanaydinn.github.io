@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  SOCKET_ENDPOINT: "http://localhost:8080"
+  FLASK_ENDPOINT: "http://localhost:8080",
+  RTC_ENDPOINT: "http://localhost:5000"
 };
 
 /*

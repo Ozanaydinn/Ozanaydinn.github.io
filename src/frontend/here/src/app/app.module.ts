@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './pages/main/main.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SocketIoModule } from 'ngx-socket-io';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { SocketioService } from './services/socketio.service';
 import { MaterialModule } from './material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ import { AssignStudentComponent } from './components/assign-student/assign-stude
 import { ScheduleTableComponent } from './components/schedule-table/schedule-table.component';
 import { HttpClientModule } from '@angular/common/http';
 
+const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SocketIoModule,
+    SocketIoModule.forRoot(config),
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
