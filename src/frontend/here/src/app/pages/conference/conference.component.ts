@@ -40,8 +40,10 @@ export class ConferenceComponent implements OnInit {
     // );
   }
 
-  openTA(): void{
+  openTA(message: string): void{
     this.taTrigger.openMenu();
+    let notification = document.getElementById("ta-notification");
+    notification.innerHTML =  message;
     this.taOn = true;
     setTimeout(() => 
     {

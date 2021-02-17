@@ -4,7 +4,7 @@
         <button mat-raised-button [disabled]="videoOn" (click)="startVideo()">Start</button>
         <button mat-raised-button [disabled]="shareOn" (click)="startShare()">Share</button>
         <button mat-raised-button [disabled]="!videoOn" (click)="stopVideo()">Stop</button>
-        <button mat-raised-button (click)="openTA()">TRY</button>
+        <button mat-raised-button (click)="openTA('Text will appear here')">TRY</button>
     </div>
     <!-- <button (click)="captureVideo()" mat-raised-button color="primary">Capture snaphot</button> -->
     <div id="taSection" align="end">
@@ -16,10 +16,10 @@
         [matBadge]="taOn ? '!' : null" matBadgeSize="large" matBadgePosition="before" >
             <mat-icon id="taIcon">face</mat-icon>
         </button>
-        <mat-menu #menu="matMenu" class="ta-content">
-            <mat-card>
-                <mat-card-title>Selam</mat-card-title>
-                <mat-card-content>Alekyümselam</mat-card-content>
+        <mat-menu [hasBackdrop]="false" #menu="matMenu" class="ta-content">
+            <mat-card class="ta-card">
+                <mat-card-title>TA</mat-card-title>
+                <mat-card-content id="ta-notification"></mat-card-content>
             </mat-card>
           </mat-menu>
     </div>
