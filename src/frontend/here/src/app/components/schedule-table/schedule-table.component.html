@@ -1,8 +1,9 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="hour">
+    <ng-container matColumnDef="hour" [sticky]="true">
       <th mat-header-cell *matHeaderCellDef> Hours </th>
       <td mat-cell *matCellDef="let element"> {{element.hour}} </td>
+      <!-- <td mat-cell *ngFor="let hour of hours"> {{hour}} </td> -->
     </ng-container>
   
     <ng-container matColumnDef="monday">
