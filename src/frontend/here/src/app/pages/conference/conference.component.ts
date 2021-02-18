@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { io } from 'socket.io-client';
 import { Socket } from 'ngx-socket-io';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { SocketioService } from 'src/app/services/socketio.service';
 
 @Component({
   selector: 'app-conference',
@@ -20,7 +21,7 @@ export class ConferenceComponent implements OnInit {
   activeCalls: any[];
   peerConnection;
 
-  constructor(private socket: Socket, private cdr: ChangeDetectorRef) { 
+  constructor(private socket: Socket, private socketService: SocketioService, private cdr: ChangeDetectorRef) { 
     this.setupSocketConnection();
   } //private socketService: SocketioService
 
@@ -104,28 +105,27 @@ export class ConferenceComponent implements OnInit {
     }
   }
  
-  // emitMessage(): void {
-  //   console.log('Sending', this.message);
-  //   this.socketService.emitMessage(this.message);
-  // }
+  emitMessage(): void {
+    this.socketService.emitMessage(this.message);
+  }
  
-  // captureVideo(){
-  //   if( this.videoOn){
-  //     const canvas = document.createElement("canvas");
-  //     // scale the canvas accordingly
-  //     canvas.width = this.video.videoWidth;
-  //     canvas.height = this.video.videoHeight;
-  //     // draw the video at that frame
-  //     canvas.getContext('2d')
-  //       .drawImage(this.video, 0, 0, canvas.width, canvas.height);
-  //     // convert it to a usable data URL
-  //     this.socketService.emitImage(canvas.toDataURL());
-  //   }
-  //   else{
-  //     console.error("Video stream is not on!");
-  //   }
+  captureVideo(){
+    if( this.videoOn){
+      const canvas = document.createElement("canvas");
+      // scale the canvas accordingly
+      canvas.width = this.video.videoWidth;
+      canvas.height = this.video.videoHeight;
+      // draw the video at that frame
+      canvas.getContext('2d')
+        .drawImage(this.video, 0, 0, canvas.width, canvas.height);
+      // convert it to a usable data URL
+      this.socketService.emitImage(canvas.toDataURL());
+    }
+    else{
+      console.error("Video stream is not on!");
+    }
  
-  // }
+  }
 
   /* 
     Start of WebRTC functions
@@ -198,15 +198,18 @@ export class ConferenceComponent implements OnInit {
     navigator.getUserMedia(
       { video: { mandatory: {maxHeight: 240} } as MediaTrackConstraints, audio: false },
       stream => {
-        const localVideo = document.getElementById("host-video") as HTMLVideoElement;
-        if (localVideo) {
-          localVideo.srcObject = stream;
+        this.videoOn = true;
+        this.video = document.getElementById('host-video') as HTMLVideoElement;
+        if (this.video) {
+          this.video.srcObject = stream;
+          console.log('Streaming video');
         }
 
         stream.getTracks().forEach(track => this.peerConnection.addTrack(track, stream));
       },
       error => {
-        console.warn(error.message);
+        console.log('Error: ' + error);
+        this.videoOn = false;
       }
     );
   }
