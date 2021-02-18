@@ -27,8 +27,7 @@ export class ConferenceComponent implements OnInit {
 
   ngOnInit(): void {
     this.activeCalls = []
-    this.videoOn = false;
-    this.videoOn = false;
+    this.shareOn = false;
     this.taOn = false;
     this.message = 'Start';
     // this.socketService.getMessages().subscribe(
@@ -57,8 +56,10 @@ export class ConferenceComponent implements OnInit {
   startVideo(): void {
     this.video = document.getElementById('host-video') as HTMLVideoElement;
     this.videoOn = true;
-    navigator.mediaDevices.getUserMedia(this.constraints).then(
-      (stream) => {
+
+    navigator.getUserMedia(
+      { video: { mandatory: {maxHeight: 240} } as MediaTrackConstraints, audio: false },
+      stream => {
         this.video.srcObject = stream;
         console.log('Streaming video');
       },
@@ -194,11 +195,12 @@ export class ConferenceComponent implements OnInit {
         remoteVideo.srcObject = stream;
       }
     };
-
+    
+    this.videoOn = true;
+    console.log("Changing to true");
     navigator.getUserMedia(
       { video: { mandatory: {maxHeight: 240} } as MediaTrackConstraints, audio: false },
       stream => {
-        this.videoOn = true;
         this.video = document.getElementById('host-video') as HTMLVideoElement;
         if (this.video) {
           this.video.srcObject = stream;
