@@ -33,3 +33,52 @@ class DatabaseConnector:
       self.mysql.connection.commit()
     except Exception as e:
       print("Problem reading query")
+
+  def register_user(self, username, password, email):
+    cursor = self.mysql.connection.cursor()
+    reg_query = "INSERT INTO user(username, password, email) VALUES(%s,%s,%s)"
+    values = (username, password, email)
+
+    #try:
+    cursor.execute(reg_query, values)
+    self.mysql.connection.commit()
+
+    cursor.execute("SELECT user_id FROM user WHERE username = %s", (username,))
+    user = cursor.fetchone()
+    id = user['user_id']
+    return id
+    #except Exception as e:
+    #  print("Problem reading query")
+
+  def register_student(self, id):
+    cursor = self.mysql.connection.cursor()
+    cursor.execute("INSERT INTO student(student_id) VALUES({0})".format(id))
+    self.mysql.connection.commit()
+
+  def register_instructor(self, id):
+    cursor = self.mysql.connection.cursor()
+    cursor.execute("INSERT INTO instructor(instructor_id) VALUES({0})".format(id))
+    self.mysql.connection.commit()
+
+  def login_user(self, username):
+    cursor = self.mysql.connection.cursor()
+    count = cursor.execute("SELECT password FROM user WHERE username = %s", (username,))
+    
+    if count > 0:
+      user = cursor.fetchone()
+      return user['password']
+    else:
+      return -1
+
+  def executeScriptsFromFile(self, filename, cursor):
+    # Open and read the file as a single buffer
+    fd = open(filename, 'r')
+    sqlFile = fd.read()
+    fd.close()
+
+    # all SQL commands (split on ';')
+    sqlCommands = sqlFile.split(';')
+
+    # Execute every command from the input file
+    for command in sqlCommands:
+        cursor.execute(command)
