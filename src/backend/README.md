@@ -9,11 +9,11 @@ $python3 -m venv venv
 
 Set env variables for flask:
     if Linux:
-    $export FLASK_APP=app
+    $export FLASK_APP=application
     $export FLASK_ENV=development
 
     if Windows:
-    $set FLASK_APP=app
+    $set FLASK_APP=application
     $set FLASK_ENV=development
 
 Before pushing:
