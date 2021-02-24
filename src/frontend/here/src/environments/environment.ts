@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   FLASK_ENDPOINT: "http://localhost:8080",
-  RTC_ENDPOINT: "http://localhost:5000"
+  RTC_ENDPOINT: "http://localhost:5001"
 };
 
 /*

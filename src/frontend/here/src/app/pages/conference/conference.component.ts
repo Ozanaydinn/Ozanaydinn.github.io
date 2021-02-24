@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import { Socket } from 'ngx-socket-io';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { SocketioService } from 'src/app/services/socketio.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-conference',
@@ -20,9 +21,10 @@ export class ConferenceComponent implements OnInit {
   message: string;
   activeCalls: any[];
   peerConnection;
+  SERVER_URL = "http://127.0.0.1:5000/image"; // TODO
 
-  constructor(private socket: Socket, private socketService: SocketioService, private cdr: ChangeDetectorRef) { 
-    this.setupSocketConnection();
+  constructor(/*private socket: Socket, private socketService: SocketioService,*/ private cdr: ChangeDetectorRef,private httpClient: HttpClient) { 
+    //this.setupSocketConnection();
   } //private socketService: SocketioService
 
   ngOnInit(): void {
@@ -120,7 +122,18 @@ export class ConferenceComponent implements OnInit {
       canvas.getContext('2d')
         .drawImage(this.video, 0, 0, canvas.width, canvas.height);
       // convert it to a usable data URL
-      this.socketService.emitImage(canvas.toDataURL());
+      //this.socketService.emitImage(canvas.toDataURL());
+      const formData = new FormData();
+      formData.append("image", canvas.toDataURL());
+      // console.log(formData);
+      // console.log(formData.get("password"));
+      // console.log(formData.get("username"));
+      
+      // TODO
+      this.httpClient.post<any>(this.SERVER_URL, formData).subscribe(
+        (res) => console.log(res),
+        (err) => console.log(err)
+      );
     }
     else{
       console.error("Video stream is not on!");
@@ -139,144 +152,145 @@ export class ConferenceComponent implements OnInit {
   }
 
   
-  setupSocketConnection() {
-    const { RTCPeerConnection, RTCSessionDescription } = window;
-    this.peerConnection = new RTCPeerConnection();
-    console.log("RTC Peer connection created");
+//   setupSocketConnection() {
+//     const { RTCPeerConnection, RTCSessionDescription } = window;
+//     this.peerConnection = new RTCPeerConnection();
+//     console.log("RTC Peer connection created");
 
-    //this.socket = io("localhost:5000", {transports: ['websocket', 'polling', 'flashsocket']});
-    console.log("Socket connection created");
+//     //this.socket = io("localhost:5000", {transports: ['websocket', 'polling', 'flashsocket']});
+//     console.log("Socket connection created");
 
-    this.socket.on("update-user-list", ({ users }) => {
-      console.log("Update user list request received");
-      this.updateUserList(users);
-    });
+//     this.socket.on("update-user-list", ({ users }) => {
+//       console.log("Update user list request received");
+//       this.updateUserList(users);
+//     });
 
-    this.socket.on("remove-user", ({ socketId }) => {
-      console.log("Remove user request received");
-      const elToRemove = document.getElementById(socketId);
+//     this.socket.on("remove-user", ({ socketId }) => {
+//       console.log("Remove user request received");
+//       const elToRemove = document.getElementById(socketId);
 
-      if (elToRemove) {
-        elToRemove.remove();
-      }
-    });
+//       if (elToRemove) {
+//         elToRemove.remove();
+//       }
+//     });
 
-    this.socket.on("call-made", async data => {
-      console.log("Call made request received");
-      await this.peerConnection.setRemoteDescription(
-        new RTCSessionDescription(data.offer)
-      );
-      console.log("Remote desc set");
-      const answer = await this.peerConnection.createAnswer();
-      console.log("Answer created");
-      await this.peerConnection.setLocalDescription(new RTCSessionDescription(answer));
-      console.log("Local desc set");
+//     this.socket.on("call-made", async data => {
+//       console.log("Call made request received");
+//       await this.peerConnection.setRemoteDescription(
+//         new RTCSessionDescription(data.offer)
+//       );
+//       console.log("Remote desc set");
+//       const answer = await this.peerConnection.createAnswer();
+//       console.log("Answer created");
+//       await this.peerConnection.setLocalDescription(new RTCSessionDescription(answer));
+//       console.log("Local desc set");
 
-      this.socket.emit("make-answer", {
-        answer,
-        to: data.socket
-      });
-      console.log("Make answer request sent");
-    });
+//       this.socket.emit("make-answer", {
+//         answer,
+//         to: data.socket
+//       });
+//       console.log("Make answer request sent");
+//     });
 
-    this.socket.on("answer-made", async data => {
-      console.log("Answer made request received");
-      await this.peerConnection.setRemoteDescription(
-        new RTCSessionDescription(data.answer)
-      );
-      console.log("Remote desc set");
-      this.callUser(data.socket);
-      console.log("Remote desc set");
-    });
+//     this.socket.on("answer-made", async data => {
+//       console.log("Answer made request received");
+//       await this.peerConnection.setRemoteDescription(
+//         new RTCSessionDescription(data.answer)
+//       );
+//       console.log("Remote desc set");
+//       this.callUser(data.socket);
+//       console.log("Remote desc set");
+//     });
 
-    this.peerConnection.ontrack = function({ streams: [stream] }) {
-      const remoteVideo = document.getElementById("remote-video") as HTMLVideoElement;
-      if (remoteVideo) {
-        remoteVideo.srcObject = stream;
-      }
-    };
+//     this.peerConnection.ontrack = function({ streams: [stream] }) {
+//       const remoteVideo = document.getElementById("remote-video") as HTMLVideoElement;
+//       if (remoteVideo) {
+//         remoteVideo.srcObject = stream;
+//       }
+//     };
     
-    this.videoOn = true;
-    console.log("Changing to true");
-    navigator.getUserMedia(
-      { video: { mandatory: {maxHeight: 240} } as MediaTrackConstraints, audio: false },
-      stream => {
-        this.video = document.getElementById('host-video') as HTMLVideoElement;
-        if (this.video) {
-          this.video.srcObject = stream;
-          console.log('Streaming video');
-        }
+//     this.videoOn = true;
+//     console.log("Changing to true");
+//     navigator.getUserMedia(
+//       { video: { mandatory: {maxHeight: 240} } as MediaTrackConstraints, audio: false },
+//       stream => {
+//         this.video = document.getElementById('host-video') as HTMLVideoElement;
+//         if (this.video) {
+//           this.video.srcObject = stream;
+//           console.log('Streaming video');
+//         }
 
-        stream.getTracks().forEach(track => this.peerConnection.addTrack(track, stream));
-      },
-      error => {
-        console.log('Error: ' + error);
-        this.videoOn = false;
-      }
-    );
-  }
+//         stream.getTracks().forEach(track => this.peerConnection.addTrack(track, stream));
+//       },
+//       error => {
+//         console.log('Error: ' + error);
+//         this.videoOn = false;
+//       }
+//     );
+//   }
 
-  unselectUsersFromList() {
-    const alreadySelectedUser = document.querySelectorAll(
-      ".active-user.active-user--selected"
-    );
+//   unselectUsersFromList() {
+//     const alreadySelectedUser = document.querySelectorAll(
+//       ".active-user.active-user--selected"
+//     );
   
-    alreadySelectedUser.forEach(el => {
-      el.setAttribute("class", "active-user");
-    });
-  }
+//     alreadySelectedUser.forEach(el => {
+//       el.setAttribute("class", "active-user");
+//     });
+//   }
   
-  createUserItemContainer(socketId) {
-    const userContainerEl = document.createElement("div");
+//   createUserItemContainer(socketId) {
+//     const userContainerEl = document.createElement("div");
   
-    const usernameEl = document.createElement("p");
+//     const usernameEl = document.createElement("p");
   
-    userContainerEl.setAttribute("class", "active-user");
-    userContainerEl.setAttribute("id", socketId);
-    usernameEl.setAttribute("class", "username");
-    usernameEl.innerHTML = `Socket: ${socketId}`;
+//     userContainerEl.setAttribute("class", "active-user");
+//     userContainerEl.setAttribute("id", socketId);
+//     usernameEl.setAttribute("class", "username");
+//     usernameEl.innerHTML = `Socket: ${socketId}`;
   
-    userContainerEl.appendChild(usernameEl);
+//     userContainerEl.appendChild(usernameEl);
   
-    userContainerEl.addEventListener("click", () => {
-      this.unselectUsersFromList();
-      userContainerEl.setAttribute("class", "active-user active-user--selected");
-      const talkingWithInfo = document.getElementById("talking-with-info");
-      talkingWithInfo.innerHTML = `Talking with: "Socket: ${socketId}"`;
-      this.callUser(socketId);
-    });
+//     userContainerEl.addEventListener("click", () => {
+//       this.unselectUsersFromList();
+//       userContainerEl.setAttribute("class", "active-user active-user--selected");
+//       const talkingWithInfo = document.getElementById("talking-with-info");
+//       talkingWithInfo.innerHTML = `Talking with: "Socket: ${socketId}"`;
+//       this.callUser(socketId);
+//     });
   
-    return userContainerEl;
-  }
+//     return userContainerEl;
+//   }
   
-  async callUser(socketId) {
-    const offer = await this.peerConnection.createOffer();
-    await this.peerConnection.setLocalDescription(new RTCSessionDescription(offer));
+//   async callUser(socketId) {
+//     const offer = await this.peerConnection.createOffer();
+//     await this.peerConnection.setLocalDescription(new RTCSessionDescription(offer));
   
-    this.socket.emit("call-user", {
-      offer,
-      to: socketId
-    });
-  }
+//     this.socket.emit("call-user", {
+//       offer,
+//       to: socketId
+//     });
+//   }
   
-  updateUserList(socketIds) {
-    console.log("Updating", socketIds);
-    //const activeUserContainer = document.getElementById("active-user-container");
-    console.log("active", this.activeCalls);
-    console.log("IDs", socketIds);
-    socketIds.forEach(socketId => {
-      if(this.activeCalls.includes(socketId) == undefined)
-        console.log("Trying to call");
-        this.callUser(socketId);
-        this.activeCalls.push(socketId);
-      // const alreadyExistingUser = document.getElementById(socketId);
-      // if (!alreadyExistingUser) {
-      //   const userContainerEl = this.createUserItemContainer(socketId);
+//   updateUserList(socketIds) {
+//     console.log("Updating", socketIds);
+//     //const activeUserContainer = document.getElementById("active-user-container");
+//     console.log("active", this.activeCalls);
+//     console.log("IDs", socketIds);
+//     socketIds.forEach(socketId => {
+//       if(this.activeCalls.includes(socketId) == undefined)
+//         console.log("Trying to call");
+//         this.callUser(socketId);
+//         this.activeCalls.push(socketId);
+//       // const alreadyExistingUser = document.getElementById(socketId);
+//       // if (!alreadyExistingUser) {
+//       //   const userContainerEl = this.createUserItemContainer(socketId);
   
-      //   activeUserContainer.appendChild(userContainerEl);
-      // }
-    });
-  }
+//       //   activeUserContainer.appendChild(userContainerEl);
+//       // }
+//     });
+//   }
 
 
+// 
 }
