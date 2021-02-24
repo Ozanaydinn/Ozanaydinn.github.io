@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.sass'],
 })
 export class LoginComponent implements OnInit {
-  username: string;
+  email: string;
   password: string;
   loginForm: FormGroup;
   SERVER_URL = "http://localhost:5000/login"; // TODO
@@ -25,17 +25,17 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     console.log(
-      'Login called with username: ' +
-      this.username +
+      'Login called with email: ' +
+      this.email +
       ' password: ' +
       this.password
     );
     const formData = new FormData();
-    formData.append("username", this.username);
+    formData.append("email", this.email);
     formData.append("password", this.password);
     // console.log(formData);
     // console.log(formData.get("password"));
-    // console.log(formData.get("username"));
+    // console.log(formData.get("email"));
     
     // TODO
     /* 

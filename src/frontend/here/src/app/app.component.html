@@ -15,9 +15,9 @@
           </button>
         </div>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="goMain()">Main</button>
-          <button mat-menu-item (click)="goProfile()">Profile</button>
-          <button mat-menu-item (click)="logout()">Logout</button>
+          <button mat-menu-item *ngIf="loggedIn" (click)="goMain()">Main</button>
+          <button mat-menu-item *ngIf="loggedIn" (click)="goProfile()">Profile</button>
+          <button mat-menu-item *ngIf="loggedIn" (click)="logout()">Logout</button>
         </mat-menu>
       </mat-toolbar-row>
     </mat-toolbar>

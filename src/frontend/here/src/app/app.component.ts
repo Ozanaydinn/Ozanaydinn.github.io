@@ -9,8 +9,11 @@ import { Router } from '@angular/router';
 })
 export class AppComponent{
   username: string;
+  loggedIn: boolean;
   constructor(private router: Router) {
-    this.username = "John Doe";}
+    this.username = "John Doe";
+    this.loggedIn = false;
+  }
   goMain(){
     this.router.navigate(['/main']);
   }

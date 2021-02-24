@@ -11,12 +11,15 @@ export class RegisterComponent implements OnInit {
   username: string;
   password: string;
   email: string;
+  type: string;
   registerForm: FormGroup;
   SERVER_URL = "http://localhost:5000/register"; // TODO
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpClient: HttpClient) {}
+    private httpClient: HttpClient) {
+      this.type = "student"
+    }
 
   ngOnInit(): void {}
   register(): void {
@@ -27,11 +30,11 @@ export class RegisterComponent implements OnInit {
     formData.append("email", this.email);
     
     // TODO
-    /* 
+    
     this.httpClient.post<any>(this.SERVER_URL, formData).subscribe(
       (res) => console.log(res),
       (err) => console.log(err)
     );
-    */
+    
   }
 }
