@@ -2,9 +2,11 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 
 application = Flask(__name__)
+cors = CORS(application, resources={r"/api/": {"origins": ""}})
 api = Api(application)
 
 application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:hereadmin@heredb.citwg2mji1tb.us-east-2.rds.amazonaws.com:3306/here'
@@ -25,6 +27,14 @@ def check_if_token_in_blacklist(decrypted_token):
 @application.before_first_request
 def create_tables():
     db.create_all()
+
+
+@application.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
 
 import models, auth, s3bucket, image
 
