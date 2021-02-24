@@ -61,7 +61,6 @@ class RevokedTokenModel(db.Model):
         return bool(query)
 
 """
-"""
 class CourseModel(db.Model):
     __tablename__ = 'courses'
 

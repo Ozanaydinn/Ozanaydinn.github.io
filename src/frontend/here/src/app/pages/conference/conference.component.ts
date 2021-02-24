@@ -109,7 +109,7 @@ export class ConferenceComponent implements OnInit {
   }
  
   emitMessage(): void {
-    this.socketService.emitMessage(this.message);
+    //this.socketService.emitMessage(this.message);
   }
  
   captureVideo(){
@@ -147,7 +147,7 @@ export class ConferenceComponent implements OnInit {
 
   ngOnDestroy(): void {
     console.log("Should destroy");
-    this.socket.disconnect();
+    //this.socket.disconnect();
     //this.socket.emit("disconnect");
   }
 
