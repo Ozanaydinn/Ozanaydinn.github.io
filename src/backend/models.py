@@ -60,6 +60,7 @@ class RevokedTokenModel(db.Model):
         query = cls.query.filter_by(jti = jti).first()
         return bool(query)
 
+"""
 class CourseModel(db.Model):
     __tablename__ = 'courses'
 
@@ -99,3 +100,4 @@ class CourseStudent(db.model):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
+"""

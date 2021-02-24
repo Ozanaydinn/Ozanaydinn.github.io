@@ -26,12 +26,8 @@ class UserRegistration(Resource):
         )
         try:
             new_user.save_to_db()
-            access_token = create_access_token(identity = data['email'])
-            refresh_token = create_refresh_token(identity = data['email'])
             return {
-                'message': 'User {} was created'.format( data['username']),
-                'access_token': access_token,
-                'refresh_token': refresh_token
+                'message': 'User {} was created'.format( data['username'])
             }
         except:
             return {'message': 'Something went wrong'}, 500
