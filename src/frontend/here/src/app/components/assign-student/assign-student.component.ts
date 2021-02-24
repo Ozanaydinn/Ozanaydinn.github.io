@@ -1,4 +1,5 @@
 import { _isNumberValue } from '@angular/cdk/coercion';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -10,7 +11,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class AssignStudentComponent implements OnInit {
   studentId: number;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {courseCode: string}, private dialogRef: MatDialogRef<AssignStudentComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {courseCode: string}, private httpClient: HttpClient, private dialogRef: MatDialogRef<AssignStudentComponent>) { }
 
   ngOnInit(): void {
     this.studentId = undefined;
@@ -20,7 +21,18 @@ export class AssignStudentComponent implements OnInit {
     if(this.studentId != undefined){
       if(_isNumberValue(this.studentId)){
         alert("Assigning " + this.studentId + " to " + this.data.courseCode);
-        alert("Database not implemeted yet");
+        const formData = new FormData();
+        formData.append("studentId", "slmyucoyici");
+        formData.append("courseCode", this.data.courseCode);
+        // console.log(formData);
+        // console.log(formData.get("password"));
+        // console.log(formData.get("username"));
+        
+        // TODO
+        this.httpClient.post<any>(this.SERVER_URL, formData).subscribe(
+          (res) => console.log(res),
+          (err) => console.log(err)
+        );
         this.dialogRef.close();
       }
       else{
