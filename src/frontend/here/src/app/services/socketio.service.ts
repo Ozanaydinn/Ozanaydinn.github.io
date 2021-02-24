@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SocketioService {
-  socket;
-  constructor() {}
-
-  setupSocketConnection() {
-    this.socket = io(environment.SOCKET_ENDPOINT, {transports: ['websocket', 'polling', 'flashsocket']});
+  RTCSocket: Socket;
+  socket: Socket;
+  constructor() {
+    this.RTCSocket = io(environment.RTC_ENDPOINT, {transports: ['websocket', 'polling', 'flashsocket']});
+    this.socket = io(environment.FLASK_ENDPOINT, {transports: ['websocket', 'polling', 'flashsocket']});
   }
 
   emitMessage(message: string): void{

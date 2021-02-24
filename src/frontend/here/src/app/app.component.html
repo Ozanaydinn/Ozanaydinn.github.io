@@ -1,26 +1,25 @@
 <router-outlet>
-    <p>
-        <mat-toolbar>
-            <mat-toolbar-row>
-                <button mat-icon-button>
-                    <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
-                  </button>
-                  <span>Here!</span>
-            </mat-toolbar-row>
-        </mat-toolbar>
-      </p>
-      
-    <mat-sidenav-container>
-        <mat-sidenav #sidenav>
-          <mat-nav-list>
-            <a mat-list-item [routerLink]="'/main'"> Main </a>
-          </mat-nav-list>
-        </mat-sidenav>
-        <mat-sidenav-content>
-          <div style="height: 88vh;">
-      
-            <router-outlet></router-outlet>
-          </div>
-        </mat-sidenav-content>
-      </mat-sidenav-container>
+  <p>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <span>Here!</span>
+
+        <div class="right-elements">
+          <mat-label class="name">{{username}}</mat-label>
+          <button
+            mat-fab
+            [matMenuTriggerFor]="menu"
+            color="primary"
+          >
+            <span class="material-icons"> portrait </span>
+          </button>
+        </div>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="goMain()">Main</button>
+          <button mat-menu-item (click)="goProfile()">Profile</button>
+          <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </p>
 </router-outlet>
