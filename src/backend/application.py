@@ -3,6 +3,7 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 
+
 application = Flask(__name__)
 api = Api(application)
 
@@ -25,7 +26,7 @@ def check_if_token_in_blacklist(decrypted_token):
 def create_tables():
     db.create_all()
 
-import models, auth, s3bucket
+import models, auth, s3bucket, image
 
 api.add_resource(auth.UserRegistration, '/registration')
 api.add_resource(auth.UserLogin, '/login')
@@ -37,6 +38,8 @@ api.add_resource(auth.SecretResource, '/secret')
 
 api.add_resource(s3bucket.FileUpload, '/upload')
 api.add_resource(s3bucket.FileDownload, '/download')
+
+api.add_resource(image.SendImage, '/image')
 
 @application.route('/')
 def index():

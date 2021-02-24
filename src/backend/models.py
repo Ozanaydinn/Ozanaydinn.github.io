@@ -1,5 +1,6 @@
 from application import db
 from passlib.hash import pbkdf2_sha256 as sha256
+from sqlalchemy.orm import relationship
 
 class UserModel(db.Model):
     __tablename__ = 'users'
@@ -58,3 +59,43 @@ class RevokedTokenModel(db.Model):
     def is_jti_blacklisted(cls, jti):
         query = cls.query.filter_by(jti = jti).first()
         return bool(query)
+
+class CourseModel(db.Model):
+    __tablename__ = 'courses'
+
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(120), nullable = False)
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def return_all(cls):
+        def to_json(x):
+            return {
+                'name': x.name,
+            }
+        return {'users': list(map(lambda x: to_json(x), CourseModel.query.all()))}
+
+    @classmethod
+    def delete_all(cls):
+        try:
+            num_rows_deleted = db.session.query(cls).delete()
+            db.session.commit()
+            return {'message': '{} row(s) deleted'.format(num_rows_deleted)}
+        except:
+            return {'message': 'Something went wrong'}
+
+class CourseStudent(db.model):
+    __tablename__ = "course_student"
+
+    course_id = db.Column(db.Integer, ForeignKey(CourseModel.id), primary_key = True)
+    student_id = db.Column(db.Integer, ForeignKey(CourseModel.id), primary_key = True)
+
+    student = relationship('Student', foreign_keys='UserModel.id')
+    course = relationship('Course', foreign_keys='CourseModel.id')
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
