@@ -12,14 +12,13 @@ class SendImage(Resource):
         # sbuf.write(data)
 
         # decode and convert into image
-        """
-        bs64 = data["image"]
+        bs64 = str(data["image"])
         bs64 = bs64.replace("data:image/png;base64,", "")
-        im_bytes = base64.b64decode(data)   # im_bytes is a binary image
+        im_bytes = base64.b64decode(bs64)   # im_bytes is a binary image
         im_file = io.BytesIO(im_bytes)  # convert image to file-like object
         pimg = Image.open(im_file)   # img is now PIL Image object
         pimg.show()
-        """
+        
         # converting RGB to BGR, as opencv standards
         # frame = cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
 
