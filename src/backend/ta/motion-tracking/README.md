@@ -12,7 +12,7 @@ numpy
 
 #### Methods
 
-- **analyze_image()**
+- **analyze_image(frame)**
     - Analyzes the given image by passing the image
       through all image processing models.
 
