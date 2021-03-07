@@ -1,8 +1,7 @@
 import cv2
 import mediapipe as mp
-import argparse
 
-def recognizeHandGesture(landmarks):
+def recognize_hand_gesture(landmarks):
   thumbState = 'UNKNOWN'
   indexFingerState = 'UNKNOWN'
   middleFingerState = 'UNKNOWN'
@@ -53,8 +52,7 @@ def recognizeHandGesture(landmarks):
     recognizedHandGesture = 0 # "UNKNOWN"
   return recognizedHandGesture
 
-def recognizeHand(image):
-  mp_drawing = mp.solutions.drawing_utils
+def recognize_hand(image):
   mp_hands = mp.solutions.hands
 
   hands = mp_hands.Hands(
@@ -71,23 +69,23 @@ def recognizeHand(image):
   if results.multi_hand_landmarks:
       
     image_hight, image_width, _ = image.shape
-    annotated_image = image.copy()
+
+    hand_gestures = []
+
     for hand_landmarks in results.multi_hand_landmarks:
       print(
           f'Index finger tip coordinates: (',
           f'{hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].x * image_width}, '
           f'{hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y * image_hight})'
       )
-      mp_drawing.draw_landmarks(
-          annotated_image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
       keypoints = []
 
       for data_point in hand_landmarks.landmark:
         keypoints.append({'x': data_point.x, 'y': data_point.y, 'z': data_point.z})
 
-      print("Recognized gesture: " + str(recognizeHandGesture(keypoints)))
+      hand_gestures.append(recognize_hand_gesture(keypoints))
 
-    cv2.imwrite(
-        'result' + str(1) + '.png', annotated_image)
   hands.close()
+
+  return hand_gestures

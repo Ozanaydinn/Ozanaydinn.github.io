@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri May  1 22:45:22 2020
-@author: hp
-"""
-
 import tensorflow as tf
 import numpy as np
 import cv2
@@ -21,8 +15,6 @@ from tensorflow.keras.layers import (
     BatchNormalization
 )
 from tensorflow.keras.regularizers import l2
-import wget
-import argparse
 
 def load_darknet_weights(model, weights_file):
     '''
@@ -167,7 +159,7 @@ def YoloConv(filters, name=None):
     '''
     Call this function to define the Yolo Conv layer.
     
-    :param flters: number of filters for the conv layer
+    :param filters: number of filters for the conv layer
     :param name: name of the layer
     '''
     def yolo_conv(x_in):
@@ -300,11 +292,11 @@ def YoloV3(size=None, channels=3, anchors=yolo_anchors,
 
 def search_phone(frame):
 
+    result = { "phone": False, "person": 0}
+
     frame = cv2.imread(frame)
-    print("sdfos")
 
     yolo = YoloV3()
-    print("sıasdı")
 
     load_darknet_weights(yolo, 'models/yolov3.weights')
 
@@ -318,20 +310,10 @@ def search_phone(frame):
     count=0
     for i in range(nums[0]):
         if int(classes[0][i] == 0):
-            count +=1
+            result["person"] += 1
         if int(classes[0][i] == 67):
-            print('Mobile Phone detected')
-    if count == 0:
-        print('No person detected')
-    elif count > 1: 
-        print('More than one person detected')
+            result["phone"] = True
 
     cv2.destroyAllWindows()
 
-
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", required=True,
-	help="path to input image")
-args = vars(ap.parse_args())
-
-search_phone(args["image"])
+    return result

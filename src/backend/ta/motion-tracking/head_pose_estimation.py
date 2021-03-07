@@ -3,7 +3,6 @@ import numpy as np
 import math
 import face_detect
 import face_landmark_detection
-import argparse
 
 def get_2d_points(img, rotation_vector, translation_vector, camera_matrix, val):
     """Return the 3D points present as 2D for making annotation box"""
@@ -144,9 +143,3 @@ def estimate_head_pose(frame):
             print('Head left')
         else:
             print("Not left or right")
-
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", required=True,
-	help="path to input image")
-args = vars(ap.parse_args())
-estimate_head_pose(args["image"])
