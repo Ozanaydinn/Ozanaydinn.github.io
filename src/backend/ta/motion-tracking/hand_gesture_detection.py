@@ -86,9 +86,8 @@ def recognizeHand(image):
       for data_point in hand_landmarks.landmark:
         keypoints.append({'x': data_point.x, 'y': data_point.y, 'z': data_point.z})
 
-      print("Recognized gesture: " + recognizeHandGesture(keypoints))
+      print("Recognized gesture: " + str(recognizeHandGesture(keypoints)))
 
     cv2.imwrite(
         'result' + str(1) + '.png', annotated_image)
   hands.close()
-
