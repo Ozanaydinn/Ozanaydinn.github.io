@@ -29,8 +29,6 @@ export class RegisterComponent implements OnInit {
     formData.append("password", this.password);
     formData.append("email", this.email);
     
-    // TODO
-    
     this.httpClient.post<any>(this.SERVER_URL, formData).subscribe(
       (res) => console.log(res),
       (err) => console.log(err)

@@ -38,12 +38,12 @@ export class LoginComponent implements OnInit {
     // console.log(formData.get("email"));
     
     // TODO
-    /* 
+    
     this.httpClient.post<any>(this.SERVER_URL, formData).subscribe(
       (res) => console.log(res),
       (err) => console.log(err)
     );
-    */
+    
     this.router.navigate(['main']);
     this.dialogRef.close();
   }

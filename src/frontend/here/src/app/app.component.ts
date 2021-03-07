@@ -12,7 +12,7 @@ export class AppComponent{
   loggedIn: boolean;
   constructor(private router: Router) {
     this.username = "John Doe";
-    this.loggedIn = false;
+    this.loggedIn = true;
   }
   goMain(){
     this.router.navigate(['/main']);

@@ -11,6 +11,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class AssignStudentComponent implements OnInit {
   studentId: number;
+  SERVER_URL = "http://localhost:5000/login";
   constructor(@Inject(MAT_DIALOG_DATA) public data: {courseCode: string}, private httpClient: HttpClient, private dialogRef: MatDialogRef<AssignStudentComponent>) { }
 
   ngOnInit(): void {
