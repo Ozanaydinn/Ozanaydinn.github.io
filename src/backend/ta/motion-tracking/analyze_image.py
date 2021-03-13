@@ -10,4 +10,4 @@ def analyze_image(frame):
     head_pose_result = estimate_head_pose(frame)
     phone_result = search_phone(frame)
 
-    print("Hand_result")
+    print("Hand_result: " + hand_result + " Head Pose Result: " + head_pose_result + " Phone result: " + phone_result)
