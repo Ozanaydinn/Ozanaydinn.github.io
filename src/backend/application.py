@@ -9,7 +9,7 @@ application = Flask(__name__)
 cors = CORS(application, resources={r"/api/": {"origins": ""}})
 api = Api(application)
 
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:hereadmin@heredb.citwg2mji1tb.us-east-2.rds.amazonaws.com:3306/here'
+application.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qmgznxoqxxasxm:90a4da8e5fffe0b52c91e758debe7f2183712734d72f186903334778211a9802@ec2-176-34-222-188.eu-west-1.compute.amazonaws.com:5432/d5a3te8g5fd7ha'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['SECRET_KEY'] = 'some-secret-string'
 application.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
@@ -36,7 +36,7 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
 
-import models, auth, s3bucket, image
+import models, auth, s3bucket, image, user_functions
 
 api.add_resource(auth.UserRegistration, '/registration')
 api.add_resource(auth.UserLogin, '/login')
