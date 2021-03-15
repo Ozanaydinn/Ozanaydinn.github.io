@@ -5,3 +5,4 @@
 !.elasticbeanstalk/*.global.yml
 virt
 venv/
+__pycache__
