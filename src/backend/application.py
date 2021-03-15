@@ -6,7 +6,10 @@ from flask_cors import CORS
 
 
 application = Flask(__name__)
-#cors = CORS(application, resources={r"/api/": {"origins": "*"}})
+application.config['CORS_HEADERS'] = 'Content-Type'
+application.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
+
+#cors = CORS(application, resources={r"/APİ/*": {"origins": "*"}})
 cors = CORS(application)
 api = Api(application)
 
@@ -16,7 +19,6 @@ application.config['SECRET_KEY'] = 'some-secret-string'
 application.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
 application.config['JWT_BLACKLIST_ENABLED'] = True
 application.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
-application.config['CORS_HEADERS'] = 'Content-Type'
 
 jwt = JWTManager(application)
 db = SQLAlchemy(application)
