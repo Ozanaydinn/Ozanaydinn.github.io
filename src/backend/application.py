@@ -32,7 +32,7 @@ def check_if_token_in_blacklist(decrypted_token):
 def create_tables():
     db.create_all()
 
-
+'''
 @application.after_request
 def after_request(response):
     
@@ -42,7 +42,7 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Credentials', 'true')
     response.headers.add('Content-Type', 'application/json')
     return response
-    
+''' 
 
 import models, auth, s3bucket, image, user_functions
 
