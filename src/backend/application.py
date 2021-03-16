@@ -2,15 +2,15 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 
 application = Flask(__name__)
 #application.config['CORS_HEADERS'] = 'Content-Type'
 #application.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
 
-cors = CORS(application, resources={r"/*": {"origins": "*"}})
-#cors = CORS(application)
+#cors = CORS(application, resources={r"/*": {"origins": "*"}})
+cors = CORS(application)
 api = Api(application)
 
 application.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://qmgznxoqxxasxm:90a4da8e5fffe0b52c91e758debe7f2183712734d72f186903334778211a9802@ec2-176-34-222-188.eu-west-1.compute.amazonaws.com:5432/d5a3te8g5fd7ha'
@@ -58,8 +58,9 @@ api.add_resource(s3bucket.FileDownload, '/download')
 api.add_resource(image.SendImage, '/image')
 
 @application.route('/')
+@cross_origin()
 def index():
-    return jsonify({'message': 'Hello, World!'})
+    return jsonify({'message': 'Hello, Ozan World!'})
 
 if __name__ == '__main__':
     application.run(debug=True)

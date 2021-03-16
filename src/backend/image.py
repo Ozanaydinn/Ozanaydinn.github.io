@@ -26,7 +26,7 @@ class SendImage(Resource):
         pass
 
 
-    def options (self):
+    def options(self):
         return {'Allow' : 'PUT' }, 200, \
         { 'Access-Control-Allow-Origin': '*', \
         'Access-Control-Allow-Methods' : 'PUT,GET' }
