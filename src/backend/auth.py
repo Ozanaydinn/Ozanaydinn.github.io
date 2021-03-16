@@ -13,6 +13,7 @@ class UserRegistration(Resource):
     parser.add_argument('type', help = 'This field cannot be blank', required = True)
 
     def post(self):
+        return "register made"
         data = self.parser.parse_args()
 
         if UserModel.find_by_email(data['email']):
