@@ -35,9 +35,9 @@ def create_tables():
 @application.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,Origin,X-Requested-With,Accept,Accept-Language,Content-Language,Access-Control-Request-Headers,Access-Control-Request-Method,X-API-KEY')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    response.headers.add('Access-Control-Allow-Headers', '*')
+    response.headers.add('Access-Control-Allow-Methods', '*')
+    #response.headers.add('Access-Control-Allow-Credentials', 'true')
     #response.headers.add('Content-Type', 'application/json')
     return response
 
@@ -60,7 +60,7 @@ api.add_resource(image.SendImage, '/image')
 @application.route('/')
 @cross_origin()
 def index():
-    return jsonify({'message': 'Hello, Ozan World!'})
+    return jsonify({'message': 'Hello, Bus World!'})
 
 if __name__ == '__main__':
     application.run(debug=True)
