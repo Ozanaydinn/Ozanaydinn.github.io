@@ -22,9 +22,7 @@ class SendImage(Resource):
         # Processing here
 
     def get(self):
-        #TODO
-        pass
-
+        return "req get"
 
     def options(self):
         return {'Allow' : 'PUT' }, 200, \
