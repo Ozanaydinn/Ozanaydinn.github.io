@@ -24,3 +24,9 @@ class SendImage(Resource):
     def get(self):
         #TODO
         pass
+
+
+    def options (self):
+        return {'Allow' : 'PUT' }, 200, \
+        { 'Access-Control-Allow-Origin': '*', \
+        'Access-Control-Allow-Methods' : 'PUT,GET' }
