@@ -6,10 +6,10 @@ from flask_cors import CORS
 
 
 application = Flask(__name__)
-#application.config['CORS_HEADERS'] = 'Content-Type'
+application.config['CORS_HEADERS'] = 'Content-Type'
 #application.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
 
-cors = CORS(application, resources={r"/api/*": {"origins": "*"}})
+cors = CORS(application, resources={r"/*": {"origins": "*"}})
 #cors = CORS(application)
 api = Api(application)
 
@@ -36,7 +36,7 @@ def create_tables():
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,Origin,X-Requested-With,Accept,Accept-Language,Content-Language,Access-Control-Request-Headers,Access-Control-Request-Method,X-API-KEY')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     response.headers.add('Access-Control-Allow-Credentials', 'true')
     response.headers.add('Content-Type', 'application/json')
     return response
