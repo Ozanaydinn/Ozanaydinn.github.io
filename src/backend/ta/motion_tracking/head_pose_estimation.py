@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 import math
-import face_detect
-import face_landmark_detection
+import ta.motion_tracking.face_detect
+import ta.motion_tracking.face_landmark_detection
 
 def get_2d_points(img, rotation_vector, translation_vector, camera_matrix, val):
     """Return the 3D points present as 2D for making annotation box"""
