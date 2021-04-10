@@ -1,6 +1,6 @@
-from hand_gesture_detection import recognize_hand_gesture
-from head_pose_estimation import estimate_head_pose
-from object_detection import search_phone
+from ta.motion_tracking.hand_gesture_detection import recognize_hand_gesture
+from ta.motion_tracking.head_pose_estimation import estimate_head_pose
+from ta.motion_tracking.object_detection import search_phone
 
 
 def analyze_image(frame):
