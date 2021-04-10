@@ -1,7 +1,6 @@
 from flask_restful import Resource, reqparse
 import base64
 from PIL import Image
-from ta.motion_tracking.analyze_image import analyze_image
 class SendImage(Resource):
     def post(self):
         return "request geldiii"
