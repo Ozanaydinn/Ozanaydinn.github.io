@@ -92,7 +92,7 @@ class CourseStudent(db.Model):
     __tablename__ = "takes"
 
     course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), primary_key = True)
-    student_id = db.Column(db.Integer, db.ForeignKey('courses.id'), primary_key = True)
+    student_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key = True)
 
     student = relationship('UserModel', backref='takes')
     course = relationship('CourseModel', backref='takes')
