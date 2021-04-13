@@ -57,6 +57,8 @@ api.add_resource(s3bucket.FileDownload, '/download')
 
 api.add_resource(image.SendImage, '/image')
 
+api.add_resource(user_functions.Course, '/course')
+
 @application.route('/')
 def index():
     return jsonify({'message': 'Hello, World!'})
