@@ -70,7 +70,7 @@ class CourseModel(db.Model):
     slots = db.Column(db.String(120), nullable = False)
 
     inst = relationship('UserModel', backref='courses')
-    file = relationship("File", uselist=False, back_populates="files")
+    file = relationship("File", uselist=False, back_populates="courses")
 
     def save_to_db(self):
         db.session.add(self)
