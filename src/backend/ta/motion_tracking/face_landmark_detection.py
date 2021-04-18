@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 import tensorflow.keras as keras
 def init_model():
-    model = keras.models.load_model("models/pose_model", compile=False)
+    model = keras.models.load_model("ta/motion_tracking/models/pose_model", compile=False)
 
     return model
 

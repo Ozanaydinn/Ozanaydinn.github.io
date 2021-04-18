@@ -2,8 +2,9 @@ import cv2
 import numpy as np
 
 def init_model():
-    model = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt",
-                "models/res10_300x300_ssd_iter_140000.caffemodel")
+    model = cv2.dnn.readNetFromCaffe("ta/motion_tracking/models/deploy.prototxt.txt",
+                "ta/motion_tracking/models/res10_300x300_ssd_iter_140000.caffemodel")
+    print(type(model))
 
     return model
 

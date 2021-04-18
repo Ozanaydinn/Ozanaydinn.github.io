@@ -294,18 +294,19 @@ def search_phone(frame):
 
     result = { "phone": False, "person": 0}
 
-    frame = cv2.imread(frame)
-
     yolo = YoloV3()
 
-    load_darknet_weights(yolo, 'models/yolov3.weights')
-
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    import sys
+    load_darknet_weights(yolo, 'ta/motion_tracking/models/yolov3.weights')
+    frame = np.array(frame)
+    frame = frame[:,:,:3]
+    print("DIMENSION: ", frame.shape)
+    print("TYPE IS", type(frame), file=sys.stdout)
     frame = cv2.resize(frame, (320, 320))
     frame = frame.astype(np.float32)
     frame = np.expand_dims(frame, 0)
     frame = frame / 255
-    class_names = [c.strip() for c in open("models/classes.TXT").readlines()]
+    class_names = [c.strip() for c in open("ta/motion_tracking/models/classes.TXT").readlines()]
     boxes, scores, classes, nums = yolo(frame)
     count=0
     for i in range(nums[0]):
@@ -313,7 +314,5 @@ def search_phone(frame):
             result["person"] += 1
         if int(classes[0][i] == 67):
             result["phone"] = True
-
-    cv2.destroyAllWindows()
-
+            
     return result
