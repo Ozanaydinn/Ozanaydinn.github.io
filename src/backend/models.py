@@ -65,7 +65,7 @@ class CourseModel(db.Model):
     __tablename__ = 'courses'
 
     id = db.Column(db.Integer, primary_key = True, nullable=True)
-    instructor_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key = True, nullable = False)
+    instructor = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key = True)
     name = db.Column(db.String(120), nullable = False)
     slots = db.Column(db.String(120), nullable = False)
 

@@ -45,10 +45,11 @@ class Course(Resource):
         current_user = UserModel.find_by_email(email)
 
         new_course = CourseModel(
-            instructor_id = current_user.id,
+            instructor = current_user.id,
             name = data['course_name'],
             slots = data['slots']
         )
+
         try:
             new_course.save_to_db()
             return {
