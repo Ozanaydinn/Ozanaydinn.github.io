@@ -65,11 +65,25 @@ class CourseModel(db.Model):
     __tablename__ = 'courses'
 
     id = db.Column(db.Integer, primary_key = True)
+    instructor_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key = True, nullable = False)
     name = db.Column(db.String(120), nullable = False)
+    slots = db.Column(db.String(200), nullable = False)
 
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
+
+    @classmethod
+    def find_by_name_instructor(cls, name, instructor_id):
+        return cls.query.filter_by(name = name, instructor_id = instructor_id).first()
+
+    @classmethod
+    def return_courses_of_instructor(cls, instructor_id):
+        def to_json(x):
+            return {
+                'name': x.name,
+            }
+        return {'courses': list(map(lambda x: to_json(x), cls.query.filter_by(instructor_id = instructor_id)))}
 
     @classmethod
     def return_all(cls):
@@ -77,7 +91,7 @@ class CourseModel(db.Model):
             return {
                 'name': x.name,
             }
-        return {'users': list(map(lambda x: to_json(x), CourseModel.query.all()))}
+        return {'courses': list(map(lambda x: to_json(x), CourseModel.query.all()))}
 
     @classmethod
     def delete_all(cls):
@@ -100,14 +114,6 @@ class CourseStudent(db.Model):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
-
-    @classmethod
-    def return_all(cls):
-        def to_json(x):
-            return {
-                'name': x.name,
-            }
-        return {'users': list(map(lambda x: to_json(x), CourseStudent.query.all()))}
 
     @classmethod
     def delete_all(cls):
