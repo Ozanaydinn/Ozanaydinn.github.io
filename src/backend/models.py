@@ -70,7 +70,6 @@ class CourseModel(db.Model):
     slots = db.Column(db.String(120), nullable = False)
 
     inst = relationship('UserModel', backref='courses')
-    files = relationship('File', backref='courses')
 
     def save_to_db(self):
         db.session.add(self)
@@ -108,8 +107,8 @@ class CourseModel(db.Model):
 class CourseStudent(db.Model):
     __tablename__ = "takes"
 
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), primary_key = True)
-    student_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key = True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), primary_key = True, autoincrement=False)
+    student_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key = True, autoincrement=False)
 
     student = relationship('UserModel', backref='takes')
     course = relationship('CourseModel', backref='takes')
@@ -130,7 +129,7 @@ class CourseStudent(db.Model):
 class File(db.Model):
     __tablename__ = "files"
 
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), primary_key=True, autoincrement=False)
     file_bytes = db.Column(db.LargeBinary, nullable=False)
 
     def save_to_db(self):
