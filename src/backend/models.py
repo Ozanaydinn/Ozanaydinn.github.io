@@ -76,16 +76,16 @@ class CourseModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def find_by_name_instructor(cls, name, instructor_id):
-        return cls.query.filter_by(name = name, instructor_id = instructor_id).first()
+    def find_by_name_instructor(cls, name, instructor):
+        return cls.query.filter_by(name = name, instructor = instructor).first()
 
     @classmethod
-    def return_courses_of_instructor(cls, instructor_id):
+    def return_courses_of_instructor(cls, instructor):
         def to_json(x):
             return {
                 'name': x.name,
             }
-        return {'courses': list(map(lambda x: to_json(x), cls.query.filter_by(instructor_id = instructor_id)))}
+        return {'courses': list(map(lambda x: to_json(x), cls.query.filter_by(instructor = instructor)))}
 
     @classmethod
     def return_all(cls):
