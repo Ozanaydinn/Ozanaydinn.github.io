@@ -69,9 +69,6 @@ class CourseModel(db.Model):
     name = db.Column(db.String(120), nullable = False)
     slots = db.Column(db.String(200), nullable = False)
 
-    instructor = relationship('UserModel', backref='courses')
-
-
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
