@@ -123,3 +123,29 @@ class CourseStudent(db.Model):
             return {'message': '{} row(s) deleted'.format(num_rows_deleted)}
         except:
             return {'message': 'Something went wrong'}
+
+class File(db.Model):
+    __tablename__ = "files"
+
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), primary_key=True)
+    file_bytes = db.Column(db.LargeBinary, nullable=False)
+
+    course = relationship('CourseModel', backref='files')
+
+    def save_to_db(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+            return {'message': "File successfully added to the files table", 'status': True}
+        except:
+            return {'message': 'Something went wrong', 'status': False}
+
+
+    @classmethod
+    def delete_all(cls):
+        try:
+            num_rows_deleted = db.session.query(cls).delete()
+            db.session.commit()
+            return {'message': '{} row(s) deleted'.format(num_rows_deleted)}
+        except:
+            return {'message': 'Something went wrong'}
