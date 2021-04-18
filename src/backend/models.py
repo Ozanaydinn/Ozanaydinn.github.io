@@ -131,7 +131,7 @@ class File(db.Model):
     __tablename__ = "files"
 
     id = db.Column(db.Integer, primary_key = True, nullable=True)
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), unique=True)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
     file_bytes = db.Column(db.LargeBinary, nullable=False)
 
     course = relationship("CourseModel", back_populates="file")

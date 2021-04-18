@@ -21,13 +21,20 @@ class FileUpload(Resource):
         f = data['file'].replace("data:application/pdf;base64,", "")
         course_name = data['course_name']
 
+        print(course_name)
+
         email = get_jwt_identity()
+
+        print(email)
         
         current_user = UserModel.find_by_email(email)
 
+        print(current_user.id)
+
         course = CourseModel.find_by_name_instructor(course_name, current_user.id)
 
-        file_model = File(course_id=course, file_bytes=f)
+        print(course.id)
+        file_model = File(course_id=course.id, file_bytes=f)
 
         return file_model.save_to_db()
 
