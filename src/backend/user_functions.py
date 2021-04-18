@@ -44,7 +44,7 @@ class Course(Resource):
         email = get_jwt_identity()
         current_user = UserModel.find_by_email(email)
 
-        new_course = UserModel(
+        new_course = CourseModel(
             instructor_id = current_user.id,
             name = data['course_name'],
             slots = data['slots']
