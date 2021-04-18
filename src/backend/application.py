@@ -42,7 +42,7 @@ def after_request(response):
     response.headers.add('Content-Type', 'application/json')
     return response
 
-import models, auth, s3bucket, image, user_functions
+import models, auth, pdf_functions, image, user_functions
 
 api.add_resource(auth.UserRegistration, '/registration')
 api.add_resource(auth.UserLogin, '/login')
@@ -52,8 +52,8 @@ api.add_resource(auth.TokenRefresh, '/token/refresh')
 api.add_resource(auth.AllUsers, '/users')
 api.add_resource(auth.SecretResource, '/secret')
 
-api.add_resource(s3bucket.FileUpload, '/upload')
-api.add_resource(s3bucket.FileDownload, '/download')
+api.add_resource(pdf_functions.FileUpload, '/upload')
+api.add_resource(pdf_functions.FileDownload, '/download')
 
 api.add_resource(image.SendImage, '/image')
 
