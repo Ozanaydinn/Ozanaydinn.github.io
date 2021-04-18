@@ -129,7 +129,7 @@ class CourseStudent(db.Model):
 class File(db.Model):
     __tablename__ = "files"
 
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), primary_key=True, autoincrement=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), unique=True)
     file_bytes = db.Column(db.LargeBinary, nullable=False)
 
     def save_to_db(self):
