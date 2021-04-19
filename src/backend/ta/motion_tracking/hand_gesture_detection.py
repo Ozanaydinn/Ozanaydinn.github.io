@@ -90,6 +90,8 @@ def recognize_hand(image):
         keypoints.append({'x': data_point.x, 'y': data_point.y, 'z': data_point.z})
 
       hand_gestures.append(recognize_hand_gesture(keypoints))
+  else: 
+    return "No Hand found"
 
   hands.close()
 
