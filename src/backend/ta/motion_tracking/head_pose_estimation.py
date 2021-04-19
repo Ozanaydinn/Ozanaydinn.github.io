@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 import math
-import face_detect
-import face_landmark_detection
+import ta.motion_tracking.face_detect
+import ta.motion_tracking.face_landmark_detection
 
 def get_2d_points(img, rotation_vector, translation_vector, camera_matrix, val):
     """Return the 3D points present as 2D for making annotation box"""
@@ -66,9 +66,10 @@ def head_pose_points(img, rotation_vector, translation_vector, camera_matrix):
 def estimate_head_pose(frame):
     
 
-    face_model = face_detect.init_model()
-    landmark_model = face_landmark_detection.init_model()
-    frame = cv2.imread(frame)
+    face_model = ta.motion_tracking.face_detect.init_model()
+    landmark_model = ta.motion_tracking.face_landmark_detection.init_model()
+    frame = np.array(frame)
+    frame = frame[:,:,:3]
     size = frame.shape
     font = cv2.FONT_HERSHEY_SIMPLEX 
     # 3D model points.
@@ -90,9 +91,9 @@ def estimate_head_pose(frame):
                             [0, 0, 1]], dtype = "double"
                             )
 
-    faces = face_detect.find_faces(frame, face_model)
+    faces = ta.motion_tracking.face_detect.find_faces(frame, face_model)
     for face in faces:
-        marks = face_landmark_detection.detect_landmarks(frame, landmark_model, face)
+        marks = ta.motion_tracking.face_landmark_detection.detect_landmarks(frame, landmark_model, face) 
         # mark_detector.draw_marks(img, marks, color=(0, 255, 0))
         image_points = np.array([
                                 marks[30],     # Nose tip

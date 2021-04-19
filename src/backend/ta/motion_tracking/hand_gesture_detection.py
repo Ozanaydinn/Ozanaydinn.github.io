@@ -1,5 +1,7 @@
 import cv2
 import mediapipe as mp
+import numpy as np
+import sys
 
 def recognize_hand_gesture(landmarks):
   thumbState = 'UNKNOWN'
@@ -62,9 +64,12 @@ def recognize_hand(image):
       
   # Read an image, flip it around y-axis for correct handedness output (see
   # above).
-  image = cv2.imread(image)
+  image = np.array(image)
+  image = image[:,:,:3]
   # Convert the BGR image to RGB before processing.
-  results = hands.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+  results = hands.process(image)
+  print("TYPE IS", type(results), file=sys.stdout)
+  print(type(results))
 
   if results.multi_hand_landmarks:
       
@@ -85,6 +90,8 @@ def recognize_hand(image):
         keypoints.append({'x': data_point.x, 'y': data_point.y, 'z': data_point.z})
 
       hand_gestures.append(recognize_hand_gesture(keypoints))
+  else: 
+    return "No Hand found"
 
   hands.close()
 
