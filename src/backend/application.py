@@ -8,6 +8,7 @@ import controllers.AuthController as AuthController
 import controllers.CourseController as CourseController
 import controllers.FileController as FileController
 import controllers.ImageController as ImageController
+import controllers.SessionController as SessionController
 from db_models.UserModel import RevokedTokenModel
 
 from database_config import db
@@ -64,6 +65,8 @@ api.add_resource(ImageController.SendImage, '/image')
 
 api.add_resource(CourseController.Course, '/course')
 api.add_resource(CourseController.AssignStudentToCourse, '/assign') # TO DO: end pointi course/{id} olarak degisecek
+
+api.add_resource(SessionController.Session, '/session') # Post -> create session
 
 @application.route('/')
 def index():

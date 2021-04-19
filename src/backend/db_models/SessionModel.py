@@ -1,4 +1,4 @@
-from config import db
+from database_config import db
 from sqlalchemy.orm import relationship
 
 class SessionModel(db.Model):
@@ -36,3 +36,4 @@ class SessionModel(db.Model):
     @classmethod
     def delete(cls, id):
         # TO DO
+        pass
