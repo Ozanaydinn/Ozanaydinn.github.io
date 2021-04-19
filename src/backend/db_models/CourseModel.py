@@ -47,7 +47,7 @@ class CourseModel(db.Model):
     def return_all(cls):
         def to_json(x):
             return {
-                'id': x.id
+                'id': x.id,
                 'name': x.name,
             }
         return {'courses': list(map(lambda x: to_json(x), CourseModel.query.all()))}
