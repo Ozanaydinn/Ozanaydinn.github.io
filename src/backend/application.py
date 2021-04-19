@@ -58,13 +58,12 @@ api.add_resource(AuthController.TokenRefresh, '/token/refresh')
 api.add_resource(AuthController.AllUsers, '/users')
 api.add_resource(AuthController.SecretResource, '/secret')
 
-api.add_resource(FileController.FileUpload, '/upload')
-api.add_resource(FileController.FileDownload, '/download')
+api.add_resource(FileController.File, '/file') # Post request -> file upload, get request -> file download
 
 api.add_resource(ImageController.SendImage, '/image')
 
 api.add_resource(CourseController.Course, '/course')
-api.add_resource(CourseController.AssignStudentToCourse, '/assign')
+api.add_resource(CourseController.AssignStudentToCourse, '/assign') # TO DO: end pointi course/{id} olarak degisecek
 
 @application.route('/')
 def index():
