@@ -1,4 +1,4 @@
-from application import db
+from config import db
 from passlib.hash import pbkdf2_sha256 as sha256
 from sqlalchemy.orm import relationship
 

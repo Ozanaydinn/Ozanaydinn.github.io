@@ -3,7 +3,9 @@ from flask_jwt_extended import ( create_access_token, create_refresh_token,
     get_raw_jwt
 )
 from flask_restful import Resource, reqparse
-from models import File, UserModel, CourseModel
+from db_models.File import File
+from db_models.UserModel import UserModel
+from db_models.CourseModel import CourseModel
 import boto3
 import os
 from flask import send_file

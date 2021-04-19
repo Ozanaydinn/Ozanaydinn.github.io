@@ -2,7 +2,9 @@ from flask_jwt_extended import ( create_access_token, create_refresh_token,
     jwt_required, get_jwt_identity, jwt_refresh_token_required,
     get_raw_jwt
 )
-from models import UserModel, CourseModel, CourseStudent, RevokedTokenModel
+from db_models.UserModel import UserModel
+from db_models.CourseModel import CourseModel
+from db_models.CourseStudent import CourseStudent
 from flask_restful import Resource, reqparse
 
 class AssignStudentToCourse(Resource):
