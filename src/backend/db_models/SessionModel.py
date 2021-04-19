@@ -15,6 +15,10 @@ class SessionModel(db.Model):
             'id': self.id}
         except:
             return {'status': False}
+    
+    @classmethod
+    def find_by_instructor_id(cls, instructor_id):
+        return cls.query.filter_by(instructor_id=instructor_id).first()
 
     @classmethod
     def return_all(cls):

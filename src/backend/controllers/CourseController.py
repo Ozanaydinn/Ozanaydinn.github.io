@@ -64,4 +64,16 @@ class Course(Resource):
     def get(self):
         email = get_jwt_identity()
         current_user = UserModel.find_by_email(email)
-        return CourseModel.return_courses_of_instructor(current_user.id)
+
+        if current_user.type == 'instructor':
+            return CourseModel.return_courses_of_instructor(current_user.id)
+
+        elif current_user.type == 'student':
+            courses = {"courses": list()}
+            course_ids = CourseStudent.return_courses_of_student(current_user.id)
+            for each in course_ids['courses']:
+                courses["courses"].append(CourseModel.return_course(each.id))
+            return courses
+            
+        else:
+            return { 'status': False}

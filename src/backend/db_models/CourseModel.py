@@ -5,7 +5,7 @@ class CourseModel(db.Model):
     __tablename__ = 'courses'
 
     id = db.Column(db.Integer, primary_key = True, nullable=True)
-    instructor = db.Column(db.Integer, db.ForeignKey('users.id'))
+    instructor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     name = db.Column(db.String(120), nullable = False)
     slots = db.Column(db.String(120), nullable = False)
 
@@ -16,21 +16,38 @@ class CourseModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def find_by_name_instructor(cls, name, instructor):
-        return cls.query.filter_by(name = name, instructor = instructor).first()
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
 
     @classmethod
-    def return_courses_of_instructor(cls, instructor):
+    def find_by_name_instructor(cls, name, instructor_id):
+        return cls.query.filter_by(name = name, instructor_id = instructor_id).first()
+
+    @classmethod
+    def return_courses_of_instructor(cls, instructor_id):
         def to_json(x):
             return {
+                'id': x.id,
                 'name': x.name,
+                'slots': x.slots
             }
-        return {'courses': list(map(lambda x: to_json(x), cls.query.filter_by(instructor = instructor)))}
+        return {'courses': list(map(lambda x: to_json(x), cls.query.filter_by(instructor_id = instructor_id)))}
+
+    @classmethod
+    def return_course(cls, id):
+        course = cls.query.filter_by(id=id).first()
+        return {
+            'id': course.id,
+            'name': course.name,
+            'slots': course.slots
+        }
+        
 
     @classmethod
     def return_all(cls):
         def to_json(x):
             return {
+                'id': x.id
                 'name': x.name,
             }
         return {'courses': list(map(lambda x: to_json(x), CourseModel.query.all()))}

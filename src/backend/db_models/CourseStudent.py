@@ -15,6 +15,22 @@ class CourseStudent(db.Model):
         db.session.commit()
 
     @classmethod
+    def return_courses_of_student(cls, student_id):
+        def to_json(x):
+            return {
+                'id': x.course_id
+            }
+        return {'courses': list(map(lambda x: to_json(x), cls.query.filter_by(student_id = student_id)))}
+
+    @classmethod
+    def return_students_of_course(cls, course_id):
+        def to_json(x):
+            return {
+                'id': x.student_id
+            }
+        return {'courses': list(map(lambda x: to_json(x), cls.query.filter_by(course_id = course_id)))}
+
+    @classmethod
     def delete_all(cls):
         try:
             num_rows_deleted = db.session.query(cls).delete()
