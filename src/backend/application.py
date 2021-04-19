@@ -4,6 +4,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
+import controllers.AuthController as AuthController
+import controllers.CourseController as CourseController
+import controllers.FileController as FileController
+import controllers.ImageController as ImageController
+from db_models.UserModel import RevokedTokenModel
+
+from database_config import db
 
 application = Flask(__name__)
 application.config['CORS_HEADERS'] = 'Content-Type'
@@ -21,12 +28,13 @@ application.config['JWT_BLACKLIST_ENABLED'] = True
 application.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 
 jwt = JWTManager(application)
-db = SQLAlchemy(application)
+db.init_app(application)
+
 
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
     jti = decrypted_token['jti']
-    return models.RevokedTokenModel.is_jti_blacklisted(jti)
+    return RevokedTokenModel.is_jti_blacklisted(jti)
 
 @application.before_first_request
 def create_tables():
@@ -42,20 +50,20 @@ def after_request(response):
     response.headers.add('Content-Type', 'application/json')
     return response
 
-import models, auth, s3bucket, image, user_functions
+api.add_resource(AuthController.UserRegistration, '/registration')
+api.add_resource(AuthController.UserLogin, '/login')
+api.add_resource(AuthController.UserLogoutAccess, '/logout/access')
+api.add_resource(AuthController.UserLogoutRefresh, '/logout/refresh')
+api.add_resource(AuthController.TokenRefresh, '/token/refresh')
+api.add_resource(AuthController.AllUsers, '/users')
+api.add_resource(AuthController.SecretResource, '/secret')
 
-api.add_resource(auth.UserRegistration, '/registration')
-api.add_resource(auth.UserLogin, '/login')
-api.add_resource(auth.UserLogoutAccess, '/logout/access')
-api.add_resource(auth.UserLogoutRefresh, '/logout/refresh')
-api.add_resource(auth.TokenRefresh, '/token/refresh')
-api.add_resource(auth.AllUsers, '/users')
-api.add_resource(auth.SecretResource, '/secret')
+api.add_resource(FileController.File, '/file') # Post request -> file upload, get request -> file download
 
-api.add_resource(s3bucket.FileUpload, '/upload')
-api.add_resource(s3bucket.FileDownload, '/download')
+api.add_resource(ImageController.SendImage, '/image')
 
-api.add_resource(image.SendImage, '/image')
+api.add_resource(CourseController.Course, '/course')
+api.add_resource(CourseController.AssignStudentToCourse, '/assign') # TO DO: end pointi course/{id} olarak degisecek
 
 @application.route('/')
 def index():

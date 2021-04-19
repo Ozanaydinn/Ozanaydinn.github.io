@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from models import UserModel, RevokedTokenModel
+import db_models.UserModel as User
 from flask_jwt_extended import ( create_access_token, create_refresh_token,
     jwt_required, get_jwt_identity, jwt_refresh_token_required,
     get_raw_jwt
@@ -15,12 +15,12 @@ class UserRegistration(Resource):
     def post(self):
         data = self.parser.parse_args()
 
-        if UserModel.find_by_email(data['email']):
+        if User.UserModel.find_by_email(data['email']):
           return {'message': 'User with email address {} already exists'. format(data['email'])}
 
         new_user = UserModel(
             username = data['username'],
-            password = UserModel.generate_hash(data['password']),
+            password = User.UserModel.generate_hash(data['password']),
             email = data['email'],
             type = data['type']
         )
@@ -40,11 +40,11 @@ class UserLogin(Resource):
 
     def post(self):
         data = self.parser.parse_args()
-        current_user = UserModel.find_by_email(data['email'])
+        current_user = User.UserModel.find_by_email(data['email'])
         if not current_user:
             return {'message': 'User with email {} doesn\'t exist'.format(data['email'])}
         
-        if UserModel.verify_hash(data['password'], current_user.password):
+        if User.UserModel.verify_hash(data['password'], current_user.password):
             access_token = create_access_token(identity = data['email'])
             refresh_token = create_refresh_token(identity = data['email'])
             return {
@@ -61,7 +61,7 @@ class UserLogoutAccess(Resource):
     def post(self):
         jti = get_raw_jwt()['jti']
         try:
-            revoked_token = RevokedTokenModel(jti = jti)
+            revoked_token = User.RevokedTokenModel(jti = jti)
             revoked_token.add()
             return {'message': 'Access token has been revoked'}
         except:
@@ -73,7 +73,7 @@ class UserLogoutRefresh(Resource):
     def post(self):
         jti = get_raw_jwt()['jti']
         try:
-            revoked_token = RevokedTokenModel(jti = jti)
+            revoked_token = User.RevokedTokenModel(jti = jti)
             revoked_token.add()
             return {'message': 'Refresh token has been revoked'}
         except:
@@ -90,10 +90,10 @@ class TokenRefresh(Resource):
       
 class AllUsers(Resource):
     def get(self):
-        return UserModel.return_all()
+        return User.UserModel.return_all()
 
     def delete(self):
-        return UserModel.delete_all()
+        return User.UserModel.delete_all()
       
       
 class SecretResource(Resource):
