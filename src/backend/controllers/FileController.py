@@ -6,8 +6,6 @@ from flask_restful import Resource, reqparse
 from db_models.File import File
 from db_models.UserModel import UserModel
 from db_models.CourseModel import CourseModel
-import boto3
-import os
 from flask import send_file
 
 
