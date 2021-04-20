@@ -24,6 +24,7 @@ class SendImage(Resource):
         # frame = cv2.cvtColor(np.array(pimg), cv2.COLOR_RGB2BGR)
         # Processing here
         analyze_image(pimg)
+        return "geldi"
     def get(self):
         #TODO
         pass

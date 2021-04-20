@@ -7,7 +7,7 @@ def analyze_image(frame):
 
     
     hand_result = recognize_hand(frame)
-    #estimate_head_pose(frame)
+    estimate_head_pose(frame)
     #phone_result = search_phone(frame)
 
     print("Hand_result: ",hand_result, " Phone result: ")
