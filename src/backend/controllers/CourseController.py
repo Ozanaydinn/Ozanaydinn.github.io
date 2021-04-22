@@ -10,19 +10,17 @@ from flask_restful import Resource, reqparse
 class AssignStudentToCourse(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('student_email', help = 'This field cannot be blank', required = True)
-    parser.add_argument('course_name', help = 'This field cannot be blank', required = True)
 
     @jwt_required
-    def post(self):
+    def post(self, course_id):
         data = self.parser.parse_args()
         email = get_jwt_identity()
         current_user = UserModel.find_by_email(email)
 
-        course = CourseModel.find_by_name_instructor(data['course_name'], current_user.id)
         student = UserModel.find_by_email(data['student_email'])
 
         assign = CourseStudent(
-            course_id = course.id,
+            course_id = course_id,
             student_id = student.id
         )
         try:
@@ -32,7 +30,6 @@ class AssignStudentToCourse(Resource):
             }
         except:
             return {'message': 'Something went wrong'}, 500
-
 
 
 class Course(Resource):
@@ -47,7 +44,7 @@ class Course(Resource):
         current_user = UserModel.find_by_email(email)
 
         new_course = CourseModel(
-            instructor = current_user.id,
+            instructor_id = current_user.id,
             name = data['course_name'],
             slots = data['slots']
         )

@@ -64,7 +64,7 @@ api.add_resource(FileController.File, '/file') # Post request -> file upload, ge
 api.add_resource(ImageController.SendImage, '/image')
 
 api.add_resource(CourseController.Course, '/course')
-api.add_resource(CourseController.AssignStudentToCourse, '/assign') # TO DO: end pointi course/{id} olarak degisecek
+api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id>') 
 
 api.add_resource(SessionController.Session, '/session') # Post -> create session
 
