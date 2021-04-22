@@ -18,7 +18,7 @@ class UserRegistration(Resource):
         if User.UserModel.find_by_email(data['email']):
           return {'message': 'User with email address {} already exists'. format(data['email'])}
 
-        new_user = UserModel(
+        new_user = User.UserModel(
             username = data['username'],
             password = User.UserModel.generate_hash(data['password']),
             email = data['email'],
