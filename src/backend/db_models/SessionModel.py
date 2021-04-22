@@ -6,6 +6,9 @@ class SessionModel(db.Model):
 
     id = db.Column(db.Integer, primary_key = True, nullable=True)
     instructor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    notification = db.Column(db.String(120))
+
+    students = relationship('SessionStudent', backref='sessions', passive_deletes=True)
 
     def save_to_db(self):
         try:
@@ -38,6 +41,20 @@ class SessionModel(db.Model):
             return {'message': 'Something went wrong'}
 
     @classmethod
-    def delete(cls, id):
-        # TO DO
-        pass
+    def delete(cls, instructor_id):
+        try: 
+            db.session.query(cls).filter_by(instructor_id = instructor_id).delete()
+            db.session.commit()
+            return {'message': 'Session deleted.'}
+        except:
+            return {'message': 'Something went wrong'}
+
+    @classmethod
+    def update_notification(cls, instructor_id, notification):
+        try:
+            ses = db.session.query(cls).filter_by(instructor_id = instructor_id).first()
+            ses.notification = notification
+            db.session.commit()
+            return {'message': 'Instructor notification updated.'}
+        except:
+            return {'message': 'Something went wrong.'}
