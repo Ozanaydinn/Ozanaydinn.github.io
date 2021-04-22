@@ -30,11 +30,3 @@ class SessionStudent(db.Model):
         except:
             return {'message': 'Something went wrong.'}
 
-    @classmethod
-    def delete(cls, student_id):
-        try: 
-            db.session.query(cls).filter_by(student_id = student_id).delete()
-            db.session.commit()
-            return {'message': 'Student deleted from session.'}
-        except:
-            return {'message': 'Something went wrong.'}
