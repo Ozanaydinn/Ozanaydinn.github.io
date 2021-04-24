@@ -9,24 +9,17 @@ import controllers.CourseController as CourseController
 import controllers.FileController as FileController
 import controllers.ImageController as ImageController
 import controllers.SessionController as SessionController
+import controllers.AnalyticsController as AnalyticsController
 from db_models.UserModel import RevokedTokenModel
 
 from database_config import db
+from config import DevelopmentConfig
 
 application = Flask(__name__)
-application.config['CORS_HEADERS'] = 'Content-Type'
-application.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
+application.config.from_object('config.DevelopmentConfig')
 
-#cors = CORS(application, resources={r"/APİ/*": {"origins": "*"}})
 cors = CORS(application)
 api = Api(application)
-
-application.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://qmgznxoqxxasxm:90a4da8e5fffe0b52c91e758debe7f2183712734d72f186903334778211a9802@ec2-176-34-222-188.eu-west-1.compute.amazonaws.com:5432/d5a3te8g5fd7ha'
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-application.config['SECRET_KEY'] = 'some-secret-string'
-application.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
-application.config['JWT_BLACKLIST_ENABLED'] = True
-application.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 
 jwt = JWTManager(application)
 db.init_app(application)
@@ -67,6 +60,8 @@ api.add_resource(CourseController.Course, '/course')
 api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id>') 
 
 api.add_resource(SessionController.Session, '/session') # Post -> create session
+
+api.add_resource(AnalyticsController.Analytics, '/analytics') # Post -> send ML results
 
 @application.route('/')
 def index():
