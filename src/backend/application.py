@@ -9,7 +9,6 @@ import controllers.CourseController as CourseController
 import controllers.FileController as FileController
 import controllers.ImageController as ImageController
 import controllers.SessionController as SessionController
-import controllers.AnalyticsController as AnalyticsController
 from db_models.UserModel import RevokedTokenModel
 
 from database_config import db
@@ -61,7 +60,6 @@ api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id
 
 api.add_resource(SessionController.Session, '/session') # Post -> create session
 
-api.add_resource(AnalyticsController.Analytics, '/analytics') # Post -> send ML results
 
 @application.route('/')
 def index():
