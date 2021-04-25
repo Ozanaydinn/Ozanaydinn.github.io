@@ -8,8 +8,11 @@ from flask import request
 from db_models.SessionModel import SessionModel
 from db_models.UserModel import UserModel
 from db_models.SessionStudent import SessionStudent
+import models.User as User
 
 class Session(Resource):
+    analytics = {}
+
     parser = reqparse.RequestParser()
 
     @jwt_required
@@ -27,13 +30,15 @@ class Session(Resource):
             res = session_model.save_to_db()
             if res['status']:
                 response["id"] = res['id']
-                response["success"] = True
+                response["success"] = True 
+                analytics[session_model.id] = []
         
         return response
 
 class SessionParticipation(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('course_id', help = 'This field cannot be blank', required = True)
+    parser.add_argument('socket_id', help = 'This field cannot be blank', required = True)
 
     @jwt_required
     def post(self):
@@ -47,5 +52,6 @@ class SessionParticipation(Resource):
         if current_user.type == 'student':
             join = SessionStudent(session_id=session.id, student_id=current_user.id)
             join.save_to_db()
+            Session.analytics[session.id].append(User(current_user.id, data['socket_id']))
         else:
             return {'message': 'User is not recognized.'}
