@@ -9,13 +9,14 @@ import controllers.CourseController as CourseController
 import controllers.FileController as FileController
 import controllers.ImageController as ImageController
 import controllers.SessionController as SessionController
+import controllers.AnalyticsController as AnalyticsController
 from db_models.UserModel import RevokedTokenModel
 
 from database_config import db
-from config import DevelopmentConfig
+#from config import DevelopmentConfig
 
 application = Flask(__name__)
-application.config.from_object('config.DevelopmentConfig')
+#application.config.from_object('config.DevelopmentConfig')
 
 cors = CORS(application)
 api = Api(application)
@@ -59,6 +60,7 @@ api.add_resource(CourseController.Course, '/course')
 api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id>') 
 
 api.add_resource(SessionController.Session, '/session') # Post -> create session
+
 
 
 @application.route('/')
