@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from flask import request
 import base64
 from PIL import Image
-from ta.motion_tracking.analyze_image import analyze_image
+from analyze_image import analyze_image
 import io
 import sys
 class SendImage(Resource):
@@ -15,7 +15,7 @@ class SendImage(Resource):
         # sbuf = io.StringIO()
         # sbuf.write(data)
         # decode and convert into image
-        stringb64 = stringb64.replace("data:image/png;base64,", "")
+        stringb64 = stringb64.replace("data:image/jpeg;base64,", "")
         im_bytes = base64.b64decode(stringb64)   # im_bytes is a binary image
         #print("BYTES", im_bytes, file=sys.stdout)
         im_file = io.BytesIO(im_bytes)  # convert image to file-like object
