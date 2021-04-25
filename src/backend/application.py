@@ -9,14 +9,22 @@ import controllers.CourseController as CourseController
 import controllers.FileController as FileController
 import controllers.ImageController as ImageController
 import controllers.SessionController as SessionController
-import controllers.AnalyticsController as AnalyticsController
 from db_models.UserModel import RevokedTokenModel
 
 from database_config import db
+import os
 #from config import DevelopmentConfig
 
 application = Flask(__name__)
 #application.config.from_object('config.DevelopmentConfig')
+application.config['CORS_HEADERS'] = os.environ['CORS_HEADERS']
+application.config['CORS_RESOURCES'] = os.environ['CORS_RESOURCES']
+application.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.environ['SQLALCHEMY_TRACK_MODIFICATIONS']
+application.config['JWT_BLACKLIST_ENABLED'] = os.environ['JWT_BLACKLIST_ENABLED']
+application.config['JWT_BLACKLIST_TOKEN_CHECKS'] = os.environ['JWT_BLACKLIST_TOKEN_CHECKS']
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.environ['SQLALCHEMY_TRACK_MODIFICATIONS']
+application.config['DEBUG'] = True
 
 cors = CORS(application)
 api = Api(application)
