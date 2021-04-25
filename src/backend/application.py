@@ -24,6 +24,9 @@ application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.environ['SQLALCHEMY_TR
 application.config['JWT_BLACKLIST_ENABLED'] = os.environ['JWT_BLACKLIST_ENABLED']
 application.config['JWT_BLACKLIST_TOKEN_CHECKS'] = os.environ['JWT_BLACKLIST_TOKEN_CHECKS']
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.environ['SQLALCHEMY_TRACK_MODIFICATIONS']
+application.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
+application.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+
 application.config['DEBUG'] = True
 
 cors = CORS(application)
