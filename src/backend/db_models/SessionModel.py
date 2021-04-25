@@ -7,6 +7,7 @@ class SessionModel(db.Model):
     id = db.Column(db.Integer, primary_key = True, nullable=True)
     instructor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     notification = db.Column(db.String(120))
+    socket_id = db.Column(db.String(32))
 
     students = relationship('SessionStudent', backref='sessions', passive_deletes=True)
 

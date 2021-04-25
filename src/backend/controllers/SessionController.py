@@ -8,7 +8,8 @@ from flask import request
 from db_models.SessionModel import SessionModel
 from db_models.UserModel import UserModel
 from db_models.SessionStudent import SessionStudent
-import models.User as User
+from db_models.CourseModel import CourseModel
+import models.user as User
 
 class Session(Resource):
     analytics = {}
