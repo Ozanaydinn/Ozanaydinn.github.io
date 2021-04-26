@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from backend.models.user import User
+from models.user import User
 import db_models.SessionStudent as SessionStudent
 
 from flask_jwt_extended import ( create_access_token, create_refresh_token,
@@ -30,7 +30,7 @@ class HandResult(Resource):
 """
 May not be necessary, check later
 """
-class FacePoseResult(Resource):
+class HeadPoseResult(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('head_pose', help = 'This field cannot be blank')
 
