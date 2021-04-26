@@ -134,19 +134,25 @@ class HeadPoseEstimation:
                 ang2 = int(math.degrees(math.atan(-1/m)))
             except:
                 ang2 = 90
+
+            result_dict = {
+                "vertical": "none",
+                "horizontal": "none"
+            }
                 
                 # print('div by zero error')
             if ang1 >= 30: #Can be the other way around, need to test more
-                print('Head down')
+                result_dict["vertical"] = "down"
             elif ang1 <= -30:
-                print('Head up')
+                result_dict["vertical"] = "up"
             else:
-                print("Not up or down")
-            print(ang2)
+                result_dict["vertical"] = "straight"
                 
             if ang2 >= 30:
-                print('Head right')
+                result_dict["horizontal"] = "right"
             elif ang2 <= -35:
-                print('Head left')
+                result_dict["horizontal"] = "left"
             else:
-                print("Not left or right")
+                result_dict["horizontal"] = "straight"
+
+            return result_dict
