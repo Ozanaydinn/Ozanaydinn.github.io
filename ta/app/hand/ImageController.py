@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from flask import request
 import base64
 from PIL import Image
-from analyze_image import analyze_image
+from analyze_hand import analyze_hand
 import io
 import sys
 class SendImage(Resource):
@@ -19,6 +19,6 @@ class SendImage(Resource):
         im_file = io.BytesIO(im_bytes)  
         pimg = Image.open(im_file)   
    
-        result = analyze_image(pimg)
+        result = analyze_hand(pimg)
         
         return result

@@ -7,7 +7,7 @@ from ImageController import SendImage
 app = Flask(__name__)
 api = Api(app)
 
-api.add_resource(SendImage, '/analyze')
+api.add_resource(SendImage, '/hand')
 
 
 if __name__ == '__main__':
