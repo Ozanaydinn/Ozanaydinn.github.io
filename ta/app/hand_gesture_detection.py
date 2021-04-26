@@ -51,13 +51,18 @@ class HandGesture:
     elif (thumbState == 'CLOSE' and indexFingerState == 'OPEN' and middleFingerState == 'CLOSE' and ringFingerState == 'CLOSE' and littleFingerState == 'CLOSE'):
       recognizedHandGesture = 1 # "ONE"    
     else:
-      print("thumb: ", thumbState,
-            "index: ", indexFingerState,
-            "middle: ", middleFingerState,
-            "ringFingerState: ", ringFingerState,
-            "littleFingerState: ", littleFingerState)
       recognizedHandGesture = 0 # "UNKNOWN"
-    return recognizedHandGesture
+
+    result_dict = {
+      "thumbState": thumbState,
+      "indexFingerState": indexFingerState,
+      "middleFingerState": middleFingerState,
+      "ringFingerState": ringFingerState,
+      "littleFingerState": littleFingerState,
+      "recognizedHandGesture": recognizedHandGesture
+    }
+    
+    return result_dict
 
   def recognize_hand(self):
     mp_hands = mp.solutions.hands

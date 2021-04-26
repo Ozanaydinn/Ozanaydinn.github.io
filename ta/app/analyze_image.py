@@ -3,7 +3,6 @@ from head_pose_estimation import HeadPoseEstimation
 from face_detect import FaceDetect
 from face_landmark_detection import FaceLandmark
 
-
 def analyze_image(frame):
 
     face_detector = FaceDetect()
@@ -15,6 +14,9 @@ def analyze_image(frame):
 
     head_pose_result = head_pose_analyzer.estimate_head_pose()
 
-    #phone_result = object_analyzer.search_phone()
+    result_dict = {
+        "hand_result": hand_result,
+        "head_pose_result": head_pose_result
+    }
 
-    print("Hand_result: ",hand_result, " Head pose result: ", head_pose_result)
+    return result_dict
