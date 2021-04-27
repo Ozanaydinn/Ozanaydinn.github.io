@@ -69,7 +69,7 @@ class Course(Resource):
             courses = {"courses": list()}
             course_ids = CourseStudent.return_courses_of_student(current_user.id)
             for each in course_ids['courses']:
-                courses["courses"].append(CourseModel.return_course(each.id))
+                courses["courses"].append(CourseModel.return_course(each['id']))
             return courses
             
         else:
