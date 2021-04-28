@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: worker
+  name: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: worker
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: worker
+    spec:
+      containers:
+        - args:
+            - celery
+            - --app=models.tasks.celery
+            - worker
+            - --task-events
+            - --loglevel=info
+            - --without-gossip
+            - --without-mingle
+            - -Ofair
+          env:
+            - name: CELERY_BROKER_URL
+              value: redis://10.67.139.179:6379/0
+            - name: CELERY_RESULT_BACKEND
+              value: redis://10.67.139.179:6379/0
+          image: gcr.io/hereapp-311315/backend
+          resources:
+            limits:
+              cpu: "1"
+            requests:
+              cpu: "0.5"
+          name: worker
+      restartPolicy: Always
+status: {}

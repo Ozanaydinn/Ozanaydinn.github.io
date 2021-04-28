@@ -1,0 +1,231 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "5"
+    kompose.cmd: kompose convert
+    kompose.service.type: LoadBalancer
+    kompose.version: 1.22.0 (955b78124)
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"kompose.cmd":"kompose convert","kompose.service.type":"LoadBalancer","kompose.version":"1.22.0 (955b78124)"},"creationTimestamp":null,"labels":{"io.kompose.service":"web"},"name":"web","namespace":"default"},"spec":{"replicas":1,"selector":{"matchLabels":{"io.kompose.service":"web"}},"strategy":{},"template":{"metadata":{"annotations":{"kompose.cmd":"kompose convert","kompose.service.type":"LoadBalancer","kompose.version":"1.22.0 (955b78124)"},"creationTimestamp":null,"labels":{"io.kompose.service":"web"}},"spec":{"containers":[{"args":["python","application.py","run","-h","0.0.0.0"],"env":[{"name":"CELERY_BROKER_URL","value":"redis://10.67.139.179:6379/0"},{"name":"CELERY_RESULT_BACKEND","value":"redis://10.67.139.179:6379/0"},{"name":"FLASK_APP","value":"application.py"},{"name":"CORS_HEADERS","value":"Content-Type"},{"name":"SQLALCHEMY_DATABASE_URI","value":"postgresql://qmgznxoqxxasxm:90a4da8e5fffe0b52c91e758debe7f2183712734d72f186903334778211a9802@ec2-176-34-222-188.eu-west-1.compute.amazonaws.com:5432/d5a3te8g5fd7ha"},{"name":"JWT_SECRET_KEY","value":"jwt-secret-string"},{"name":"SECRET_KEY","value":"zed-leppelin"}],"image":"gcr.io/hereapp-311315/backend","name":"web","ports":[{"containerPort":5000}],"resources":{}}],"restartPolicy":"Always"}}},"status":{}}
+  creationTimestamp: "2021-04-28T10:50:08Z"
+  generation: 6
+  labels:
+    io.kompose.service: web
+  managedFields:
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:template:
+          f:metadata:
+            f:annotations:
+              f:kubectl.kubernetes.io/restartedAt: {}
+    manager: kubectl-rollout
+    operation: Update
+    time: "2021-04-28T10:58:00Z"
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:kompose.cmd: {}
+          f:kompose.service.type: {}
+          f:kompose.version: {}
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+        f:labels:
+          .: {}
+          f:io.kompose.service: {}
+      f:spec:
+        f:progressDeadlineSeconds: {}
+        f:revisionHistoryLimit: {}
+        f:selector:
+          f:matchLabels:
+            .: {}
+            f:io.kompose.service: {}
+        f:strategy:
+          f:rollingUpdate:
+            .: {}
+            f:maxSurge: {}
+            f:maxUnavailable: {}
+          f:type: {}
+        f:template:
+          f:metadata:
+            f:annotations:
+              .: {}
+              f:kompose.cmd: {}
+              f:kompose.service.type: {}
+              f:kompose.version: {}
+            f:labels:
+              .: {}
+              f:io.kompose.service: {}
+          f:spec:
+            f:containers:
+              k:{"name":"web"}:
+                .: {}
+                f:args: {}
+                f:env:
+                  .: {}
+                  k:{"name":"CELERY_BROKER_URL"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"CELERY_RESULT_BACKEND"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"CORS_HEADERS"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"FLASK_APP"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"JWT_SECRET_KEY"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"SECRET_KEY"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                  k:{"name":"SQLALCHEMY_DATABASE_URI"}:
+                    .: {}
+                    f:name: {}
+                    f:value: {}
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:name: {}
+                f:ports:
+                  .: {}
+                  k:{"containerPort":5000,"protocol":"TCP"}:
+                    .: {}
+                    f:containerPort: {}
+                    f:protocol: {}
+                f:resources: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+            f:dnsPolicy: {}
+            f:restartPolicy: {}
+            f:schedulerName: {}
+            f:securityContext: {}
+            f:terminationGracePeriodSeconds: {}
+    manager: kubectl-client-side-apply
+    operation: Update
+    time: "2021-04-28T11:00:45Z"
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:replicas: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2021-04-28T11:41:49Z"
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:deployment.kubernetes.io/revision: {}
+      f:status:
+        f:availableReplicas: {}
+        f:conditions:
+          .: {}
+          k:{"type":"Available"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:lastUpdateTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Progressing"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:lastUpdateTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+        f:observedGeneration: {}
+        f:readyReplicas: {}
+        f:replicas: {}
+        f:updatedReplicas: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2021-04-28T12:29:44Z"
+  name: web
+  namespace: default
+  resourceVersion: "2886386"
+  selfLink: /apis/apps/v1/namespaces/default/deployments/web
+  uid: 77f12216-43c2-40c7-9192-ecdc1d759023
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 10
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      io.kompose.service: web
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.service.type: LoadBalancer
+        kompose.version: 1.22.0 (955b78124)
+        kubectl.kubernetes.io/restartedAt: "2021-04-28T15:29:35+03:00"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: web
+    spec:
+      containers:
+      - args:
+        - python
+        - application.py
+        - run
+        - -h
+        - 0.0.0.0
+        env:
+        - name: CELERY_BROKER_URL
+          value: redis://10.67.139.179:6379/0
+        - name: CELERY_RESULT_BACKEND
+          value: redis://10.67.139.179:6379/0
+        image: gcr.io/hereapp-311315/backend
+        imagePullPolicy: Always
+        name: web
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 10
+  conditions:
+  - lastTransitionTime: "2021-04-28T11:41:55Z"
+    lastUpdateTime: "2021-04-28T11:41:55Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2021-04-28T10:50:08Z"
+    lastUpdateTime: "2021-04-28T12:29:44Z"
+    message: ReplicaSet "web-bfdf9d9b7" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 6
+  readyReplicas: 10
+  replicas: 10
+  updatedReplicas: 10

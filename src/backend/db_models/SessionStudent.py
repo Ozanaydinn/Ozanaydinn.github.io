@@ -4,11 +4,9 @@ from sqlalchemy.orm import relationship
 class SessionStudent(db.Model):
     __tablename__ = "joins"
 
-    session_id = db.Column(db.Integer, db.ForeignKey('sessions.id'), primary_key = True, autoincrement=False)
+    session_id = db.Column(db.Integer, db.ForeignKey('sessions.id', ondelete='CASCADE'), primary_key = True, autoincrement=False)
     student_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key = True, autoincrement=False)
-
-    student = relationship('UserModel', backref='joins')
-    session = relationship('SessionModel', backref='joins')
+    notification = db.Column(db.String(120))
 
     def save_to_db(self):
         db.session.add(self)
@@ -22,3 +20,23 @@ class SessionStudent(db.Model):
             return {'message': '{} row(s) deleted'.format(num_rows_deleted)}
         except:
             return {'message': 'Something went wrong'}
+
+    @classmethod
+    def delete(cls, student_id):
+        try: 
+            db.session.query(cls).filter_by(student_id = student_id).delete()
+            db.session.commit()
+            return {'message': 'Student deleted from session.'}
+        except:
+            return {'message': 'Something went wrong.'}
+
+    @classmethod
+    def update_notification(cls, student_id, notification):
+        try:
+            ses = db.session.query(cls).filter_by(student_id = student_id).first()
+            ses.notification = notification
+            db.session.commit()
+            return {'message': 'Student notification updated.'}
+        except:
+            return {'message': 'Something went wrong.'}
+
