@@ -11,9 +11,9 @@ metadata:
   name: web
 spec:
   ports:
-    - name: "8080"
-      port: 8080
-      targetPort: 8080
+    - name: "5000"
+      port: 5000
+      targetPort: 5000
   selector:
     io.kompose.service: web
   type: NodePort

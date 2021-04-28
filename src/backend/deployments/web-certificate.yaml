@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: mcrt-91d9eee9-c73b-4e87-866a-ba7fda12bd42
+spec:
+  domains:
+    - hereappbackend.com
+    - www.hereappbackend.com
