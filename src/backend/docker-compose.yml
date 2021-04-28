@@ -3,27 +3,27 @@ version: '3'
 services:
 
     web:
-        image: gcr.io/hereapp-311315/backend
+        build: .
         container_name: web
         ports:
         - 5000:5000
         restart: always
         command: python application.py run -h 0.0.0.0
         environment:
-        - CELERY_BROKER_URL=redis://10.20.46.155:6379/0
-        - CELERY_RESULT_BACKEND=redis://10.20.46.155:6379/0
+        - CELERY_BROKER_URL=redis://redis:6379/0
+        - CELERY_RESULT_BACKEND=redis://redis:6379/0
         depends_on:
         - redis
         labels:
             kompose.service.type: LoadBalancer
 
     worker:
-        image: gcr.io/hereapp-311315/backend
-        command: celery worker --app=models.tasks.celery --loglevel=info
+        build: .
+        command: celery --app=models.tasks.celery worker --task-events  --loglevel=info --without-gossip --without-mingle -Ofair
         restart: always
         environment:
-        - CELERY_BROKER_URL=redis://10.20.46.155:6379/0
-        - CELERY_RESULT_BACKEND=redis://10.20.46.155:6379/0
+        - CELERY_BROKER_URL=redis://redis:6379/0
+        - CELERY_RESULT_BACKEND=redis://redis:6379/0
         depends_on:
         - web
         - redis
@@ -32,14 +32,14 @@ services:
         image: redis:6-alpine
 
     dashboard:
-        image: gcr.io/hereapp-311315/backend
-        command:  flower --app=models.tasks.celery --port=5555 --broker=redis://10.20.46.155:6379/0
+        build: .
+        command:  flower --app=models.tasks.celery flower --port=5555 --broker=redis://redis:6379/0
         ports:
             - 5556:5555
         restart: always
         environment:
-            - CELERY_BROKER_URL=redis://10.20.46.155:6379/0
-            - CELERY_RESULT_BACKEND=redis://10.20.46.155:6379/0
+            - CELERY_BROKER_URL=redis://redis:6379/0
+            - CELERY_RESULT_BACKEND=redis://redis:6379/0
         depends_on:
             - web
             - redis

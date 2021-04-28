@@ -4,8 +4,8 @@ from celery import Celery
 
 celery = Celery(__name__)
     
-celery.conf.broker_url = os.environ.get("CELERY_BROKER_URL", "redis://10.220.160.203:6379")
-celery.conf.result_backend = os.environ.get("CELERY_RESULT_BACKEND", "redis://10.220.160.203:6379")
+celery.conf.broker_url = os.environ.get("CELERY_BROKER_URL")
+celery.conf.result_backend = os.environ.get("CELERY_RESULT_BACKEND")
 
 @celery.task(name="analyze_hand", soft_time_limit=20)
 def analyze_hand(image_data):
