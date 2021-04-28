@@ -75,6 +75,7 @@ api.add_resource(CourseController.Course, '/course')
 api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id>') 
 
 api.add_resource(SessionController.Session, '/session') # Post -> create session
+api.add_resource(SessionController.SessionParticipation, '/join') 
 
 #Analysis Endpoints
 api.add_resource(AnalyticsController.HandResult, '/analytics/hand')
