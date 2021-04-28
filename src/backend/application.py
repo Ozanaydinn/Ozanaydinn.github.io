@@ -54,7 +54,7 @@ def create_tables():
 @application.after_request
 def after_request(response):
     
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,Origin,X-Requested-With,Accept,Accept-Language,Content-Language,Access-Control-Request-Headers,Access-Control-Request-Method,X-API-KEY')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     response.headers.add('Access-Control-Allow-Credentials', 'true')
