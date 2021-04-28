@@ -15,6 +15,7 @@ import controllers.TaskController as TaskController
 from db_models.UserModel import RevokedTokenModel
 
 from database_config import db
+
 #from config import DevelopmentConfig
 
 application = Flask(__name__)
@@ -32,7 +33,6 @@ application.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
 application.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 application.config['DEBUG'] = True
-
 
 
 cors = CORS(application)
@@ -84,6 +84,7 @@ api.add_resource(AnalyticsController.PhoneResult, '/analytics/phone')
 api.add_resource(TaskController.Hand, '/analyze/hand')
 api.add_resource(TaskController.Head, '/analyze/head')
 api.add_resource(TaskController.TaskResult, '/result/<task_id>')
+
 
 
 @application.route('/')
