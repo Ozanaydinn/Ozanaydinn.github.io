@@ -10,6 +10,8 @@ import controllers.CourseController as CourseController
 import controllers.FileController as FileController
 import controllers.SessionController as SessionController
 import controllers.AnalyticsController as AnalyticsController
+import controllers.TaskController as TaskController
+ 
 from db_models.UserModel import RevokedTokenModel
 
 from database_config import db
@@ -17,6 +19,8 @@ from database_config import db
 
 application = Flask(__name__)
 #application.config.from_object('config.DevelopmentConfig')
+
+
 
 application.config['CORS_HEADERS'] = os.environ['CORS_HEADERS']
 application.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
@@ -77,10 +81,14 @@ api.add_resource(AnalyticsController.HandResult, '/analytics/hand')
 api.add_resource(AnalyticsController.HeadPoseResult, '/analytics/head')
 api.add_resource(AnalyticsController.PhoneResult, '/analytics/phone')
 
+api.add_resource(TaskController.Hand, '/analyze/hand')
+api.add_resource(TaskController.Head, '/analyze/head')
+api.add_resource(TaskController.TaskResult, '/result/<task_id>')
+
 
 @application.route('/')
 def index():
     return jsonify({'message': 'Hello, World!'})
 
 if __name__ == '__main__':
-    application.run(debug=True)
+    application.run(debug=True, host="0.0.0.0")

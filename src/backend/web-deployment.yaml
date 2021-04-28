@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.service.type: LoadBalancer
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: web
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: web
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.service.type: LoadBalancer
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: web
+    spec:
+      containers:
+        - args:
+            - python
+            - application.py
+            - run
+            - -h
+            - 0.0.0.0
+          env:
+            - name: CELERY_BROKER_URL
+              value: redis://10.67.139.179:6379/0
+            - name: CELERY_RESULT_BACKEND
+              value: redis://10.67.139.179:6379/0
+            - name: FLASK_APP
+              value: application.py
+          image: gcr.io/hereapp-311315/backend
+          name: web
+          ports:
+            - containerPort: 5000
+          resources: {}
+      restartPolicy: Always
+status: {}
