@@ -6,8 +6,8 @@ class SessionModel(db.Model):
 
     id = db.Column(db.Integer, primary_key = True, nullable=True)
     instructor_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    notification = db.Column(db.String(120))
-    socket_id = db.Column(db.String(32))
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'))
+
 
     students = relationship('SessionStudent', backref='sessions', passive_deletes=True)
 
@@ -23,6 +23,10 @@ class SessionModel(db.Model):
     @classmethod
     def find_by_instructor_id(cls, instructor_id):
         return cls.query.filter_by(instructor_id=instructor_id).first()
+
+    @classmethod
+    def find_by_course_id(cls, course_id):
+        return cls.query.filter_by(course_id=course_id).first()
 
     @classmethod
     def return_all(cls):
