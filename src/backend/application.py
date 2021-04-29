@@ -70,6 +70,7 @@ api.add_resource(AuthController.AllUsers, '/users')
 api.add_resource(AuthController.SecretResource, '/secret')
 
 api.add_resource(FileController.File, '/file') # Post request -> file upload, get request -> file download
+api.add_resource(FileController.Note, '/note') 
 
 api.add_resource(CourseController.Course, '/course')
 api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id>') 
