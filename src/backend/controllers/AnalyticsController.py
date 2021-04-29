@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from models.user import User
+from models.User import User
 import db_models.SessionStudent as SessionStudent
 
 from flask_jwt_extended import ( create_access_token, create_refresh_token,

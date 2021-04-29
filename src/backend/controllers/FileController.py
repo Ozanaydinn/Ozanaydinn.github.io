@@ -9,6 +9,8 @@ from db_models.UserModel import UserModel
 from db_models.CourseModel import CourseModel
 from flask import send_file
 
+import base64
+
 
 class File(Resource):
     parser = reqparse.RequestParser()
@@ -20,21 +22,19 @@ class File(Resource):
         data = self.parser.parse_args()
         
         f = data['file'].replace("data:application/pdf;base64,", "")
-        
         f = bytes(f, "utf-8")
 
         email = get_jwt_identity()
-        
-        file_model = FileModel(course_id=data['course_id'], file_bytes=f)
 
+        file_model = FileModel(course_id=data['course_id'], file_bytes=f)
         return file_model.save_to_db()
 
-    # File'ı çekmek için buraya get methodu yazın
 
 class Note(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('file', help = 'This field cannot be blank', required = True)
     parser.add_argument('course_id', help = 'This field cannot be blank', required = True)
+    parser.add_argument('date', help = 'This field cannot be blank', required = True)
 
     @jwt_required
     def post(self):
@@ -42,10 +42,46 @@ class Note(Resource):
         email = get_jwt_identity()
         current_user = UserModel.find_by_email(email)
 
-        print(current_user.email)
-
         f = data['file'].replace("data:image/png;base64,", "")
         f = bytes(f, "utf-8")
 
-        note_model = NoteModel(course_id=data['course_id'], student_id=current_user.id, file_bytes=f)
+        note_model = NoteModel(course_id=data['course_id'], student_id=current_user.id, file_bytes=f, date=data['date'])
         return note_model.save_to_db()
+
+    @jwt_required
+    def get(self):
+        email = get_jwt_identity()
+        current_user = UserModel.find_by_email(email)
+
+        data = NoteModel.return_info_by_student_id(current_user.id)
+
+        notes = {}
+        for note in data['notes']:
+            if note['course_id'] not in notes:
+                notes[note['course_id']] = []
+                notes[note['course_id']].append({
+                    "id": note["id"],
+                    "date": note["date"],
+                    "course_id": note["course_id"]
+                })
+            else:
+                notes[note['course_id']].append({
+                    "id": note["id"],
+                    "date": note["date"],
+                    "course_id": note["course_id"]
+                })
+        
+        output_notes = {}
+        for course in notes:
+            courseModel = CourseModel.find_by_id(course)
+            output_notes[courseModel.name] = notes[course]
+
+        return output_notes
+        
+class SingleNote(Resource):
+    @jwt_required
+    def get(self, note_id):
+        note = NoteModel.find_by_id(note_id)
+        bts = note.file_bytes
+
+        return bts.decode('utf-8')

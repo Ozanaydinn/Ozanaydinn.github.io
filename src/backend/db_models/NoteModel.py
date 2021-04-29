@@ -8,18 +8,29 @@ class NoteModel(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), autoincrement=False)
     student_id = db.Column(db.Integer, db.ForeignKey('users.id'),  autoincrement=False)
     file_bytes = db.Column(db.LargeBinary, nullable=False)
+    date = db.Column(db.String, nullable=False)
 
     def save_to_db(self):
-        try:
-            db.session.add(self)
-            db.session.commit()
-            return make_response(jsonify({"Note added successfully!"}), 200)
-        except:
-            return make_response(jsonify({"error":"Can't add note to db."}), 404)
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
 
     @classmethod
     def find_by_student_id(cls, student_id):
         return cls.query.filter_by(student_id=student_id)
+
+    @classmethod
+    def return_info_by_student_id(cls, student_id):
+        def to_json(x):
+            return {
+                'id': x.id,
+                'course_id': x.course_id,
+                'date': x.date
+            }
+        return {'notes': list(map(lambda x: to_json(x), cls.query.filter_by(student_id=student_id).all()))}
 
     @classmethod
     def delete_all(cls):
