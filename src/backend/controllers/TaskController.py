@@ -57,7 +57,7 @@ class TaskResult(Resource):
                 "user_id": task_result.result["user_id"]
             }
 
-        result = ""
+        result = {}
 
         if "hand_result" in task_result.result:
             data["hand_result"] =task_result.result["hand_result"]
@@ -72,5 +72,7 @@ class TaskResult(Resource):
             data["phone_result"] =task_result.result["phone_result"]
               
             result = AnalyticsController.analyze_phone(data)
+
+        result["task_status"] = task_result.status
 
         return make_response(jsonify(result), 200)

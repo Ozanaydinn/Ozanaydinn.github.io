@@ -10,13 +10,6 @@ class AnalyticsController:
 
         positive_feedback_message = ""
         hand_raised = False
-        
-        print("DATA: " , statistics.data)
-
-        for key in statistics.data.keys():
-            print("key value ", key)
-            print("key type " , type(key))
-
 
         if hand_result == 1 or hand_result == 5:
             user = statistics.data[session_id][user_id]
