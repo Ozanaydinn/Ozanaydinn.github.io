@@ -9,6 +9,7 @@ from db_models.SessionModel import SessionModel
 from db_models.UserModel import UserModel
 from db_models.SessionStudent import SessionStudent
 from db_models.CourseModel import CourseModel
+from global_data import statistics
 
 import models.User as User
 
@@ -34,8 +35,8 @@ class Session(Resource):
             res = session_model.save_to_db()
             if res['status']:
                 response["id"] = res['id']
-                response["success"] = True 
-                #analytics[session_model.id] = []
+                response["success"] = True
+                print(statistics.add_session(res['id']))
         
         return response
 
@@ -56,7 +57,7 @@ class SessionParticipation(Resource):
             if current_user.type == 'student':
                 join = SessionStudent(session_id=session.id, student_id=current_user.id)
                 join.save_to_db()
-                #Session.analytics[session.id].append(User(current_user.id, data['socket_id']))
+                print(statistics.add_user_to_session(session_id=session.id, user_id=current_user.id))
             else:
                 return make_response(jsonify({"error":"User is not recognized"}), 401)
         else:

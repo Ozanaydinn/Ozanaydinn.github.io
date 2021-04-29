@@ -1,7 +1,11 @@
 class User: 
-    def __init__(self, uid, socketid): 
-        self.uid = uid
-        self.socketid = socketid
-        self.handResults = []
-        self.headPoses = []
-        self.phoneResult = []
+    def __init__(self): 
+        self.hand_results = []
+        self.head_poses = []
+        self.phone_result = []
+
+        self.head_distracted = []
+        self.phone_distracted = []
+
+        self.head_threshold = 6
+        self.phone_threshold = 1

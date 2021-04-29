@@ -1,7 +1,7 @@
 from random import randrange;
 from locust import HttpUser, TaskSet, task, between
 
-HAND_URL = 'http://34.118.26.115:5000/analyze/hand'
+HAND_URL = 'https://hereappbackend.com/analyze/hand'
 
 class QuickstartUser(HttpUser):
 

@@ -14,7 +14,7 @@ import controllers.TaskController as TaskController
  
 from db_models.UserModel import RevokedTokenModel
 
-from database_config import db
+from global_data import db, statistics
 
 from config import DevelopmentConfig
 
@@ -22,7 +22,7 @@ application = Flask(__name__)
 application.config.from_object('config.DevelopmentConfig')
 
 
-"""
+'''
 application.config['CORS_HEADERS'] = os.environ['CORS_HEADERS']
 application.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
 application.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
@@ -33,7 +33,7 @@ application.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
 application.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 """
 application.config['DEBUG'] = True
-
+'''
 
 cors = CORS(application)
 api = Api(application)
@@ -78,12 +78,14 @@ api.add_resource(CourseController.Course, '/course')
 api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id>') 
 
 api.add_resource(SessionController.Session, '/session') # Post -> create session
-api.add_resource(SessionController.SessionParticipation, '/join') 
+api.add_resource(SessionController.SessionParticipation, '/join') # Post -> create session
 
 #Analysis Endpoints
+'''
 api.add_resource(AnalyticsController.HandResult, '/analytics/hand')
 api.add_resource(AnalyticsController.HeadPoseResult, '/analytics/head')
 api.add_resource(AnalyticsController.PhoneResult, '/analytics/phone')
+'''
 
 api.add_resource(TaskController.Hand, '/analyze/hand')
 api.add_resource(TaskController.Head, '/analyze/head')

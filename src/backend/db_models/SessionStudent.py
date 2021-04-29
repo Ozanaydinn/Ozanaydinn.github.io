@@ -1,4 +1,4 @@
-from database_config import db
+from global_data import db
 from sqlalchemy.orm import relationship
 
 class SessionStudent(db.Model):
@@ -38,4 +38,9 @@ class SessionStudent(db.Model):
             return {'message': 'Student notification updated.'}
         except:
             return {'message': 'Something went wrong.'}
+
+    @classmethod
+    def find_by_student_id(cls, student_id):
+        return cls.query.filter_by(student_id=student_id).first()
+
 

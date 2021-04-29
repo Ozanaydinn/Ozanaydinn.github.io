@@ -1,93 +1,108 @@
-from flask_restful import Resource, reqparse
-from models.User import User
-import db_models.SessionStudent as SessionStudent
+from models.user import User
+from global_data import statistics
 
-from flask_jwt_extended import ( create_access_token, create_refresh_token,
-    jwt_required, get_jwt_identity, jwt_refresh_token_required,
-    get_raw_jwt
-)
+class AnalyticsController:    
 
-current_students = {"123": User("123", "12345")}
+    def analyze_hand_result(data):
+        hand_result = data["hand_result"]   
+        session_id = data["session_id"]
+        user_id = data["user_id"]
 
-class HandResult(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('hand_result', help = 'This field cannot be blank')
+        positive_feedback_message = ""
+        hand_raised = False
+        
+        print("DATA: " , statistics.data)
 
-    def post(self):
-        data = self.parser.parse_args()
-        email = get_jwt_identity()
-        current_user = User.UserModel.find_by_email(email)
-
-        #first, record the hand result in the user array for later use in analytics
-        current_students[current_user.id].handResults.append(data['hand_result'])
-
-        # Second, if hand result is 5 or 1, assume that the student raises their hands, update notification
-        if data['hand_result']['number'] == 5 or data['hand_result']['number'] == 1: #TODO add thumb=unknown state as well
-            notification = current_user.username + " raised their hand!"
-            result = SessionStudent.update_notification(current_user.id, notification)
-            return result
-
-"""
-May not be necessary, check later
-"""
-class HeadPoseResult(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('head_pose', help = 'This field cannot be blank')
-
-    def post(self):
-        data = self.parser.parse_args()
-        email = get_jwt_identity()
-        current_user = User.UserModel.find_by_email(email)
-
-        # first, add the head result to the user array
-        current_students[current_user.id].headPoses.append(data['head_pose'])
-
-        #check if we have gathered enough samples, and that the user are distracted in half of them
-        array_length = len(current_students[current_user.id].headPoses)
-        if  array_length % 12 == 0 and array_length != 0:
-            if current_students[current_user.id].headPoses.count("straight") <= array_length / 2:
-                notification = "You seem distracted, is everything okay?"
-                result = SessionStudent.update_notification(current_user.id, notification)
-                return result
-
-class PhoneResult(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument("phone_result", help = 'This field cannot be blank')
-
-    def post(self):
-        data = self.parser.parse_args()
-        email = get_jwt_identity()
-        current_user = User.UserModel.find_by_email(email)
-
-        # first, add the head result to the user array
-        current_students[current_user.id].phoneResult.append(data['phone_result'])
-
-        # check how many times a phone has been spotted in a minute
-        array_length = len(current_students[current_user.id].headPoses)
-        if  array_length % 12 == 0 and array_length != 0:
-            if current_students[current_user.id].phoneResult.count("yes") >= array_length / 4:
-                notification = "Looking at your phone often can distract you."
-                result = SessionStudent.update_notification(current_user.id, notification)
-                return result
-
-def alertTeacherforDistraction():
-    distractionCount = 0.0
-    student_no = float(len(current_students))
-    for student in current_students:
-        if student.headPoses.count("straight") < ((len(student.headPoses) * 6)/10) or student.phoneResult.count("yes") > 2:
-            distractionCount += 1
-
-    if distractionCount / student_no > 0.7:
-        notification = "Most of your students are distracted, might want to take a break."
-        result = Se
+        for key in statistics.data.keys():
+            print("key value ", key)
+            print("key type " , type(key))
 
 
-class Analytics(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('hand_result', help = 'This field cannot be blank')
-    parser.add_argument('head_pose', help = 'This field cannot be blank')
+        if hand_result == 1 or hand_result == 5:
+            user = statistics.data[session_id][user_id]
+            user.hand_results.append(True)
+            hand_raised = True
+            
+            if len(user.hand_results) % 3 == 0:
+                positive_feedback_message = "You are actively participating to the lecture, keep going!"
+        
 
-    def post(self):
-        data = self.parser.parse_args()
-        email = get_jwt_identity()
-        current_user = User.UserModel.find_by_email(data['email'])
+        return {"feedback_message": positive_feedback_message, "hand_raised": hand_raised}
+
+    def analyze_head_result(data):
+        head_pose_result = data["head_pose_result"]   
+        session_id = data["session_id"]
+        user_id = data["user_id"]
+        timestamp = data["timestamp"]
+
+        pose_data = {
+            "distracted": False,
+            "timestamp": timestamp
+        }
+
+        feedback_message = ""
+
+        if head_pose_result["horizontal"] != "straight":
+            pose_data["distracted"] = True
+
+        user = statistics.data[session_id][user_id]
+
+        user.head_poses.append(pose_data)
+
+        if len(user.head_poses) == user.head_threshold: #If head poses reached threshold
+            distracted_count = 0
+            
+            for pose in user.head_poses:
+
+                if pose["distracted"]:
+                    distracted_count += 1
+
+            if (user.head_threshold / 2) <= distracted_count:
+
+                time = user.head_poses[-1]["timestamp"]
+                
+                user.head_distracted.append(time)
+
+                #EMIT HEAD POSE DISTRACTED MESSAGE TO FRONT END
+                feedback_message = "You seem to be distracted, is everything okay?"
+
+            user.head_poses = []
+        
+        return {"feedback_message": feedback_message, "distraction_type": "head_pose"}
+
+    def analyze_phone(data):
+        phone_result = data["phone_result"]   
+        session_id = data["session_id"]
+        user_id = data["user_id"]
+        stastics = data["statistics"]
+        timestamp = data["timestamp"]
+
+        phone_data = {
+            "distracted": False,
+            "timestamp": timestamp
+        }
+
+        user.phone_result.append(phone_data)
+
+        feedback_message = ""
+
+        if len(user.phone_result) == user.phone_threshold: #If phone reached threshold
+            distracted_count = 0
+            
+            for result in user.phone_result:
+
+                if result["distracted"]:
+                    distracted_count += 1
+
+            if (float(user.phone_threshold) / 2) <= distracted_count:
+
+                time = user.phone_result[-1]["timestamp"]
+                
+                user.phone_distracted.append(time)
+
+                #EMIT PHONE DISTRACTED MESSAGE TO FRONT END
+                feedback_message = "Looking at your phone often can distract you." 
+
+            user.phone_result = []
+
+        return {"feedback_message": feedback_message, "distraction_type": "phone"}

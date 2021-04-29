@@ -1,4 +1,4 @@
-from database_config import db
+from global_data import db
 from sqlalchemy.orm import relationship
 
 class CourseModel(db.Model):

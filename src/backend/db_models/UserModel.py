@@ -1,6 +1,6 @@
 from passlib.hash import pbkdf2_sha256 as sha256
 from sqlalchemy.orm import relationship
-from database_config import db
+from global_data import db
 
 class UserModel(db.Model):
     __tablename__ = 'users'
