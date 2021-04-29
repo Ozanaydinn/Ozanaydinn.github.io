@@ -10,7 +10,7 @@ from db_models.UserModel import UserModel
 from db_models.SessionStudent import SessionStudent
 from db_models.CourseModel import CourseModel
 
-import models.user as User
+import models.User as User
 
 class Session(Resource):
     analytics = {}

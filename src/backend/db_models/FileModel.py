@@ -1,7 +1,7 @@
 from database_config import db
 from sqlalchemy.orm import relationship
 
-class File(db.Model):
+class FileModel(db.Model):
     __tablename__ = "files"
 
     id = db.Column(db.Integer, primary_key = True, nullable=True)

@@ -16,13 +16,13 @@ from db_models.UserModel import RevokedTokenModel
 
 from database_config import db
 
-#from config import DevelopmentConfig
+from config import DevelopmentConfig
 
 application = Flask(__name__)
-#application.config.from_object('config.DevelopmentConfig')
+application.config.from_object('config.DevelopmentConfig')
 
 
-
+"""
 application.config['CORS_HEADERS'] = os.environ['CORS_HEADERS']
 application.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
 application.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
@@ -31,7 +31,7 @@ application.config['JWT_BLACKLIST_ENABLED'] = True
 application.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 application.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
 application.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-
+"""
 application.config['DEBUG'] = True
 
 
@@ -70,6 +70,9 @@ api.add_resource(AuthController.AllUsers, '/users')
 api.add_resource(AuthController.SecretResource, '/secret')
 
 api.add_resource(FileController.File, '/file') # Post request -> file upload, get request -> file download
+api.add_resource(FileController.Note, '/note') # Post -> save note, Get -> get info of notes of student
+api.add_resource(FileController.SingleNote, '/note/<int:note_id>') # Get note of student
+
 
 api.add_resource(CourseController.Course, '/course')
 api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id>') 
