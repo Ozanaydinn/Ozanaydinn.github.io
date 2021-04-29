@@ -16,13 +16,12 @@ from db_models.UserModel import RevokedTokenModel
 
 from global_data import db, statistics
 
-from config import DevelopmentConfig
+#from config import DevelopmentConfig
 
 application = Flask(__name__)
-application.config.from_object('config.DevelopmentConfig')
+#application.config.from_object('config.DevelopmentConfig')
 
 
-'''
 application.config['CORS_HEADERS'] = os.environ['CORS_HEADERS']
 application.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
 application.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
@@ -31,9 +30,8 @@ application.config['JWT_BLACKLIST_ENABLED'] = True
 application.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 application.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
 application.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-"""
 application.config['DEBUG'] = True
-'''
+
 
 cors = CORS(application)
 api = Api(application)
@@ -78,7 +76,7 @@ api.add_resource(CourseController.Course, '/course')
 api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id>') 
 
 api.add_resource(SessionController.Session, '/session') # Post -> create session
-api.add_resource(SessionController.SessionParticipation, '/join') # Post -> create session
+api.add_resource(SessionController.SessionParticipation, '/session/join') # Post -> join session
 
 #Analysis Endpoints
 '''

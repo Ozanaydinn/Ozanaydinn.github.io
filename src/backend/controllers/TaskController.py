@@ -4,7 +4,7 @@ from flask_jwt_extended import ( create_access_token, create_refresh_token,
 )
 from flask import jsonify, make_response
 from flask_restful import Resource, reqparse
-from models.tasks import analyze_hand, analyze_head
+from tasks import analyze_hand, analyze_head
 from celery.result import AsyncResult
 from db_models.SessionStudent import SessionStudent
 from db_models.UserModel import UserModel
@@ -14,16 +14,15 @@ from controllers.AnalyticsController import AnalyticsController
 class Hand(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('data', help='This field cannot be blank', required=True)
+    parser.add_argument('session_id', help='This field cannot be blank', required=True)
 
     @jwt_required
     def post(self):
         data = self.parser.parse_args()
         email = get_jwt_identity()
         current_user = UserModel.find_by_email(email)
-
-        joins = SessionStudent.find_by_student_id(current_user.id)
         
-        task = analyze_hand.delay(image_data=data['data'], session_id=joins.session_id, user_id=current_user.id)
+        task = analyze_hand.delay(image_data=data['data'], session_id=data['session_id'], user_id=current_user.id)
 
         return make_response(jsonify({"task_id": task.id}), 202)
 
@@ -31,16 +30,15 @@ class Head(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('data', help='This field cannot be blank', required=True)
     parser.add_argument('timestamp', help='This field cannot be blank', required=True)
+    parser.add_argument('session_id', help='This field cannot be blank', required=True)
 
     @jwt_required
     def post(self):
         data = self.parser.parse_args()
         email = get_jwt_identity()
         current_user = UserModel.find_by_email(email)
-
-        joins = SessionStudent.find_by_student_id(current_user.id)
         
-        task = analyze_head.delay(image_data=data['data'], session_id=joins.session_id, user_id=current_user.id, timestamp=data['timestamp'])
+        task = analyze_head.delay(image_data=data['data'], session_id=data['session_id'], user_id=current_user.id, timestamp=data['timestamp'])
 
         return make_response(jsonify({"task_id": task.id}), 202)
 

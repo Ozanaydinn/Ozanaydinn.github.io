@@ -1,4 +1,4 @@
-from models.user import User
+from models.User import User
 from global_data import statistics
 
 class AnalyticsController:    

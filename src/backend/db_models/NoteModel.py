@@ -1,4 +1,4 @@
-from database_config import db
+from global_data import db
 from flask import request, jsonify, make_response
 
 class NoteModel(db.Model):
