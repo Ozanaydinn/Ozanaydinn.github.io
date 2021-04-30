@@ -66,6 +66,7 @@ class SessionParticipation(Resource):
 
         #course = CourseModel.find_by_id(data['course_id'])
         session = SessionModel.find_by_course_id(int(data['course_id']))
+        resp = {'session_id': -1}
 
         if session != None:
             if current_user.type == 'student':
@@ -79,6 +80,8 @@ class SessionParticipation(Resource):
                     manager.add_user_to_session(session_id=str(session.id), user_id=str(current_user.id))
 
                     r_envoy.set("statistics", json.dumps(data))
+                resp['session_id'] = session.id
+                return resp
 
             else:
                 return make_response(jsonify({"error":"User is not recognized"}), 401)
