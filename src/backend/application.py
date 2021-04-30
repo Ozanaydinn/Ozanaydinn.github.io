@@ -11,6 +11,7 @@ import controllers.FileController as FileController
 import controllers.SessionController as SessionController
 import controllers.AnalyticsController as AnalyticsController
 import controllers.TaskController as TaskController
+import controllers.ProfileController as ProfileController
  
 from db_models.UserModel import RevokedTokenModel
 
@@ -79,16 +80,11 @@ api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id
 api.add_resource(SessionController.Session, '/session') # Post -> create session
 api.add_resource(SessionController.SessionParticipation, '/session/join') # Post -> join session
 
-#Analysis Endpoints
-'''
-api.add_resource(AnalyticsController.HandResult, '/analytics/hand')
-api.add_resource(AnalyticsController.HeadPoseResult, '/analytics/head')
-api.add_resource(AnalyticsController.PhoneResult, '/analytics/phone')
-'''
-
 api.add_resource(TaskController.Hand, '/analyze/hand')
 api.add_resource(TaskController.Head, '/analyze/head')
 api.add_resource(TaskController.TaskResult, '/result/<task_id>')
+
+api.add_resource(ProfileController.ChangeProfile, '/editProfile')
 
 
 
