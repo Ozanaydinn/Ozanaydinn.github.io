@@ -84,3 +84,16 @@ class SessionParticipation(Resource):
                 return make_response(jsonify({"error":"User is not recognized"}), 401)
         else:
             return make_response(jsonify({"error":"This session is not created yet!"}), 404)
+
+class SessionEnd(Resource):
+
+    @jwt_required
+    def post(self):
+        email = get_jwt_identity()
+        current_user = UserModel.find_by_email(email)
+
+        if current_user.type != "instructor":
+            return make_response(jsonify({"error":"Cannot terminate: Not an instructor!"}), 401)
+        else:
+            res = SessionModel.delete(current_user.id)
+            return res
