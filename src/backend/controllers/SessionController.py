@@ -12,8 +12,6 @@ from db_models.CourseModel import CourseModel
 from models.StatisticsData import StatisticsData
 from global_data import r_envoy
 import json
-import redis
-
 import models.User as User
 
 class Session(Resource):
@@ -98,5 +96,15 @@ class SessionEnd(Resource):
         if current_user.type != "instructor":
             return make_response(jsonify({"error":"Cannot terminate: Not an instructor!"}), 401)
         else:
+            session_id = SessionModel.find_by_instructor_id(current_user.id).id
+
             res = SessionModel.delete(current_user.id)
+
+            with r_envoy.lock('my_lock'):
+                data = json.loads(r_envoy.get("statistics"))
+
+                data.pop(str(session_id))
+
+                r_envoy.set("statistics", json.dumps(data))
+            
             return res

@@ -12,6 +12,7 @@ import controllers.SessionController as SessionController
 import controllers.AnalyticsController as AnalyticsController
 import controllers.TaskController as TaskController
 import controllers.ProfileController as ProfileController
+import controllers.StatisticsController as StatisticsController
  
 from db_models.UserModel import RevokedTokenModel
 
@@ -88,6 +89,7 @@ api.add_resource(TaskController.TaskResult, '/result/<task_id>')
 
 api.add_resource(ProfileController.ChangeProfile, '/editProfile')
 
+api.add_resource(StatisticsController.StatisticsInformation, '/session/statistics/<int:session_id>')
 
 
 @application.route('/')

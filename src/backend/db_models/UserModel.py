@@ -27,6 +27,10 @@ class UserModel(db.Model):
         return cls.query.filter_by(email = email).first()
 
     @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
+    @classmethod
     def return_all(cls):
         def to_json(x):
             return {
