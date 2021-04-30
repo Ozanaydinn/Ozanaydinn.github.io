@@ -1,4 +1,4 @@
-from global_data import statistics
+from global_data import r_envoy
 
 class StatisticsController:
     parser = reqparse.RequestParser()

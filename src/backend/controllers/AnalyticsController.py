@@ -1,5 +1,6 @@
 from models.User import User
-from global_data import statistics
+from global_data import r_envoy
+import json
 
 class AnalyticsController:    
 
@@ -12,12 +13,19 @@ class AnalyticsController:
         hand_raised = False
 
         if hand_result == 1 or hand_result == 5:
-            user = statistics.data[session_id][user_id]
-            user.hand_results.append(True)
-            hand_raised = True
-            
-            if len(user.hand_results) % 3 == 0:
-                positive_feedback_message = "You are actively participating to the lecture, keep going!"
+            with r_envoy.lock('my_lock'):
+
+                stat = json.loads(r_envoy.get("statistics"))
+
+                stat[session_id][user_id]["hand_results"].append(True)
+                hand_raised = True
+
+                r_envoy.set("statistics", json.dumps(stat))
+
+                if len(stat[session_id][user_id]["hand_results"]) % 3 == 0:
+                    positive_feedback_message = "You are actively participating to the lecture, keep going!"
+                
+
         
 
         return {"feedback_message": positive_feedback_message, "hand_raised": hand_raised}
@@ -38,28 +46,36 @@ class AnalyticsController:
         if head_pose_result["horizontal"] != "straight":
             pose_data["distracted"] = True
 
-        user = statistics.data[session_id][user_id]
+        with r_envoy.lock('my_lock'):
 
-        user.head_poses.append(pose_data)
+            stat = json.loads(r_envoy.get("statistics"))
 
-        if len(user.head_poses) == user.head_threshold: #If head poses reached threshold
-            distracted_count = 0
-            
-            for pose in user.head_poses:
+            print("Stat from redis ", stat)
 
-                if pose["distracted"]:
-                    distracted_count += 1
+            user = stat[session_id][user_id]
 
-            if (user.head_threshold / 2) <= distracted_count:
+            user["head_poses"].append(pose_data)
 
-                time = user.head_poses[-1]["timestamp"]
+            if len(user["head_poses"]) == user["head_threshold"]: #If head poses reached threshold
+                distracted_count = 0
                 
-                user.head_distracted.append(time)
+                for pose in user["head_poses"]:
 
-                #EMIT HEAD POSE DISTRACTED MESSAGE TO FRONT END
-                feedback_message = "You seem to be distracted, is everything okay?"
+                    if pose["distracted"]:
+                        distracted_count += 1
 
-            user.head_poses = []
+                if (user["head_threshold"] / 2) <= distracted_count:
+
+                    time = user["head_poses"][-1]["timestamp"]
+                    
+                    user["head_distracted"].append(time)
+
+                    #EMIT HEAD POSE DISTRACTED MESSAGE TO FRONT END
+                    feedback_message = "You seem to be distracted, is everything okay?"
+
+                user["head_poses"] = []
+            print("Stat after add ", stat )
+            r_envoy.set("statistics", json.dumps(stat))
         
         return {"feedback_message": feedback_message, "distraction_type": "head_pose"}
 

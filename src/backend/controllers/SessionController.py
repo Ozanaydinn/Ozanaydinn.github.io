@@ -9,7 +9,10 @@ from db_models.SessionModel import SessionModel
 from db_models.UserModel import UserModel
 from db_models.SessionStudent import SessionStudent
 from db_models.CourseModel import CourseModel
-from global_data import statistics
+from models.StatisticsData import StatisticsData
+from global_data import r_envoy
+import json
+import redis
 
 import models.User as User
 
@@ -36,7 +39,14 @@ class Session(Resource):
             if res['status']:
                 response["id"] = res['id']
                 response["success"] = True
-                print(statistics.add_session(res['id']))
+
+                with r_envoy.lock('my_lock'):
+                    data = json.loads(r_envoy.get("statistics"))
+
+                    manager = StatisticsData(data)
+                    manager.add_session(str(res['id']))
+
+                    r_envoy.set("statistics", json.dumps(data))
         
         return response
 
@@ -57,7 +67,15 @@ class SessionParticipation(Resource):
             if current_user.type == 'student':
                 join = SessionStudent(session_id=session.id, student_id=current_user.id)
                 join.save_to_db()
-                print(statistics.add_user_to_session(session_id=session.id, user_id=current_user.id))
+                
+                with r_envoy.lock('my_lock'):
+                    data = json.loads(r_envoy.get("statistics"))
+
+                    manager = StatisticsData(data)
+                    manager.add_user_to_session(session_id=str(session.id), user_id=str(current_user.id))
+
+                    r_envoy.set("statistics", json.dumps(data))
+
             else:
                 return make_response(jsonify({"error":"User is not recognized"}), 401)
         else:

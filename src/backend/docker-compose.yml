@@ -20,7 +20,7 @@ services:
 
     worker:
         build: .
-        command: celery --app=models.tasks.celery worker --task-events  --loglevel=info --without-gossip --without-mingle -Ofair
+        command: celery --app=tasks.celery worker --task-events  --loglevel=info --without-gossip --without-mingle -Ofair
         restart: always
         environment:
         - CELERY_BROKER_URL=redis://redis:6379/0
@@ -34,7 +34,7 @@ services:
 
     dashboard:
         build: .
-        command:  flower --app=models.tasks.celery flower --port=5555 --broker=redis://redis:6379/0
+        command:  flower --app=tasks.celery flower --port=5555 --broker=redis://redis:6379/0
         ports:
             - 5556:5555
         restart: always

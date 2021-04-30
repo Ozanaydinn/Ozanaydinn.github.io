@@ -51,8 +51,8 @@ class TaskResult(Resource):
         task_result = AsyncResult(task_id)
 
         data = {
-                "session_id": task_result.result["session_id"],
-                "user_id": task_result.result["user_id"]
+                "session_id": str(task_result.result["session_id"]),
+                "user_id": str(task_result.result["user_id"])
             }
 
         result = {}

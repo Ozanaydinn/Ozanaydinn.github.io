@@ -2,8 +2,8 @@ from models.User import User
 
 class StatisticsData():
 
-    def __init__(self):
-        self.data = {}
+    def __init__(self, data):
+        self.data = data
         
     '''
     {
@@ -32,7 +32,7 @@ class StatisticsData():
 
         if session_id in self.data:
             if user_id not in self.data[session_id]:
-                self.data[session_id][user_id] = User()
+                self.data[session_id][user_id] = User().__dict__
                 return "SUCCESS: User successfully added!"
 
             return "ERROR: User already added to the session!"
