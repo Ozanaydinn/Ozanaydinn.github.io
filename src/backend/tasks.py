@@ -9,11 +9,14 @@ celery.conf.result_backend = os.environ.get("CELERY_RESULT_BACKEND")
 
 @celery.task(name="analyze_hand", soft_time_limit=20)
 def analyze_hand(image_data, session_id, user_id):
-    resp = requests.post("http://34.118.87.165:5000/hand", {"data": image_data}).json()
+    resp = requests.post("http://34.116.206.128:5000/hand", {"data": image_data}).json()
 
-
+    hand_result = []
+    
+    if resp["hand_result"]:
+        hand_result = resp["hand_result"][0]["recognizedHandGesture"]
     return {
-            "hand_result": resp["hand_result"][0]["recognizedHandGesture"], 
+            "hand_result": hand_result, 
             "session_id": session_id,
             "user_id": user_id
             }

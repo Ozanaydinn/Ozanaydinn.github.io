@@ -14,7 +14,7 @@ import controllers.TaskController as TaskController
  
 from db_models.UserModel import RevokedTokenModel
 
-from global_data import db, statistics
+from global_data import db, statistics, init_cache
 
 #from config import DevelopmentConfig
 
@@ -38,6 +38,7 @@ api = Api(application)
 
 jwt = JWTManager(application)
 db.init_app(application)
+init_cache()
 
 
 @jwt.token_in_blacklist_loader

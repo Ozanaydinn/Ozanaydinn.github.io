@@ -92,7 +92,7 @@ class HandGesture:
 
         hand_gestures.append(self.recognize_hand_gesture(keypoints))
     else: 
-      return "No Hand found"
+      return []
 
     hands.close()
 

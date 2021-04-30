@@ -50,26 +50,27 @@ class TaskResult(Resource):
 
         task_result = AsyncResult(task_id)
 
-        data = {
-                "session_id": str(task_result.result["session_id"]),
-                "user_id": str(task_result.result["user_id"])
-            }
-
         result = {}
 
-        if "hand_result" in task_result.result:
-            data["hand_result"] =task_result.result["hand_result"]
+        if task_result.result is not None:
+            data = {
+                    "session_id": str(task_result.result["session_id"]),
+                    "user_id": str(task_result.result["user_id"])
+                }
 
-            result = AnalyticsController.analyze_hand_result(data)
-        elif "head_pose_result" in task_result.result:
-            data["head_pose_result"] = task_result.result["head_pose_result"]
-            data["timestamp"] = task_result.result["timestamp"]
+            if "hand_result" in task_result.result:
+                data["hand_result"] =task_result.result["hand_result"]
 
-            result = AnalyticsController.analyze_head_result(data)
-        elif "phone_result" in task_result.result:
-            data["phone_result"] =task_result.result["phone_result"]
-              
-            result = AnalyticsController.analyze_phone(data)
+                result = AnalyticsController.analyze_hand_result(data)
+            elif "head_pose_result" in task_result.result:
+                data["head_pose_result"] = task_result.result["head_pose_result"]
+                data["timestamp"] = task_result.result["timestamp"]
+
+                result = AnalyticsController.analyze_head_result(data)
+            elif "phone_result" in task_result.result:
+                data["phone_result"] =task_result.result["phone_result"]
+                
+                result = AnalyticsController.analyze_phone(data)
 
         result["task_status"] = task_result.status
 
