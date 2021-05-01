@@ -79,7 +79,7 @@ api.add_resource(CourseController.AssignStudentToCourse, '/course/<int:course_id
 
 api.add_resource(SessionController.Session, '/session') # Post -> create session
 api.add_resource(SessionController.SessionParticipation, '/session/join') # Post -> join session
-api.add_resource(SessionController.SessionEnd, '/session/end')
+api.add_resource(SessionController.SessionLeave, '/session/leave')
 
 
 api.add_resource(TaskController.Hand, '/analyze/hand')

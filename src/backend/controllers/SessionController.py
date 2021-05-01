@@ -86,16 +86,16 @@ class SessionParticipation(Resource):
         else:
             return make_response(jsonify({"error":"This session is not created yet!"}), 404)
 
-class SessionEnd(Resource):
+class SessionLeave(Resource):
 
     @jwt_required
     def post(self):
         email = get_jwt_identity()
         current_user = UserModel.find_by_email(email)
 
-        if current_user.type != "instructor":
-            return make_response(jsonify({"error":"Cannot terminate: Not an instructor!"}), 401)
-        else:
+        res = {"error": "Invalid user type"}
+
+        if current_user.type == "instructor":
             session_id = SessionModel.find_by_instructor_id(current_user.id).id
 
             res = SessionModel.delete(current_user.id)
@@ -106,5 +106,7 @@ class SessionEnd(Resource):
                 data.pop(str(session_id))
 
                 r_envoy.set("statistics", json.dumps(data))
-            
-            return res
+        elif current_user.type == "student":
+            res = SessionStudent.delete(current_user.id)
+       
+        return res
