@@ -148,4 +148,4 @@ def estimate_head_pose(image):
         else:
             result_dict["horizontal"] = "straight"
 
-        return result_dict
+    return result_dict
