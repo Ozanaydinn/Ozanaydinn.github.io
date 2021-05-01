@@ -31,6 +31,9 @@ class StatisticsInformation(Resource):
                 for timestamp in info["phone_distracted"]:
                     result["timestamps"].append(timestamp)
 
+                for timestamp in info["person_away"]:
+                    result["timestamps"].append(timestamp)
+
                 user_dict["name"] = name
                 user_dict["hand_raise_count"] = hand_raise_count
 

@@ -4,7 +4,7 @@ from flask_jwt_extended import ( create_access_token, create_refresh_token,
 )
 from flask import jsonify, make_response
 from flask_restful import Resource, reqparse
-from tasks import analyze_hand, analyze_head
+from tasks import analyze_hand, analyze_head, analyze_object
 from celery.result import AsyncResult
 from db_models.SessionStudent import SessionStudent
 from db_models.UserModel import UserModel
@@ -42,6 +42,22 @@ class Head(Resource):
 
         return make_response(jsonify({"task_id": task.id}), 202)
 
+class Phone(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('data', help='This field cannot be blank', required=True)
+    parser.add_argument('timestamp', help='This field cannot be blank', required=True)
+    parser.add_argument('session_id', help='This field cannot be blank', required=True)
+
+    @jwt_required
+    def post(self):
+        data = self.parser.parse_args()
+        email = get_jwt_identity()
+        current_user = UserModel.find_by_email(email)
+        
+        task = analyze_object.delay(image_data=data['data'], session_id=data['session_id'], user_id=current_user.id, timestamp=data['timestamp'])
+
+        return make_response(jsonify({"task_id": task.id}), 202)
+
 class TaskResult(Resource):
     def get(self, task_id=None):
         
@@ -67,10 +83,11 @@ class TaskResult(Resource):
                 data["timestamp"] = task_result.result["timestamp"]
 
                 result = AnalyticsController.analyze_head_result(data)
-            elif "phone_result" in task_result.result:
-                data["phone_result"] =task_result.result["phone_result"]
-                
-                result = AnalyticsController.analyze_phone(data)
+            elif "object_result" in task_result.result:
+                data["object_result"] =task_result.result["object_result"]
+                data["timestamp"] = task_result.result["timestamp"]
+
+                result = AnalyticsController.analyze_object(data)
 
         result["task_status"] = task_result.status
 

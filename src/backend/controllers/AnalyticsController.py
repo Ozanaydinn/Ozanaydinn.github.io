@@ -50,8 +50,6 @@ class AnalyticsController:
 
             stat = json.loads(r_envoy.get("statistics"))
 
-            print("Stat from redis ", stat)
-
             user = stat[session_id][user_id]
 
             user["head_poses"].append(pose_data)
@@ -74,44 +72,79 @@ class AnalyticsController:
                     feedback_message = "You seem to be distracted, is everything okay?"
 
                 user["head_poses"] = []
-            print("Stat after add ", stat )
+
             r_envoy.set("statistics", json.dumps(stat))
         
         return {"feedback_message": feedback_message, "distraction_type": "head_pose"}
 
-    def analyze_phone(data):
-        phone_result = data["phone_result"]   
+    def analyze_object(data):
+        object_result = data["object_result"]   
         session_id = data["session_id"]
         user_id = data["user_id"]
-        stastics = data["statistics"]
         timestamp = data["timestamp"]
 
         phone_data = {
-            "distracted": False,
+            "phone": False,
             "timestamp": timestamp
         }
 
-        user.phone_result.append(phone_data)
+        person_data = {
+            "away": False,
+            "timestamp": timestamp
+        }
+
+        if object_result["phone"]:
+            phone_data["phone"] = True
+    
+        if object_result["person"] == 0:
+            person_data["away"] = True
 
         feedback_message = ""
 
-        if len(user.phone_result) == user.phone_threshold: #If phone reached threshold
-            distracted_count = 0
+        with r_envoy.lock('my_lock'):
+            stat = json.loads(r_envoy.get("statistics"))
+
+            user = stat[session_id][user_id]
+
+            user["phone_result"].append(phone_data)
+            user["person_result"].append(person_data)
+
+            if len(user["phone_result"]) == user["phone_threshold"]: #If phone reached threshold
+                distracted_count = 0
             
-            for result in user.phone_result:
+                for result in user["phone_result"]:
 
-                if result["distracted"]:
-                    distracted_count += 1
+                    if result["phone"]:
+                        distracted_count += 1
 
-            if (float(user.phone_threshold) / 2) <= distracted_count:
+                if (float(user["phone_threshold"]) / 2) <= distracted_count:
 
-                time = user.phone_result[-1]["timestamp"]
+                    time = user["phone_result"][-1]["timestamp"]
                 
-                user.phone_distracted.append(time)
+                    user["phone_distracted"].append(time)
 
-                #EMIT PHONE DISTRACTED MESSAGE TO FRONT END
-                feedback_message = "Looking at your phone often can distract you." 
+                    feedback_message = "Looking at your phone often can distract you." 
 
-            user.phone_result = []
+                user["phone_result"] = []
 
-        return {"feedback_message": feedback_message, "distraction_type": "phone"}
+            if len(user["person_result"]) == user["person_threshold"]: #If phone reached threshold
+                away_count = 0
+            
+                for result in user["person_result"]:
+
+                    if result["away"]:
+                        away_count += 1
+
+                if away_count == user["person_threshold"]:
+
+                    time = user["person_result"][-1]["timestamp"]
+                
+                    user["person_away"].append(time)
+
+                    feedback_message = "Are you there?" 
+
+                user["person_result"] = []
+            
+            r_envoy.set("statistics", json.dumps(stat))
+
+        return {"feedback_message": feedback_message, "distraction_type": "object"}

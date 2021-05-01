@@ -23,7 +23,6 @@ from global_data import db, statistics, init_cache
 application = Flask(__name__)
 #application.config.from_object('config.DevelopmentConfig')
 
-
 application.config['CORS_HEADERS'] = os.environ['CORS_HEADERS']
 application.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
 application.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
@@ -85,6 +84,7 @@ api.add_resource(SessionController.SessionEnd, '/session/end')
 
 api.add_resource(TaskController.Hand, '/analyze/hand')
 api.add_resource(TaskController.Head, '/analyze/head')
+api.add_resource(TaskController.Phone, '/analyze/object')
 api.add_resource(TaskController.TaskResult, '/result/<task_id>')
 
 api.add_resource(ProfileController.ChangeProfile, '/editProfile')

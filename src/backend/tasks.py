@@ -32,3 +32,14 @@ def analyze_head(image_data, session_id, user_id, timestamp):
             "user_id": user_id,
             "timestamp": timestamp
             }
+
+@celery.task(name="analyze_object", soft_time_limit=30)
+def analyze_object(image_data, session_id, user_id, timestamp):
+    resp = requests.post("http://34.118.11.48:5000/object", {"data": image_data}).json()
+
+    return {
+            "object_result": resp["object_result"],
+            "session_id": session_id,
+            "user_id": user_id,
+            "timestamp": timestamp
+            }
