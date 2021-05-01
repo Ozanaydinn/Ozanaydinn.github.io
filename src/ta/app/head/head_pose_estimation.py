@@ -90,6 +90,11 @@ def estimate_head_pose(image):
                             [0, 0, 1]], dtype = "double"
                             )
 
+    result_dict = {
+        "vertical": "none",
+        "horizontal": "none"
+    }
+
     faces = face_detect.find_faces(image, face_model)
     for face in faces:
         marks = face_landmark_detection.detect_landmarks(image, landmark_model, face) 
@@ -127,11 +132,6 @@ def estimate_head_pose(image):
             ang2 = int(math.degrees(math.atan(-1/m)))
         except:
             ang2 = 90
-
-        result_dict = {
-            "vertical": "none",
-            "horizontal": "none"
-        }
             
             # print('div by zero error')
         if ang1 >= 30: #Can be the other way around, need to test more
