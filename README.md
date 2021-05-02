@@ -189,6 +189,6 @@ You can find our contact information on [our website](https://hereapp.live).
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+[contributors-url]: https://github.com/Ozanaydinn/Ozanaydinn.github.io/graphs/contributors
 [modified-shield]: https://img.shields.io/github/last-commit/Ozanaydinn/Ozanaydinn.github.io?style=for-the-badge
 [modified-url]: https://github.com/Ozanaydinn/Ozanaydinn.github.io
