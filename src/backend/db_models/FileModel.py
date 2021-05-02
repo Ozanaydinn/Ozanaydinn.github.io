@@ -6,7 +6,7 @@ class FileModel(db.Model):
 
     id = db.Column(db.Integer, primary_key = True, nullable=True)
     course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
-    file_bytes = db.Column(db.LargeBinary, nullable=False)
+    file_url = db.Column(db.String(120), nullable=False)
 
     def save_to_db(self):
         try:

@@ -34,6 +34,7 @@ application.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 application.config['DEBUG'] = True
 
 
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "hereapp-311315-96ceff393384.json"
 cors = CORS(application)
 api = Api(application)
 

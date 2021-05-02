@@ -3,14 +3,13 @@ from flask_jwt_extended import ( create_access_token, create_refresh_token,
     get_raw_jwt
 )
 from flask_restful import Resource, reqparse, request
-from db_models.FileModel import FileModel
 from db_models.NoteModel import NoteModel
 from db_models.UserModel import UserModel
 from db_models.CourseModel import CourseModel
 from flask import send_file
-
+from urllib.parse import urlparse
+from global_data import bucket
 import base64
-
 
 class File(Resource):
     parser = reqparse.RequestParser()
@@ -21,24 +20,24 @@ class File(Resource):
         data = self.parser.parse_args()
 
         course_id = data["course_id"]
-        
-        f = data['file'].replace("data:application/pdf;base64,", "")
-        f = bytes(f, "utf-8")
+        file_b64 = data["file"]
 
-        FileModel.delete_with_course_id(course_id)
-        file_model = FileModel(course_id=course_id, file_bytes=f)
-        return file_model.save_to_db()
+        blob = bucket.blob(course_id + ".txt")
+
+        blob.upload_from_string(file_b64)
+        
+        return {"result": "File uploaded to google"}
 
     def get(self):
         course_id = request.args.get("course_id")
 
-        f = FileModel.find_with_course_id(course_id).file_bytes
+        file_path = str(course_id) + ".txt"
 
-        resp = {
-            "file": f.decode('utf-8')
-        }
-        
-        return resp
+        blob = bucket.blob(file_path)
+
+        output = blob.download_as_text()
+
+        return {"output": output}
 
 class Note(Resource):
     parser = reqparse.RequestParser()
