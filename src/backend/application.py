@@ -66,6 +66,7 @@ api.add_resource(AuthController.AllUsers, '/users')
 api.add_resource(AuthController.SecretResource, '/secret')
 
 api.add_resource(FileController.File, '/file') # Post request -> file upload, get request -> file download
+
 api.add_resource(FileController.Note, '/note') # Post -> save note, Get -> get info of notes of student
 api.add_resource(FileController.SingleNote, '/note/<int:note_id>') # Get note of student
 

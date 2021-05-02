@@ -2,7 +2,7 @@ from flask_jwt_extended import ( create_access_token, create_refresh_token,
     jwt_required, get_jwt_identity, jwt_refresh_token_required,
     get_raw_jwt
 )
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, request
 from db_models.FileModel import FileModel
 from db_models.NoteModel import NoteModel
 from db_models.UserModel import UserModel
@@ -19,19 +19,26 @@ class File(Resource):
 
     def post(self):
         data = self.parser.parse_args()
+
+        course_id = data["course_id"]
         
         f = data['file'].replace("data:application/pdf;base64,", "")
         f = bytes(f, "utf-8")
 
-
         FileModel.delete_with_course_id(course_id)
-        file_model = FileModel(course_id=data['course_id'], file_bytes=f)
+        file_model = FileModel(course_id=course_id, file_bytes=f)
         return file_model.save_to_db()
 
-    def get(self, course_id):
+    def get(self):
+        course_id = request.args.get("course_id")
+
         f = FileModel.find_with_course_id(course_id).file_bytes
 
-        return f.decode('utf-8')
+        resp = {
+            "file": f.decode('utf-8')
+        }
+        
+        return resp
 
 class Note(Resource):
     parser = reqparse.RequestParser()
