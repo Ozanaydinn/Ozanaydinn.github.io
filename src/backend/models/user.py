@@ -9,6 +9,6 @@ class User:
         self.phone_distracted = []
         self.person_away = []
 
-        self.head_threshold = 6
+        self.head_threshold = 3
         self.phone_threshold = 1
         self.person_threshold = 2

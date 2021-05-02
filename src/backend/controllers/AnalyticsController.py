@@ -62,7 +62,7 @@ class AnalyticsController:
                     if pose["distracted"]:
                         distracted_count += 1
 
-                if (user["head_threshold"] / 2) <= distracted_count:
+                if distracted_count >= 2:
 
                     time = user["head_poses"][-1]["timestamp"]
                     

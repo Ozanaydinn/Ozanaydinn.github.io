@@ -20,7 +20,7 @@ class File(Resource):
         data = self.parser.parse_args()
 
         course_id = data["course_id"]
-        file_b64 = data["file"]
+        file_b64 = data["file"].replace("data:application/pdf;base64,", "")
 
         blob = bucket.blob(course_id + ".txt")
 
