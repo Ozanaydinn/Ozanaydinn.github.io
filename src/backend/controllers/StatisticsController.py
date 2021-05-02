@@ -19,10 +19,10 @@ class StatisticsInformation(Resource):
 
             user_info = data[str(session_id)]
 
-            for user_id, info in user_info.items():
+            for email, info in user_info.items():
                 user_dict = {}
 
-                user_data = UserModel.find_by_id(user_id)
+                user_data = UserModel.find_by_email(email)
 
                 name = user_data.username
                 hand_raise_count = len(info["hand_results"])

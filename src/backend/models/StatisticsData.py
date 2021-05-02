@@ -28,11 +28,11 @@ class StatisticsData():
 
         return "ERROR: Session already added!"
     
-    def add_user_to_session(self, session_id, user_id):
+    def add_user_to_session(self, session_id, email):
 
         if session_id in self.data:
-            if user_id not in self.data[session_id]:
-                self.data[session_id][user_id] = User().__dict__
+            if email not in self.data[session_id]:
+                self.data[session_id][email] = User().__dict__
                 return "SUCCESS: User successfully added!"
 
             return "ERROR: User already added to the session!"
@@ -48,13 +48,13 @@ class StatisticsData():
 
         return "ERROR: No such session found!"
 
-    def remove_user_from_session(self, session_id, user_id):
+    def remove_user_from_session(self, session_id, email):
 
         if session_id in self.data:
 
-            if user_id in self.data[session_id]:
+            if email in self.data[session_id]:
 
-                self.data[session_id].pop(user_id)
+                self.data[session_id].pop(email)
 
                 return "SUCCESS: User succesfully removed from session!"
 

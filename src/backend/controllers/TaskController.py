@@ -6,8 +6,6 @@ from flask import jsonify, make_response
 from flask_restful import Resource, reqparse
 from tasks import analyze_hand, analyze_head, analyze_object
 from celery.result import AsyncResult
-from db_models.SessionStudent import SessionStudent
-from db_models.UserModel import UserModel
 from controllers.AnalyticsController import AnalyticsController
 
 
@@ -20,9 +18,8 @@ class Hand(Resource):
     def post(self):
         data = self.parser.parse_args()
         email = get_jwt_identity()
-        current_user = UserModel.find_by_email(email)
         
-        task = analyze_hand.delay(image_data=data['data'], session_id=data['session_id'], user_id=current_user.id)
+        task = analyze_hand.delay(image_data=data['data'], session_id=data['session_id'], email=email)
 
         return make_response(jsonify({"task_id": task.id}), 202)
 
@@ -36,9 +33,8 @@ class Head(Resource):
     def post(self):
         data = self.parser.parse_args()
         email = get_jwt_identity()
-        current_user = UserModel.find_by_email(email)
         
-        task = analyze_head.delay(image_data=data['data'], session_id=data['session_id'], user_id=current_user.id, timestamp=data['timestamp'])
+        task = analyze_head.delay(image_data=data['data'], session_id=data['session_id'], email=email, timestamp=data['timestamp'])
 
         return make_response(jsonify({"task_id": task.id}), 202)
 
@@ -52,9 +48,8 @@ class Phone(Resource):
     def post(self):
         data = self.parser.parse_args()
         email = get_jwt_identity()
-        current_user = UserModel.find_by_email(email)
         
-        task = analyze_object.delay(image_data=data['data'], session_id=data['session_id'], user_id=current_user.id, timestamp=data['timestamp'])
+        task = analyze_object.delay(image_data=data['data'], session_id=data['session_id'], email=email, timestamp=data['timestamp'])
 
         return make_response(jsonify({"task_id": task.id}), 202)
 
@@ -71,7 +66,7 @@ class TaskResult(Resource):
         if task_result.result is not None:
             data = {
                     "session_id": str(task_result.result["session_id"]),
-                    "user_id": str(task_result.result["user_id"])
+                    "email": str(task_result.result["email"])
                 }
 
             if "hand_result" in task_result.result:

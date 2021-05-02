@@ -7,7 +7,7 @@ class AnalyticsController:
     def analyze_hand_result(data):
         hand_result = data["hand_result"]   
         session_id = data["session_id"]
-        user_id = data["user_id"]
+        email = data["email"]
 
         positive_feedback_message = ""
         hand_raised = False
@@ -17,12 +17,12 @@ class AnalyticsController:
 
                 stat = json.loads(r_envoy.get("statistics"))
 
-                stat[session_id][user_id]["hand_results"].append(True)
+                stat[session_id][email]["hand_results"].append(True)
                 hand_raised = True
 
                 r_envoy.set("statistics", json.dumps(stat))
 
-                if len(stat[session_id][user_id]["hand_results"]) % 3 == 0:
+                if len(stat[session_id][email]["hand_results"]) % 3 == 0:
                     positive_feedback_message = "You are actively participating to the lecture, keep going!"
                 
 
@@ -33,7 +33,7 @@ class AnalyticsController:
     def analyze_head_result(data):
         head_pose_result = data["head_pose_result"]   
         session_id = data["session_id"]
-        user_id = data["user_id"]
+        email = data["email"]
         timestamp = data["timestamp"]
 
         pose_data = {
@@ -50,7 +50,7 @@ class AnalyticsController:
 
             stat = json.loads(r_envoy.get("statistics"))
 
-            user = stat[session_id][user_id]
+            user = stat[session_id][email]
 
             user["head_poses"].append(pose_data)
 
@@ -80,7 +80,7 @@ class AnalyticsController:
     def analyze_object(data):
         object_result = data["object_result"]   
         session_id = data["session_id"]
-        user_id = data["user_id"]
+        email = data["email"]
         timestamp = data["timestamp"]
 
         phone_data = {
@@ -104,7 +104,7 @@ class AnalyticsController:
         with r_envoy.lock('my_lock'):
             stat = json.loads(r_envoy.get("statistics"))
 
-            user = stat[session_id][user_id]
+            user = stat[session_id][email]
 
             user["phone_result"].append(phone_data)
             user["person_result"].append(person_data)

@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 import os
+from datetime import timedelta
 
 import controllers.AuthController as AuthController
 import controllers.CourseController as CourseController
@@ -27,9 +28,8 @@ application.config['CORS_HEADERS'] = os.environ['CORS_HEADERS']
 application.config['CORS_RESOURCES'] = {r"/*": {"origins": "*"}}
 application.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-application.config['JWT_BLACKLIST_ENABLED'] = True
-application.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 application.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
+application.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=120)
 application.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 application.config['DEBUG'] = True
 
@@ -42,10 +42,6 @@ db.init_app(application)
 init_cache()
 
 
-@jwt.token_in_blacklist_loader
-def check_if_token_in_blacklist(decrypted_token):
-    jti = decrypted_token['jti']
-    return RevokedTokenModel.is_jti_blacklisted(jti)
 
 @application.before_first_request
 def create_tables():

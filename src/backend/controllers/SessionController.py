@@ -75,7 +75,7 @@ class SessionParticipation(Resource):
                     data = json.loads(r_envoy.get("statistics"))
 
                     manager = StatisticsData(data)
-                    manager.add_user_to_session(session_id=str(session.id), user_id=str(current_user.id))
+                    manager.add_user_to_session(session_id=str(session.id), email=str(email))
 
                     r_envoy.set("statistics", json.dumps(data))
                 resp['session_id'] = session.id
