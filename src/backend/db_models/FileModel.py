@@ -16,6 +16,20 @@ class FileModel(db.Model):
         except:
             return {'message': 'Something went wrong', 'status': False}
 
+    @classmethod
+    def find_with_course_id(cls, course_id):
+        return cls.query.filter_by(course_id=course_id).first()
+
+
+    @classmethod
+    def delete_with_course_id(cls, course_id):
+        try: 
+            db.session.query(cls).filter_by(course_id = course_id).delete()
+            db.session.commit()
+            return {'message': 'File deleted.'}
+        except:
+            return {'message': 'Something went wrong'}
+
 
     @classmethod
     def delete_all(cls):

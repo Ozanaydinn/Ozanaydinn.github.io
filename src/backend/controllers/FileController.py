@@ -17,18 +17,21 @@ class File(Resource):
     parser.add_argument('file', help = 'This field cannot be blank', required = True)
     parser.add_argument('course_id', help = 'This field cannot be blank', required = True)
 
-    @jwt_required
     def post(self):
         data = self.parser.parse_args()
         
         f = data['file'].replace("data:application/pdf;base64,", "")
         f = bytes(f, "utf-8")
 
-        email = get_jwt_identity()
 
+        FileModel.delete_with_course_id(course_id)
         file_model = FileModel(course_id=data['course_id'], file_bytes=f)
         return file_model.save_to_db()
 
+    def get(self, course_id):
+        f = FileModel.find_with_course_id(course_id).file_bytes
+
+        return f.decode('utf-8')
 
 class Note(Resource):
     parser = reqparse.RequestParser()
