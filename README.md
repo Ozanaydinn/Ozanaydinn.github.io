@@ -16,7 +16,7 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 [![Contributors][contributors-shield]][contributors-url]
-[![Last Modified][stars-shield]]
+[![Modified][modified-shield]][modified-url]
 
 
 
@@ -24,12 +24,12 @@
 <br />
 <p align="center">
   <a href="https://github.com/Ozanaydinn/Ozanaydinn.github.io">
-    <img src="logo.png" alt="Logo" width="80" height="80">
+    <img src="logo.png" alt="Logo" width="119" height="66">
   </a>
 
-  <h3 align="center">Here!</h3>
+  <h1 align="center">Here!</h3>
 
-  <p align="center">
+  <h3 align="center">
     Educational Video Conference Platform
     Senior Design Project'21
     <br />
@@ -191,3 +191,4 @@ You can find our contact information on [our website](https://hereapp.live).
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [modified-shield]: https://img.shields.io/github/last-commit/Ozanaydinn/Ozanaydinn.github.io?style=for-the-badge
+[modified-url]: https://github.com/Ozanaydinn/Ozanaydinn.github.io
