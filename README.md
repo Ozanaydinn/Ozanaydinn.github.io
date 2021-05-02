@@ -40,7 +40,7 @@
     <a href="https://github.com/Ozanaydinn/Ozanaydinn.github.io/issues">Report Bug</a>
     ·
     <a href="https://github.com/Ozanaydinn/Ozanaydinn.github.io/issues">Request Feature</a>
-  </p>
+  </h3>
 </p>
 
 
