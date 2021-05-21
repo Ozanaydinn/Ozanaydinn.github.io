@@ -30,9 +30,9 @@
   <h1 align="center">Here!</h3>
 
   <h3 align="center">
-    Educational Video Conference Platform
-    Senior Design Project'21
-    <br />
+    Educational Video Conference Platform <br />
+    Senior Design Project'21 <br /> <br />
+    Bilkent University CS Fair'21 Wide Impact Award Winner
     <br />
     <br />
     <a href="https://hereapp.live">View Demo</a>
@@ -44,39 +44,8 @@
 </p>
 
 
-
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
-
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 Here! is a video conference platform designed for educational needs of students and instructors. On top of the general characteristics of a video conferencing application, it includes additional practical educational tools. There is a virtual TA tool that uses motion tracking and object detection to analyze videos of students to generate summary information about the class attention, as well as to provide real time feedback to students and teachers. Other features are simultaneous note taking and slide-sharing. Note taking allows students to take notes and screenshots during the lecture and save them. Slide sharing allows students to navigate through the slides independently from the instructor, and then they can sync back with the instructor. Together, they make online education more reliable, informative and easy.
 
@@ -101,44 +70,10 @@ Our amazing features:
 
 
 
-<!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+Watch Here!'s trailer [video](https://www.youtube.com/watch?v=pVwwyX-CRX0).
 
 
 <!-- CONTRIBUTING -->
@@ -157,7 +92,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. 
 
 
 
@@ -167,24 +102,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 You can find our contact information on [our website](https://hereapp.live).
 
 
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
-
-
-
-
+  <a href="https://github.com/Ozanaydinn/Ozanaydinn.github.io">
+    <img src="poster.png" alt="Logo" width=661 height=935>
+  </a>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -192,3 +112,4 @@ You can find our contact information on [our website](https://hereapp.live).
 [contributors-url]: https://github.com/Ozanaydinn/Ozanaydinn.github.io/graphs/contributors
 [modified-shield]: https://img.shields.io/github/last-commit/Ozanaydinn/Ozanaydinn.github.io?style=for-the-badge
 [modified-url]: https://github.com/Ozanaydinn/Ozanaydinn.github.io
+
