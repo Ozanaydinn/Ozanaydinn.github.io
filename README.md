@@ -43,6 +43,9 @@
   </h3>
 </p>
 
+## Important
+
+This project was built in two different repositories. You can find UI and WebRTC server source codes in [here-UI](https://github.com/yucehasan/here-UI) repository.
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
